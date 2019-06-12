@@ -68,7 +68,7 @@ class Notfall:
                     if intnum == 6:
                         break
                     else:
-                        intnum+=11
+                        intnum+=1
             root.mainloop()
         except:
             if id == '' and run ==1 or id == '' and run == 0:
