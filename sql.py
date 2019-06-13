@@ -48,7 +48,8 @@ class Notfall:
         try:
 
             root = tkinter.Tk()
-            cur.execute('SELECT * FROM student WHERE id = {}'.format(id))
+
+            cur.execute('SELECT id FROM student WHERE id = {}'.format(id))
 
             records = cur.fetchall()
             num = 0
@@ -64,19 +65,20 @@ class Notfall:
                 cur.execute('SELECT * FROM notfall WHERE id ={}'.format(id))
                 exe = cur.fetchall()
                 intnum = 0
-                for item in exe[intnum]:
-                    root.clipboard_append(listbox,exe)
-                    if intnum == 6:
-                        break
-                    else:
-                        intnum+=1
+
             root.mainloop()
         except:
             if id == '' and run ==1 or id == '' and run == 0:
                 pass
             if id =='' and run != 1 or id == '' and run != 0:
                 messagebox.showerror('Fehler','Bitte drücken sie auf dass feld un scannen danach')
+            for item in exe[intnum]:
+                if id == item:
 
+                    if intnum == 6:
+                        break
+                    else:
+                        intnum += 1
 class delete:
     def delete(self, instance):
         cur.execute('DELETE * WHERE id={}'.format(instance))
