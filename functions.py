@@ -6,6 +6,4 @@ def delete():
 
     question1 = tkinter.messagebox.askquestion("LETZTE WARNUNG!!!", "Sind sie sich sicher das sie diesen schüler löschen möchten?", icon='warning')
     if (question1):
-        from sql import delete
-        delete.delete()
-    tkinter.mainloop()
+        import mysql.connector.connection

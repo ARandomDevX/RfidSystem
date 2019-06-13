@@ -5,7 +5,6 @@ import mysql.connector
 from tkinter import messagebox
 from tkinter import Listbox
 import tkinter
-from __variables__ import ortvar
 
 mydb = mysql.connector.connect(
     host='localhost',
@@ -30,8 +29,9 @@ class Anmeldung:
 
     def anmelden(ort, status, zeit, incident, id):
         try:
-            from __variables__ import ortvar
-
+            root = tkinter.Tk()
+            ortvar = tkinter.StringVar()
+            ortvar.set(None)
             import datetime
 
             print(id)
@@ -39,6 +39,7 @@ class Anmeldung:
             cur.execute('INSERT OR UPDATE INTO meldung VALUES {},{},{},{}'.format(ort, zeit , id ,incident))
         except FileExistsError as er:
             messagebox.showerror('Fehler','{} ein Fehler ist aufgetreten, bitte versuchen es sie nochmals oder infromieren es!'.format(lambda : datetime.datetime.now()))
+            root.mainloop()
 
 
 class Notfall:
