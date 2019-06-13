@@ -1,0 +1,294 @@
+# tl/lib/persist.py
+#
+#
+
+"""
+    allow data to be written to disk or BigTable in JSON format. creating 
+    the persisted object restores data. 
+
+"""
+
+## tl imports
+
+from tl.utils.path import normdir
+from tl.utils.trace import whichmodule, calledfrom, callstack, where, tsearch
+from tl.utils.lazydict import LazyDict
+from tl.utils.exception import handle_exception
+from tl.utils.name import stripname, reversename, stripdatadir
+from tl.utils.locking import lockdec
+from tl.utils.timeutils import elapsedstring
+from tl.callbacks import callbacks
+from tl.errors import MemcachedCounterError, JSONParseError, DictNeeded, LazyDictNeeded
+from tl.id import get_pid
+from .datadir import getdatadir
+from .cache import get, set, delete
+
+## simplejson imports
+
+from tl.imports import getjson
+json = getjson()
+
+## basic imports
+
+from errno import ENOENT, EAGAIN, EEXIST
+from collections import deque
+import _thread
+import logging
+import os
+import os.path
+import types
+import copy
+import sys
+import time
+import uuid
+import fcntl
+
+## defines
+
+cpy = copy.deepcopy
+needsaving = deque()
+
+## locks
+
+persistlock = _thread.allocate_lock()
+persistlocked = lockdec(persistlock)
+
+## cleanup function
+
+def cleanup(bot=None, event=None):
+    global needsaving
+    r = []
+    for p in needsaving:
+        try: p.dosave() ; r.append(p) ; logging.warn("saved on retry - %s" % p.fn)
+        except (OSError, IOError) as ex: logging.error("failed to save %s - %s" % (p, str(ex)))
+    for p in r:
+        try: needsaving.remove(p)
+        except ValueError: pass
+    return needsaving
+
+## Persist class
+
+class Persist(object):
+
+    """ persist data attribute to JSON file. """
+        
+    def __init__(self, filename, default={}, init=True, postfix=None):
+        """ Persist constructor """
+        if default and not type(default) == dict: raise DictNeeded(filename)
+        filename = normdir(filename)
+        self.origname = filename
+        if postfix: self.fn = str(filename.strip()) + str("-%s" % postfix)
+        else: self.fn = str(filename.strip())
+        self.default = LazyDict(default)
+        self.data = None
+        self.logname = reversename(stripdatadir(self.origname))
+        self.ssize = 0
+        self.input = ""
+        self.dontsave = False
+        if init: self.init()
+
+    def init(self):
+        """ initialize the data. """
+        ctype = "no type set"
+        cachedata = get(self.fn)
+        if cachedata: self.data = cachedata ; ctype = "cache"
+        else:
+           try:
+               datafile = open(self.fn, 'r')
+               self.input = datafile.read()
+               datafile.close()
+               ctype = "file"
+           except IOError as ex:
+                if ex.errno != ENOENT: raise
+                self.input = None
+           if self.input: self.data = LazyDict(json.loads(self.input))
+           else: self.data = LazyDict(self.default) ; ctype = "init"
+        if not type(self.data) == LazyDict: raise LazyDictNeeded(self.fn)
+        set(self.fn, self.data)
+        if ctype == "cache": ll = logging.INFO
+        else: ll = logging.WARNING
+        logging.log(ll, "%s %s (%s)" % (ctype, self.logname, tsearch()))
+
+    def get(self): return get(self.fn)
+
+    def sync(self):
+        logging.debug("syncing %s" % self.fn)
+        set(self.fn, self.data)
+        return self
+
+    def save(self):
+        cleanup()
+        global needsaving
+        try: self.dosave()
+        except (IOError, OSError):
+            self.sync()
+            if self not in needsaving: needsaving.append(self)
+
+    @persistlocked
+    def dosave(self):
+        """ persist data attribute. """
+        try:
+            if self.dontsave: logging.error("dontsave is set on  %s - not saving" % self.fn) ; return
+            fn = self.fn
+            d = []
+            if fn.startswith(os.sep): d = [os.sep,]
+            for p in fn.split(os.sep)[:-1]:
+                if not p: continue
+                d.append(p)
+                pp = os.sep.join(d)
+                if not os.path.isdir(pp):
+                    logging.warn("creating %s dir" % pp)
+                    os.mkdir(pp)
+            tmp = fn + '.tmp'
+            datafile = open(tmp, 'w')
+            fcntl.flock(datafile, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            json.dump(self.data, datafile, indent=True)
+            fcntl.flock(datafile, fcntl.LOCK_UN)
+            datafile.close()
+            try: os.rename(tmp, fn)
+            except (IOError, OSError):
+                os.remove(fn)
+                os.rename(tmp, fn)
+            jsontxt = json.dumps(self.data)
+            self.jsontxt = jsontxt
+            set(fn, self.data)
+            logging.warn('saved %s' % self.logname)
+        except IOError as ex: logging.error("not saving %s: %s" % (self.fn, str(ex))) ; raise
+        except: raise
+        finally: pass
+
+## findfilenames function 
+
+def findfilenames(target, filter=[], skip=[]):
+    res = []
+    if not os.path.isdir(target): return res
+    for f in os.listdir(target):
+        if f in skip: continue
+        fname = target + os.sep + f
+        if os.path.isdir(fname): res.extend(findfilenames(fname, skip))
+        go = True
+        for fil in filter:
+            if fil.lower() in fname.lower(): go = False ; break
+        if not go: continue
+        res.append(fname)
+    return res
+
+def findnames(target, filter=[], skip=[]):
+    res = []
+    for f in findfilenames(target, filter, skip):
+        res.append(f.split(os.sep)[-1])
+    return res
+
+
+class PlugPersist(Persist):
+
+    """ persist plug related data. data is stored in jsondata/plugs/{plugname}/{filename}. """
+
+    def __init__(self, filename, default={}, *args, **kwargs):
+        plugname = calledfrom(sys._getframe())
+        Persist.__init__(self, getdatadir() + os.sep + 'plugs' + os.sep + stripname(plugname) + os.sep + stripname(filename), default=default, *args, **kwargs)
+
+class TimedPersist(Persist):
+
+    """ persist that incorporates the create time in the filename. """
+
+    def __init__(self, filename, default={}, ddir=None, *args, **kwargs):
+        ddir = ddir or getdatadir()
+        timed = time.time()
+        timedstr = time.ctime(timed)
+        Persist.__init__(self, ddir + os.sep + "%s-%s" % (timedstr, stripname(filename)), default=default, *args, **kwargs)
+        self.data.created = timed
+        self.data.createdstr = timedstr
+ 
+class GlobalPersist(Persist):
+
+    """ persist plug related data. data is stored in jsondata/plugs/{plugname}/{filename}. """
+
+    def __init__(self, filename, default={}, *args, **kwargs):
+        if not filename: raise Exception("filename not set in GlobalPersist")
+        Persist.__init__(self, getdatadir() + os.sep + 'globals' + os.sep + stripname(filename), default=default, *args, **kwargs)
+
+## PersistCollection class
+
+class PersistCollection(object):
+
+    """ maintain a collection of Persist objects. """
+
+    def __init__(self, path, *args, **kwargs):
+        assert path
+        path = path.replace("//", "/")
+        self.path = path
+        if not self.path.startswith(os.sep): d = [os.sep, ]
+        else: d = []
+        for p in path.split(os.sep):
+            if not p: continue
+            d.append(p)
+            pp = os.sep.join(d)
+            try: os.mkdir(pp)
+            except OSError as ex:
+                if ex.errno in [EAGAIN, ENOENT, EEXIST]: continue
+                logging.warn("can't make %s - %s" % (pp,str(ex))) ; continue
+            logging.warn("created %s dir" % pp)
+
+    def __iter__(self):
+        return iter(self.objects().values())
+                
+    def filenames(self, filter=[], path=None, skip=[], result=[]):
+        target = path or self.path
+        res = findfilenames(target, filter, skip)
+        logging.info("filenames are %s" % str(res))
+        return res
+
+    def names(self, filter=[], path=None, skip=[], result=[]):
+        target = path or self.path
+        res = findnames(target, filter, skip)
+        return res
+
+    def search(self, field, target):
+        res = []
+        for obj in list(self.objects().values()):
+            try: item = getattr(obj.data, field)
+            except AttributeError: handle_exception() ; continue
+            if not item: continue
+            if target in item: res.append(obj)
+        return res
+            
+    def objects(self, filter=[], path=None, sorton=""):
+        if type(filter) != list: filter = [filter, ] 
+        res = {}
+        target = path or self.path
+        for f in self.filenames(filter, target):
+             res[f] = Persist(f)
+        return res
+
+    def dosort(self):
+        result = list(self.objects().values())
+        result.sort(key=lambda i: i.data.created)
+        return iter(result)
+
+## PlugPersistCollection class
+
+class PlugPersistCollection(PersistCollection):
+
+    def __init__(self):
+        plugname = calledfrom(sys._getframe())
+        self.path =  getdatadir() + os.sep + 'plugs' + os.sep + stripname(plugname) + os.sep
+        PersistCollection.__init__(self, self.path)
+
+## TimedPersistCollection class
+
+class TimedPersistCollection(PersistCollection):
+
+    def __init__(self, ddir):
+        plugname = calledfrom(sys._getframe())
+        PersistCollection.__init__(self, ddir)
+
+## GlobalPersistCollection class
+
+class GlobalPersistCollection(PersistCollection):
+
+    def __init__(self):
+        self.path =  getdatadir() + os.sep + 'globals'
+        GlobalCollection(self, self.path)
+
+callbacks.add("TICK60", cleanup)

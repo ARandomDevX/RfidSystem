@@ -1,0 +1,103 @@
+#!C:\Users\anant\Desktop\schoolproject\venv\Scripts\python.exe
+#
+#
+
+""" Timeline Console Bot. """
+
+import warnings
+warnings.simplefilter("ignore")
+
+## bootstrap
+
+import os, sys
+sys.path.insert(0, os.getcwd())
+sys.path.insert(0, os.getcwd() + os.sep + "..")
+
+## tl imports
+
+from tl.utils.opts import setopts, do_opts
+from tl.utils.log import setloglevel
+from tl.boot import boot, plugin_packages
+from tl.version import getversion
+
+## basic imports
+
+import getpass
+import logging
+
+## boot the bot
+
+opts, cfg = boot("console")
+
+## tl imports
+
+from tl.utils.exception import handle_exception
+from tl.utils.generic import waitforqueue, waitevents
+from tl.drivers.console.bot import ConsoleBot
+from tl.config import Config
+from tl.errors import NoOwnerSet, NoSuchCommand
+from tl.commands import cmnds
+from tl.exit import globalshutdown
+from tl.fleet import getfleet
+from tl.threads import start_new_thread
+from tl.datadir import getdatadir
+from tl.id import get_uid
+
+## basic imports
+
+import getpass
+import time
+import logging
+
+## start the bot
+
+
+if opts.args:
+    cmndstring = ";"
+    for cmnd in opts.args:
+        if "|" in cmnd: break
+        cmndstring += "%s " % cmnd
+    id = get_uid()
+    bot = ConsoleBot(cfg)
+    event = bot.make_event(id, opts.channel or id, cmndstring.strip(), showall=True)
+    event.nodispatch = False
+    try: event.execute(True)
+    except NoSuchCommand as ex: print("no %s command found." % str(ex).strip())
+    print(" ")
+    try: sys.stdout.close()
+    except: pass
+    os._exit(0)
+
+## create the bot
+
+try:
+    bot = ConsoleBot(cfg)
+except NoOwnerSet:
+    print("the owner is not set in %s" % cfg.cfile)
+    os._exit(1)
+
+## starting the bot
+
+bot.start(False)
+fleet = getfleet()
+fleet.addbot(bot)
+
+## if opts is provided, start the fleet
+
+if opts.fleet:
+    bots = fleet.loadall()
+    logging.error("starting fleet %s" % fleet.list())
+    start_new_thread(fleet.startall, ())
+
+bot.startshell()
+
+## on exit check if we need to print exceptions that occured
+
+if opts.exceptions and not opts.bork:
+    from tl.utils.exception import exceptionevents, exceptionlist
+    for (event, msg) in exceptionevents: print("EXCEPTION: %s - %s" % (event.txt,msg))
+    for msg in exceptionlist: print("EXCEPTION: %s" % msg)
+
+## mzzl
+
+globalshutdown()
