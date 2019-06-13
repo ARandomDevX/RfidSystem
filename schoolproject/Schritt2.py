@@ -46,7 +46,7 @@ def destroy_Toplevel1():
     w = None
 
 class Toplevel1:
-    def __init__(self, fname,lname,top=None):
+    def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
         _bgcolor = '#050154'  # X11 color: 'gray85'
@@ -226,7 +226,6 @@ class Toplevel1:
         self.Button2.configure(pady="0")
         self.Button2.configure(text='''Fertig''')
         self.Button2.configure(width=97)
-        self.Button2.configure(command=)
 
 if __name__ == '__main__':
     vp_start_gui()

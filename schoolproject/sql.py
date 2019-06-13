@@ -1,6 +1,6 @@
 from time import sleep
 from typing import List, Any, Union
-
+ä 
 import mysql.connector
 from tkinter import messagebox
 from tkinter import Listbox
@@ -8,10 +8,10 @@ import tkinter
 from __variables__ import ortvar
 
 mydb = mysql.connector.connect(
-    host='192.168.0.89',
+    host='localhost',
     database='school',
     user='root',
-    passwd='123',
+    passwd='ananthiscool',
     auth_plugin='mysql_native_password'
 )
 cur = mydb.cursor(buffered=True)
@@ -75,7 +75,6 @@ class Notfall:
                 pass
             if id =='' and run != 1 or id == '' and run != 0:
                 messagebox.showerror('Fehler','Bitte drücken sie auf dass feld un scannen danach')
-
 
 class delete:
     def delete(self, instance):

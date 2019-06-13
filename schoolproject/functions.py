@@ -1,9 +1,6 @@
-def raise_frame(frame):
-    frame.tkarise()
-def onActiveRaiseFrame(fname,lname):
-
-    from Notfall import Toplevel1 as t1
-    raise_frame(t1())
+class raise_frame:
+    def raise_frame(frame):
+        frame.tkarise()
 def delete():
     import tkinter.messagebox
 
@@ -11,3 +8,4 @@ def delete():
     if (question1):
         from sql import delete
         delete.delete()
+    tkinter.mainloop()

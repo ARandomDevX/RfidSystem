@@ -109,6 +109,7 @@ class Toplevel1:
         self.Button1.configure(pady="0")
         self.Button1.configure(text='''Schritt 2''')
         self.Button1.configure(width=277)
+        self.Button1.configure(commnd=sjhlsdjlsdjlsdjlidsijdsjio)
 
         self.Button2 = tk.Button(top)
         self.Button2.place(relx=0.0, rely=0.444, height=24, width=277)
