@@ -6,8 +6,7 @@
 #    May 18, 2019 10:29:56 AM CEST  platform: Windows NT
 
 import sys
-from functions import raise_frame
-from Schritt2 import Toplevel1 as t1
+from functions import onActiveRaiseFrame
 
 try:
     import Tkinter as tk
@@ -111,7 +110,7 @@ class Toplevel1:
         self.Button1.configure(pady="0")
         self.Button1.configure(text='''Schritt 2''')
         self.Button1.configure(width=277)
-        self.Button1.configure(command=raise_frame(t1))
+        self.Button1.configure(command=onActiveRaiseFrame(fname=self.Entry1.get(),lname=self.Entry2.get()))
 
         self.Button2 = tk.Button(top)
         self.Button2.place(relx=0.0, rely=0.444, height=24, width=277)
