@@ -1,5 +1,5 @@
 class raise_frame:
-    def raise_frame(frame):
+    def raise_frame(self,frame):
         frame.tkarise()
 def delete():
     import tkinter.messagebox
