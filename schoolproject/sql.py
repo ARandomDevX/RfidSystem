@@ -37,8 +37,8 @@ class Anmeldung:
             print(id)
             cur.execute('INSERT INTO angemeldet VALUES({},{})'.format(id.get(), status))
             cur.execute('INSERT OR UPDATE INTO meldung VALUES {},{},{},{}'.format(ort, zeit , id ,incident))
-        except FileExistsError as er:
-            messagebox.showerror('Fehler','{} ein Fehler ist aufgetreten, bitte versuchen es sie nochmals oder infromieren es!'.format(lambda : datetime.datetime.now()))
+            except FileExistsError as er:
+                messagebox.showerror('Fehler','{} ein Fehler ist aufgetreten, bitte versuchen es sie nochmals oder infromieren es!'.format(lambda : datetime.datetime.now()))
 
 
 class Notfall:
