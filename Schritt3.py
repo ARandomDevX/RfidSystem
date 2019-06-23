@@ -114,53 +114,12 @@ class Toplevel1:
         self.TButton1.place(relx=0.181, rely=0.454, height=25, width=76)
         self.TButton1.configure(takefocus="")
         self.TButton1.configure(text='''Fertig''')
+        self.TButton1.configure(command=)
 
         self.TSeparator1 = ttk.Separator(top)
         self.TSeparator1.place(relx=0.014, rely=0.358, relwidth=0.396)
 
-    @staticmethod
-    def popup1(event, *args, **kwargs):
-        Popupmenu1 = tk.Menu(root, tearoff=0)
-        Popupmenu1.configure(activebackground="#f9f9f9")
-        Popupmenu1.configure(activeborderwidth="1")
-        Popupmenu1.configure(activeforeground="black")
-        Popupmenu1.configure(background="#d9d9d9")
-        Popupmenu1.configure(borderwidth="1")
-        Popupmenu1.configure(disabledforeground="#a3a3a3")
-        Popupmenu1.configure(font="{Segoe UI} 9")
-        Popupmenu1.configure(foreground="black")
-        Popupmenu1.post(event.x_root, event.y_root)
 
-    @staticmethod
-    def popup2(event, *args, **kwargs):
-        Popupmenu2 = tk.Menu(root, tearoff=0)
-        Popupmenu2.configure(activebackground="#f9f9f9")
-        Popupmenu2.configure(activeborderwidth="1")
-        Popupmenu2.configure(activeforeground="black")
-        Popupmenu2.configure(background="#d9d9d9")
-        Popupmenu2.configure(borderwidth="1")
-        Popupmenu2.configure(disabledforeground="#a3a3a3")
-        Popupmenu2.configure(font="{Segoe UI} 9")
-        Popupmenu2.configure(foreground="black")
-        Popupmenu2.post(event.x_root, event.y_root)
-
-    @staticmethod
-    def popup3(event, *args, **kwargs):
-        Popupmenu3 = tk.Menu(root, tearoff=0)
-        Popupmenu3.configure(activebackground="#f9f9f9")
-        Popupmenu3.configure(activeborderwidth="1")
-        Popupmenu3.configure(activeforeground="black")
-        Popupmenu3.configure(background="#d9d9d9")
-        Popupmenu3.configure(borderwidth="1")
-        Popupmenu3.configure(disabledforeground="#a3a3a3")
-        Popupmenu3.configure(font="{Segoe UI} 9")
-        Popupmenu3.configure(foreground="black")
-        Popupmenu3.post(event.x_root, event.y_root)
 
 if __name__ == '__main__':
     vp_start_gui()
-
-
-
-
-
