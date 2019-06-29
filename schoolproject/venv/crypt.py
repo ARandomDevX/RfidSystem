@@ -35,4 +35,4 @@ def encrypt(pswdd,usddd):
         res = False
     return res
 def decrypt(pswdd,usdd):
-
+   # Noch in der bearbeitungs phase
