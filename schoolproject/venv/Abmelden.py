@@ -1,6 +1,5 @@
 from sql import Anmeldung
 from zurück import b
-from Hauptmenü import Toplevel1
 import functions
 import datetime
 

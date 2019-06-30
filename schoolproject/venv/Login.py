@@ -26,6 +26,12 @@ def register():
     password_lable = Label(register_screen, text="Passwort * ")
     password_lable.pack()
     password_entry = Entry(register_screen, textvariable=password, show='*')
+    storefile = open("{}.key","a".format(username))
+    storefile.append("{}".format(username))
+    storefile.append("{}".format(password))
+    from sql import cur
+    from crypt import 
+    cur.execute("INSERT INTO rbs VALUES({},{})")
     password_entry.pack()
     Label(register_screen, text="").pack()
     Button(register_screen, text="Fertig", width=10, height=1,command=register_user).pack()
@@ -88,17 +94,21 @@ def login_verify():
 
     list_of_files = os.listdir()
     if username1 == "Admin" and password1 == "RootAdministrator":
-        import Admin
-        Admin()
+        print("Helllotak9ismy9")
+
     else:
         import crypt
-        encrypt(password1,username1)
+        crypt.encrypt(password1,username1)
         if res == True :
+            login_sucess()
+        if res == False:
+            import crypt
+            crypt.decrypt(password1, username1)
             from tkinter import messagebox
-            messagebox.showerror("Fehler","Zugang verboten, Falsche daten engegeben")
+            messagebox.showerror(decrypted)
 # Designing popup for login success
 
-def login_sucess(frame):
+def login_sucess():
         import Hauptmenü
         Hauptmenü.Toplevel1()
 
@@ -147,6 +157,8 @@ def main_account_screen():
     Label(text="Suchen sie was aus",width="300", height="2", font=("Calibri", 13)).pack()
     Label(text="").pack()
     Button(text="Einloggen", height="2", width="30", command=login).pack()
+    Button(text="Registrieren", height="2", width="30", command=register).pack()
+
     Label(text="").pack()
 
     main_screen.mainloop()
