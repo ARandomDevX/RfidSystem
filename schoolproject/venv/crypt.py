@@ -52,3 +52,4 @@ def decrypt(pswdd,usdd):
     f = Fernet(key)
     decrypted = f.decrypt(encrypted)
     return decrypted
+
