@@ -48,7 +48,6 @@ def destroy_Toplevel1():
 
 class Toplevel1:
     def __init__(self, top=None):
-        adfh(self)
         import font_vars
         import datetime
         '''This class configures and populates the toplevel window.

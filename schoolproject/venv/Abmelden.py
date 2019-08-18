@@ -48,13 +48,11 @@ def destroy_Toplevel1():
     w.destroy()
     w = None
 
+class Anmelden:
 
 class Toplevel1:
 
     def __init__(self,top=None):
-        import guicaller
-        adfh(self)
-        from Hauptmenü import Toplevel1
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
         _bgcolor = '#050154'  # X11 color: 'gray85'
@@ -112,7 +110,7 @@ class Toplevel1:
         self.Button2.configure(pady="0")
         self.Button2.configure(text='''Zurück''')
         self.Button2.configure(width=77)
-        self.Button2.configure(command=lambda : guicaller.call_Hauptmenu())
+        self.Button2.configure(command=)
 
 
 if __name__ == '__main__' or __name__ != '__main__':

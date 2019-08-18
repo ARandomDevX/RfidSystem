@@ -48,9 +48,7 @@ def destroy_Toplevel1():
     w = None
 
 class Toplevel1:
-    def __init__(self, top=None,**kwargs):
-        from functions import *
-        from Notfall import Toplevel1 as t1
+    def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
         _bgcolor = '#050154'  # X11 color: 'gray85'
@@ -93,7 +91,7 @@ class Toplevel1:
         self.Button1_1.configure(highlightcolor="black")
         self.Button1_1.configure(pady="0")
         self.Button1_1.configure(text='''Schüler Registrieren''')
-        self.Button1_1.configure(command=raise_frame(t2))
+        self.Button1_1.configure()
 
         self.Button1_2 = tk.Button(top)
         self.Button1_2.place(relx=0.383, rely=0.267, height=24, width=157)
@@ -106,7 +104,7 @@ class Toplevel1:
         self.Button1_2.configure(highlightcolor="black")
         self.Button1_2.configure(pady="0")
         self.Button1_2.configure(text='''Schüler Löschen''')
-        self.Button1_2.configure(command=raise_frame(**kwargs))
+        self.Button1_2.configure(command=)
 
         self.Button1_3 = tk.Button(top)
         self.Button1_3.place(relx=0.017, rely=0.911, height=24, width=127)
@@ -120,7 +118,7 @@ class Toplevel1:
         self.Button1_3.configure(pady="0")
         self.Button1_3.configure(text='''Zurück''')
         self.Button1_3.configure(width=127)
-        self.Button1_3.configure(command=raise_frame(**kwargs))
+        self.Button1_3.configure(command=)
 
         self.Button1_4 = tk.Button(top)
         self.Button1_4.place(relx=0.383, rely=0.4, height=24, width=157)
@@ -145,8 +143,8 @@ class Toplevel1:
         self.Button1_5.configure(highlightbackground="#d9d9d9")
         self.Button1_5.configure(highlightcolor="black")
         self.Button1_5.configure(pady="0")
-        self.Button1_5.configure(text='''Schüler status verändern und häufigkeits berechnungen''')
-        self.Button1_5.configure(comand=raise_frame(**kwargs))
+        self.Button1_5.configure(text='''Schüler status verändern''')
+        self.Button1_5.configure(comand=)
 if __name__ == '__main__' or __name__ !='__main__':
     vp_start_gui()
 

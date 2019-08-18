@@ -29,9 +29,6 @@ def register():
     storefile = open("{}.key","a".format(username))
     storefile.append("{}".format(username))
     storefile.append("{}".format(password))
-    from sql import cur
-    from crypt import 
-    cur.execute("INSERT INTO rbs VALUES({},{})")
     password_entry.pack()
     Label(register_screen, text="").pack()
     Button(register_screen, text="Fertig", width=10, height=1,command=register_user).pack()
@@ -77,9 +74,16 @@ def register_user():
     file.write(username_info + "\n")
     file.write(password_info)
     file.close()
-
-    username_entry.delete(0, END)
-    password_entry.delete(0, END)
+    try:
+        from sql import cur
+        from crypt import enrypt_for_insert
+        encrypt_for_insert()
+        cur.execute("INSERT INTO rbs VALUES({},{})")
+        username_entry.delete(0, END)
+        password_entry.delete(0, END)
+    except:
+        from tkinter import messagebox
+        messagebox.showerror("Fehler","ein fehler ist aufgetreten")
 
     Label(register_screen, text="Fertig", fg="green", font=("calibri", 11)).pack()
 
@@ -97,19 +101,16 @@ def login_verify():
         print("Helllotak9ismy9")
 
     else:
+
         import crypt
         crypt.encrypt(password1,username1)
-        if res == True :
-            login_sucess()
-        if res == False:
-            import crypt
-            crypt.decrypt(password1, username1)
-            from tkinter import messagebox
-            messagebox.showerror(decrypted)
 # Designing popup for login success
 
 def login_sucess():
         import Hauptmenü
+        import Sonstiges
+        import Anmelden
+        import Abmelden
         Hauptmenü.Toplevel1()
 
 

@@ -1,4 +1,10 @@
 from time import sleep
+try:
+    import ttk
+    py3 = False
+except ImportError:
+    import tkinter.ttk as ttk
+    py3 = True
 
 import mysql.connector
 from tkinter import messagebox
@@ -85,7 +91,8 @@ class Notfall:
 
 class delete:
     def delete(self, instance):
-        cur.execute('DELETE * WHERE id={}'.format(instance))
+        cur.execute('DELETE * FROM student WHERE id={}'.format(instance))
+        cur.execute()
         mydb.commit()
 class sst:
         def sst(self, id):
