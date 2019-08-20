@@ -1,0 +1,2 @@
+lable_fg = '#ffffff'
+
