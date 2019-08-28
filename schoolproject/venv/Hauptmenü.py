@@ -12,11 +12,11 @@ try:
 except ImportError:
     import tkinter.ttk as ttk
     py3 = True
-class login:
+
     
 class Toplevel1:
     def __init__(self,top=None):
-        colorcode = open('colorcode.txt')
+        colorcode = open('colorcode.txt',"w+")
 
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
