@@ -12,23 +12,8 @@ from tkinter import Listbox
 import tkinter
 from __variables__ import ortvar
 
-mydb = mysql.connector.connect(
-    host='192.168.0.89',
-    database ="school",
-    user='root',
-    passwd='123',
-    auth_plugin='mysql_native_password'
-)
-mydb2 = mysql.connector.connect(
-    host='192.168.0.89',
-    database ="school",
-    user='root',
-    passwd='123',
-    auth_plugin='mysql_native_password'
-)
 
-cur = mydb.cursor(buffered=True)
-cur2 = mydb.cursor(buffered=True)
+
 
 cur.execute('SELECT * FROM student')
 
@@ -43,51 +28,24 @@ class Anmeldung:
 
     def anmelden(ort, status, zeit, incident, id):
         try:
-            from __variables__ import ortvar
+            
 
             import datetime
 
             print(id)
             cur.execute('INSERT INTO angemeldet VALUES({},{})'.format(id.get(), status))
-            cur.execute('INSERT OR UPDATE INTO meldung VALUES {},{},{},{}'.format(ort, zeit , id ,incident))
+            cur.execute('''INSERT INTO meldung VALUES ({},{},{},{})
+
+                ON DUPLICATE KEY UPDATE ort = {}, zeit = {}, id = {}, incident = {}'''.format(ort, zeit , id ,incident,ort, zeit , id ,incident))
         except FileExistsError as er:
             messagebox.showerror('Fehler','{} ein Fehler ist aufgetreten, bitte versuchen es sie nochmals oder infromieren es!'.format(lambda : datetime.datetime.now()))
 
 
 class Notfall:
-    def Nifo(self,id,listbox):
-        from time import sleep
-        try:
+    def Nifo(id):
+        import Client
 
-            root = tkinter.Tk()
-            cur.execute('SELECT * FROM student WHERE id = {}'.format(id))
-
-            records = cur.fetchall()
-            num = 0
-            if cur.rowcount == 0:
-                messagebox.showerror('Fehler',
-                                     'Prozes kann nicht weiter geführt werden,Person ist nicht in der datenbank eingetragen')
-                from time import sleep
-                sleep(1)
-                messagebox.showinfo('Info','Sie können die person in die datenbank eintragen an dem sie die seite aufüllen um eine Person anzumelden')
-            else:
-                messagebox.showinfo('Prozess startet....')
-                sleep(1)
-                cur.execute('SELECT * FROM notfall WHERE id ={}'.format(id))
-                exe = cur.fetchall()
-                intnum = 0
-                for item in exe[intnum]:
-                    root.clipboard_append(listbox,exe)
-                    if intnum == 6:
-                        break
-                    else:
-                        intnum+=11
-            root.mainloop()
-        except:
-            if id == '' and run ==1 or id == '' and run == 0:
-                pass
-            if id =='' and run != 1 or id == '' and run != 0:
-                messagebox.showerror('Fehler','Bitte drücken sie auf dass feld un scannen danach')
+        Notfall(id)
 
 class delete:
     def delete(self, instance):

@@ -13,6 +13,8 @@ except ImportError:
     import tkinter.ttk as ttk
     py3 = True
 
+import sql
+
 
 class Toplevel1:
     def __init__(self,top=None):
@@ -128,7 +130,7 @@ class  Anmelden:
         self.Button1.configure(text='''Anmelden''')
         self.Button1.configure(width=87)
         self.Button1.configure(command=Anmeldung.anmelden(ort='Anmeldungs-Tisch', zeit=datetime.datetime.now(),
-                                                          incident='ANMELDUNG ERFOLGREICH BEENDET', id=self.var,
+                                                          incident='ANMELDUNG ERFOLGREICH BEENDET', id=self.Entry1.get(),
                                                           status='ja'))
 
         self.Button2 = tk.Button(top)
@@ -176,7 +178,7 @@ class Sonstiges:
         self.Button1.configure(pady="0")
         self.Button1.configure(text='''Notfall''')
         self.Button1.configure(width=157)
-        self.Button1.configure(command=raise_frame(t1))
+        self.Button1.configure(command=Notfall())
 
         self.Button1_1 = tk.Button(top)
         self.Button1_1.place(relx=0.383, rely=0.2, height=24, width=157)
@@ -804,3 +806,70 @@ class l:
 
         self.TSizegrip2 = ttk.Sizegrip(top)
         self.TSizegrip2.place(anchor='se', relx=1.0, rely=1.0)
+
+class Notfall:
+    def __init__:
+        listvariable = []
+        '''This class configures and populates the toplevel window.
+           top is the toplevel containing window.'''
+        _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
+        _fgcolor = '#000000'  # X11 color: 'black'
+        _compcolor = '#d9d9d9' # X11 color: 'gray85'
+        _ana1color = '#d9d9d9' # X11 color: 'gray85'
+        _ana2color = '#ececec' # Closest X11 color: 'gray92'
+        self.style = ttk.Style()
+        if sys.platform == "win32":
+            self.style.theme_use('winnative')
+        self.style.configure('.',background=_bgcolor)
+        self.style.configure('.',foreground=_fgcolor)
+        self.style.configure('.',font="TkDefaultFont")
+        self.style.map('.',background=
+            [('selected', _compcolor), ('active',_ana2color)])
+
+        top.geometry("1062x736+536+521")
+        top.title("Notfall")
+        top.configure(background="#d9d9d9")
+
+        self.Label1 = tk.Label(top)
+        self.Label1.place(relx=0.443, rely=0.014, height=31, width=59)
+        self.Label1.configure(background="#d9d9d9")
+        self.Label1.configure(disabledforeground="#a3a3a3")
+        self.Label1.configure(foreground="#000000")
+        self.Label1.configure(text='''Notfall''')
+
+        self.Listbox1 = tk.Listbox(top)
+        self.Listbox1.place(relx=0.282, rely=0.285, relheight=0.484
+                , relwidth=0.409)
+        self.Listbox1.configure(background="white")
+        self.Listbox1.configure(disabledforeground="#a3a3a3")
+        self.Listbox1.configure(font="TkFixedFont")
+        self.Listbox1.configure(foreground="#000000")
+        self.Listbox1.configure(relief="flat")
+        self.Listbox1.configure(width=434)
+        self.Listbox1.configure(listvariable=listvariable)
+
+        self.TButton1 = ttk.Button(top)
+        self.TButton1.place(relx=0.405, rely=0.87, height=35, width=120)
+        self.TButton1.configure(takefocus="")
+        self.TButton1.configure(text='''Suchen''')
+        self.TButton1.configure(width=120)
+        self.TButton1.configure(command=Notfall.Nifo(id = self.Entry1.get()))
+
+        self.TLabel1 = ttk.Label(top)
+        self.TLabel1.place(relx=0.226, rely=0.136, height=29, width=44)
+        self.TLabel1.configure(background="#d9d9d9")
+        self.TLabel1.configure(foreground="#000000")
+        self.TLabel1.configure(font="TkDefaultFont")
+        self.TLabel1.configure(relief="flat")
+        self.TLabel1.configure(text='''Karte''')
+
+        self.Entry1 = tk.Entry(top)
+        self.Entry1.place(relx=0.292, rely=0.136,height=26, relwidth=0.324)
+        self.Entry1.configure(background="white")
+        self.Entry1.configure(disabledforeground="#a3a3a3")
+        self.Entry1.configure(font="TkFixedFont")
+        self.Entry1.configure(foreground="#000000")
+        self.Entry1.configure(insertbackground="black")
+        self.Entry1.configure(width=344)
+
+        
