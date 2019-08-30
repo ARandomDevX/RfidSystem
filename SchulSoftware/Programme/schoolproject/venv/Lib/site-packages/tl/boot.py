@@ -1,0 +1,483 @@
+# tl/lib/boot.py
+#
+#
+
+""" admin related data and functions. """
+
+## tl imports
+
+from tl.utils.opts import do_opts
+from tl.utils.greeting import dogreeting
+from tl.utils.generic import checkpermissions, isdebian, botuser
+from tl.utils.exception import handle_exception
+from tl.utils.lazydict import LazyDict
+from tl.utils.source import getsource
+from tl.utils.locking import lockdec
+from tl.persist import Persist
+from tl.aliases import savealiases
+from tl.datadir import makedirs, getdatadir, touch, homedir
+from tl.config import Config, getmainconfig
+from tl.errors import DatadirNotSet
+
+## basic imports
+
+import logging
+import os
+import sys
+import types
+import copy
+import shutil
+import _thread
+
+## paths
+
+sys.path.insert(0, os.getcwd())
+sys.path.insert(0, os.getcwd() + os.sep + '..')
+
+## defines
+
+plugin_packages = ['myplugs', 'tl.plugs.db', 'tl.plugs.core', 'tl.plugs.extra', 'tl.plugs.timeline']
+default_plugins = ['tl.plugs.core.admin', 'tl.plugs.core.dispatch', 'tl.plugs.core.plug', 'tl.periodical']
+default_deny = ["tl.plugs.socket.fish", ]
+
+logging.info("default %s" % str(default_plugins))
+
+loaded = False
+cmndtable = None 
+plugins = None
+callbacktable = None
+retable = None
+cmndperms = None
+shorttable = None
+timestamps = None
+
+cpy = copy.deepcopy
+
+## locks
+
+bootlock = _thread.allocate_lock()
+bootlocked = lockdec(bootlock)
+
+## scandir function
+
+def scandir(d, dbenable=False):
+    from tl.plugins import plugs
+    changed = []
+    try:
+        changed = checktimestamps(d, dbenable)
+        mods = []
+        if changed:
+            logging.debug("changed %s" % str(changed))
+            for plugfile in changed:
+                if not dbenable and os.sep + 'db' in plugfile: logging.warn("disabled skipping %s" % plugfile) ; continue 
+        return changed
+    except Exception as ex: logging.error("boot can't read %s dir." % d) ; handle_exception()
+    if changed: logging.debug("changed %s files changed %s" % (len(changed), str(changed)))
+    return changed
+
+## boot function
+
+#@bootlocked
+def boot(type=None, force=False, clear=False, silent=False, saveperms=False, *args, **kwargs):
+    """ initialize the bot. """
+    import os, sys
+    if os.getuid() == 0: print("root don't run the bot as root") ; os._exit(1)
+    cwd = os.getcwd()
+    opts, cfg = do_opts(type=type or "console")
+    logging.warn("adding %s to path")
+    sys.path.insert(0, cwd)
+    from tl.datadir import getdatadir
+    ddir = opts.datadir or getdatadir()
+    if not ddir: raise DatadirNotSet(ddir)
+    if not (type == "console" and not opts.loglevel): dogreeting(type, opts, cfg, silent)
+    bootstr = "B O O T I N G (%s)" % ddir
+    logging.warn(bootstr)
+    logging.warn(" ")
+    global plugin_packages
+    from tl.datadir import getdatadir, setdatadir
+    origdir = ddir 
+    if not ddir: logging.error("can't determine datadir to boot from") ; raise Exception("can't determine datadir")
+    if not ddir in sys.path: sys.path.append(ddir)
+    makedirs(ddir)
+    try:
+        rundir = ddir + os.sep + "run"
+        k = open(rundir + os.sep + 'tl.pid','w')
+        k.write(str(os.getpid()))
+        k.close()
+        logging.warn("pid file written")
+    except IOError: pass
+    checkpermissions(getdatadir(), 0o700) 
+    from tl.plugins import plugs
+    global loaded
+    global cmndtable
+    global retable
+    global plugins
+    global callbacktable
+    global shorttable
+    global cmndperms
+    global timestamps
+    if not retable: retable = Persist(rundir + os.sep + 'retable')
+    if clear: retable.data = {}
+    if not cmndtable: cmndtable = Persist(rundir + os.sep + 'cmndtable')
+    if clear: cmndtable.data = {}
+    if not plugins: plugins = Persist(rundir + os.sep + 'plugins')
+    if clear: plugins.data = {}
+    if not plugins.data.available: plugins.data.available = []
+    if not plugins.data.refused: plugins.data.refused = []
+    if not plugins.data.allowed: plugins.data.allowed = []
+    if not callbacktable: callbacktable = Persist(rundir + os.sep + 'callbacktable')
+    if clear: callbacktable.data = {}
+    if not shorttable: shorttable = Persist(rundir + os.sep + 'shorttable')
+    if clear: shorttable.data = {}
+    if not timestamps: timestamps = Persist(rundir + os.sep + 'timestamps')
+    if not cmndperms: cmndperms = Config('cmndperms', ddir=ddir)
+    changed = []
+    gotlocal = False
+    dosave = clear or False
+    maincfg = getmainconfig(ddir=ddir)
+    logging.warn("mainconfig used is %s" % maincfg.cfile)
+    packages = find_packages(ddir + os.sep + "myplugs")
+    for p in packages:
+        if p not in plugin_packages: plugin_packages.append(p)
+    packages = find_packages("tl" + os.sep + "plugs")
+    for p in packages:
+        if p not in plugin_packages: plugin_packages.append(p)
+    if os.path.isdir('tl'):
+        gotlocal = True
+        changed = scandir('tl-myplugs')
+        if changed:
+            logging.warn("tl-myplugs has changed -=- %s" % ", ".join(changed))
+            dosave = True
+    for plug in default_plugins: plugs.reload(plug, showerror=True, force=True)
+    changed = scandir(ddir + os.sep + 'myplugs')
+    if changed:
+        logging.warn("myplugs has changed -=- %s" % ', '.join(changed))
+        dosave = True
+    configchanges = checkconfig()
+    if configchanges:
+        logging.info("there are configuration changes: %s" % ', '.join(configchanges))
+        for f in configchanges:
+            if 'mainconfig' in f: force = True ; dosave = True
+    if os.path.isdir('tl'):
+        coreplugs = scandir("tl" + os.sep + "plugs")
+        if coreplugs:
+            logging.warn("core changed -=- %s" % ", ".join(coreplugs))
+            dosave = True
+    try:
+        from tl.db import getmaindb
+        from tl.db.tables import tablestxt
+        db = getmaindb()
+        if db: db.define(tablestxt)
+    except Exception as ex: logging.warn("could not initialize database %s" % str(ex))
+    if force or dosave or not cmndtable.data or len(cmndtable.data) < 100:
+        logging.debug("using target %s" % str(plugin_packages))
+        plugs.loadall(plugin_packages, force=True)
+        savecmndtable(saveperms=saveperms)
+        saveplugins()
+        savecallbacktable()
+        savealiases()
+    logging.warn(" ")
+    logging.warn("R E A D Y")
+    logging.warn(" ")
+    return (opts, cfg)
+
+## filestamps stuff
+
+def checkconfig():
+    changed = []
+    d = getdatadir() + os.sep + "config"
+    if not os.path.isdir(d): return changed
+    for f in os.listdir(d):
+        if os.path.isdir(d + os.sep + f):
+            dname = d + os.sep + f
+            changed.extend(checktimestamps(d + os.sep + f))
+            continue
+        m = d + os.sep + f
+        if os.path.isdir(m): continue
+        if "__init__" in f: continue
+        global timestamps
+        try:
+            t = os.path.getmtime(m)
+            if t > timestamps.data[m]: changed.append(m) ; timestamps.data[m] = t ; 
+        except KeyError: timestamps.data[m] = os.path.getmtime(m) ; changed.append(m)
+    if changed: timestamps.save()
+    return changed 
+
+def checktimestamps(d=None, dbenable=False):
+    changed = []
+    stopmark = os.getcwd().split(os.sep)[-1]
+    logging.debug("checking timestamps in %s" % d)
+    if not os.path.isdir(d): return changed
+    for f in os.listdir(d):
+        if os.path.isdir(d + os.sep + f):
+            if f.startswith("."): logging.debug("skipping %s" % f) ; continue
+            if f.startswith("__"): logging.debug("skipping %s" % f) ; continue
+            dname = d + os.sep + f
+            if not dbenable and 'db' in dname: continue
+            splitted = dname.split(os.sep)
+            target = []
+            for s in splitted[::-1]:
+                if stopmark in s: break
+                target.append(s)
+                if 'tl' in s: break
+                elif 'myplugs' in s: break
+            package = ".".join(target[::-1])
+            if not "config" in dname and package not in plugin_packages: logging.warn("adding %s to plugin_packages" % package) ; plugin_packages.append(package)
+            changed.extend(checktimestamps(d + os.sep + f))
+        if not f.endswith(".py"): continue 
+        m = d + os.sep + f
+        global timestamps
+        try:
+            t = os.path.getmtime(m)
+            if t > timestamps.data[m]: changed.append(m) ; timestamps.data[m] = t 
+        except KeyError: timestamps.data[m] = os.path.getmtime(m) ; changed.append(m)
+    if changed: logging.warn("saving timestamps") ; timestamps.save()
+    return changed 
+
+def find_packages(d=None):
+    packages = []
+    if not os.path.isdir(d): return []
+    for f in os.listdir(d):
+        if f.endswith("__"): continue
+        if os.path.isdir(d + os.sep + f):
+            if f.startswith("."): logging.warn("skipping %s" % f) ; continue
+            dname = d + os.sep + f
+            splitted = dname.split(os.sep)
+            target = []
+            for s in splitted[::-1]:
+                target.append(s)
+                if 'tl' == s: break
+                elif 'myplugs' in s: break
+            package = ".".join(target[::-1])
+            if package not in plugin_packages: logging.info("adding %s to plugin_packages" % package) ; packages.append(package)
+            packages.extend(find_packages(d + os.sep + f))
+    if packages: logging.warn("found packages %s" % ", ".join(packages))
+    return packages
+    
+## commands related commands
+
+def savecmndtable(modname=None, saveperms=True):
+    """ save command -> plugin list to db backend. """
+    global cmndtable
+    if not cmndtable.data: cmndtable.data = {}
+    if modname: target = LazyDict(cmndtable.data)
+    else: target = LazyDict()
+    global shorttable
+    if not shorttable.data: shorttable.data = {}
+    if modname: short = LazyDict(shorttable.data)
+    else: short = LazyDict()
+    global cmndperms
+    from tl.commands import cmnds
+    assert cmnds
+    for cmndname, c in cmnds.items():
+        if not c: logging.error("no command available for %s" % cmndname) ; continue
+        if modname and c.modname != modname or cmndname == "subs": continue
+        if cmndname and c:
+            target[cmndname] = c.modname  
+            cmndperms[cmndname] = c.perms
+            try:
+                 s = cmndname.split("-")[1]
+                 if s not in target:
+                     if s not in short: short[s] = [cmndname, ]
+                     if cmndname not in short[s]: short[s].append(cmndname)
+            except (ValueError, IndexError): pass
+    logging.warn("saving command table")
+    assert cmndtable
+    assert target
+    cmndtable.data = target
+    cmndtable.save()
+    logging.warn("saving short table")
+    assert shorttable
+    assert short
+    shorttable.data = short
+    shorttable.save()
+    logging.warn("saving RE table")
+    for command in cmnds.regex: retable.data[command.regex] = command.modname
+    assert retable
+    retable.save()
+    if saveperms:
+        logging.warn("saving command perms")
+        cmndperms.save()
+
+def removecmnds(modname):
+    """ remove commands belonging to modname form cmndtable. """
+    global cmndtable
+    assert cmndtable
+    from tl.commands import cmnds
+    assert cmnds
+    for cmndname, c in cmnds.items():
+        if c.modname == modname: del cmndtable.data[cmndname]
+    cmndtable.save()
+
+def getcmndtable():
+    """ save command -> plugin list to db backend. """
+    global cmndtable
+    if not cmndtable: boot()
+    return cmndtable.data
+
+## callbacks related commands
+
+def savecallbacktable(modname=None):
+    """ save command -> plugin list to db backend. """
+    if modname: logging.warn("module name is %s" % modname)
+    global callbacktable
+    assert callbacktable
+    if not callbacktable.data: callbacktable.data = {}
+    if modname: target = LazyDict(callbacktable.data)
+    else: target = LazyDict()
+    from tl.callbacks import first_callbacks, callbacks, last_callbacks, remote_callbacks
+    for cb in [first_callbacks, callbacks, last_callbacks, remote_callbacks]:
+        for type, cbs in cb.cbs.items():
+            for c in cbs:
+                if modname and c.modname != modname: continue
+                if type not in target: target[type] = []
+                if not c.modname in target[type]: target[type].append(c.modname)
+    logging.warn("saving callback table")
+    assert callbacktable
+    assert target
+    callbacktable.data = target
+    callbacktable.save()
+
+def removecallbacks(modname):
+    """ remove callbacks belonging to modname form cmndtable. """
+    global callbacktable
+    assert callbacktable
+    from tl.callbacks import first_callbacks, callbacks, last_callbacks, remote_callbacks
+    for cb in [first_callbacks, callbacks, last_callbacks, remote_callbacks]:
+        for type, cbs in cb.cbs.items():
+            for c in cbs:
+                if not c.modname == modname: continue
+                if type not in callbacktable.data: callbacktable.data[type] = []
+                if c.modname in callbacktable.data[type]: callbacktable.data[type].remove(c.modname)
+    logging.warn("saving callback table")
+    assert callbacktable
+    callbacktable.save()
+
+def getcallbacktable():
+    """ save command -> plugin list to db backend. """
+    global callbacktable
+    if not callbacktable: boot()
+    return callbacktable.data
+
+def getretable():  
+    """ save command -> plugin list to db backend. """
+    global retable
+    if not retable: boot()
+    return retable.data
+
+def getshorttable():
+    """ save command -> plugin list to db backend. """
+    global shorttable
+    if not shorttable: boot()
+    return shorttable.data
+
+
+## plugin list related commands
+
+def saveplugins(modname=None):
+    """ save a list of available plugins to db backend. """
+    global plugins
+    if modname: target = LazyDict(plugins.data)
+    else: target = LazyDict()
+    if not target.available: target.available = []
+    if not target.allowed: target.allowed = []
+    if not target.refused: target.refused = []
+    from tl.commands import cmnds
+    assert cmnds
+    for cmndname, c in cmnds.items():
+        if modname and c.modname != modname: continue
+        if c and not c.plugname: logging.info("boot - not adding %s to pluginlist" % cmndname) ; continue
+        if c and c.enable: target.available.append(c.plugname)
+    assert target
+    logging.warn("saving plugin list")
+    assert plugins
+    plugins.data = target
+    plugins.save()
+
+def remove_plugin(modname):
+    removecmnds(modname)
+    removecallbacks(modname)
+    global plugins
+    try: plugins.data.available.remove(modname.split(".")[-1]) ; plugins.save()
+    except: pass
+
+def clear_tables():
+    global cmndtable
+    global callbacktable
+    global pluginlist
+    cmndtable.data = {} ; cmndtable.save()
+    callbacktable.data = {} ; callbacktable.save()
+    plugins.data = {} ; pluginlist.save()
+
+def getpluginlist():
+    """ get the plugin list. """
+    global plugins
+    if not plugins: boot()
+    l = plugins.data.available
+    result = []
+    denied = []
+    for plug in plugins.data.refused:
+        denied.append(plug.split(".")[-1])
+    for plug in plugins.data.allowed:
+        try: denied.remove(plug.split(".")[-1])
+        except: pass
+    for plug in l:
+        if plug not in denied and not plug in result: result.append(plug)
+    return result
+
+## update_mod command
+
+def update_mod(modname):
+    """ update the tables with new module. """
+    savecallbacktable(modname)
+    savecmndtable(modname, saveperms=False)
+    saveplugins(modname)
+
+def whatcommands(plug):
+    tbl = getcmndtable()
+    result = []
+    for cmnd, mod in tbl.items():
+        if not mod: continue
+        if plug in mod:
+            result.append(cmnd)
+    return result
+
+def getcmndperms():
+    return cmndperms
+
+def plugenable(mod):
+    if plugins.data.allowed and not mod in plugins.data.allowed: plugins.data.allowed.append(mod) ; plugins.save() ; return
+    if mod in plugins.data.refused: plugins.data.refused.remove(mod) ; plugins.save()
+
+def plugdisable(mod):
+    if plugins.data.allowed and mod in plugins.data.allowed: plugins.data.allowed(mod) ; plugins.save() ; return
+    if not mod in plugins.data.refused: plugins.data.refused.append(mod) ; plugins.save()
+
+def isenabled(mod):
+    if mod in default_deny: return False
+    if mod in plugins.data.refused and not mod in plugins.data.allowed: return False
+    return True
+
+def isdisabled(mod):
+    if mod not in default_deny or mod in plugins.data.allowed: return False
+    if plugins.data.refused and mod in plugins.data.refused: return True
+    return False
+
+def disabled(default=None):
+    res = default or []
+    denied = list(plugins.data.refused)
+    res += denied
+    allowed = list(plugins.data.allowed)
+    for mod in allowed:
+        try: res.remove(mod)
+        except ValueError: pass
+    return res
+
+def size():
+    global cmndtable
+    global plugins
+    global callbacktable
+    global cmndperms
+    global timestamps 
+    return "cmndtable: %s - pluginlist: %s - callbacks: %s - timestamps: %s - allowed: %s - refused: %s" % (cmndtable.size(), plugins.size(), callbacktable.size(), timestamps.size(), plugins.data.allowed.size(), plugins.data.refused.size())
+   
