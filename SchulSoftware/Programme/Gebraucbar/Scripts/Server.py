@@ -1,16 +1,19 @@
 import socket
 import threading
+import atexit
+import time
+
 
 
 # Creating the required Objs
 
-run = 0
+run = 1
 
 
 S =socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 mydb = mysql.connector.connect(
-    host='192.168.0.31',
+    host='localhost',
     database ="school",
     user='user',
     passwd='1234',
@@ -57,9 +60,10 @@ def HandleNotfall(data):
     cur.execute(f"SELECT * FROM notfall WHERE id = {data}")
 
     return cur.fetchall()
-def HandleNewMember(id,fname,lname,kl):
-
-    cur.execut(f"INSERT INTO studet VALUES({id},{fname},{lname},{kl})")
+ def HandleNewMember(id,fname,lname,klasse,erw1,erw2,add,n1,n2):
+    cur.execute('INSERT INTO student VALUES({},{},{},{})').fromat(id,fname,lname,klasse)
+     
+    cur.execute('INSERT INTO notfall VALUES({},{},{},{},{},{},{})').format(id,erw1,erw2,add,n1,n2,klasse)
 
 
 # Data handler(Stage 1)
@@ -70,21 +74,56 @@ def Handler(c,a):
 
         if run !=0:
             if data == "Type: Status":
-                c.sendall("Ready!".encode("utf-8"))
-                data = c.recv(1079).decode("utf-8")
-                sst.sst(id = data2)
+                ort = c.recv(1079).decode("utf-8")
+
+                ortvar = ort
+
+                sst.sst(id = data2,ortvar =ortvar)
             elif data == "Type: Notfall":
                 c.send(Notfall.Nifo(id = data))
             elif data == "Type: Add new member":
-                c.sendall("Ready!".encode("utf-8"))
+                
                 data3 = c.recv(1078)
+
+                data4 = c.recv(1078)
+
+                data5 = c.recv(1078)
+
+                data6 = c.recv(1078)
+
+                data7 = c.recv(1078)
+
+                data8 = c.recv(1078)
+
+                data9 = c.recv(1078)
+
+                HandleNewMember(id = data2, fname = data3, lname = data4, klasse = data5, erw1 = data6, erw2 = data7 , n1 = data8 , n2 = data9)
             elif data == "Command: Exit":
                 c.sendall("Closing".encode("utf-8"))
                 S.close()
             elif data == "Type: Anmelden/Abmelden":
-                Anmelden.anmelden(id = data)
+                
+                incident = c.recv(1079).decode("utf-8")
 
-            run = 0
+                time = c.recv(1079).decode("utf-8")
+
+                ort = c.recv(1079).decode("utf-8")
+
+                status = c.recv(1079).decode("utf-8")
+
+                Anmelden.anmelden(id = data, time = time , ort = ort , zeit = zeit , status = status)
+            elif data == "Type: Delete":
+
+                delete.delete(id = data2)
+            elif "Server.close()" in data2:
+
+                c.send("Server.Ok".encode("utf-8"))
+
+                S.close()
+
+                exit()
+
+            run = 1
             
         else:
             pass
@@ -94,8 +133,9 @@ def Handler(c,a):
 
 # sst
 class sst:
-        def sst(self, id):
+        def sst(self, id, ortvar):
             import datetime
+
             try:
                 from time import sleep
 
@@ -169,6 +209,12 @@ class Anmeldung:
                 ON DUPLICATE KEY UPDATE ort = {}, zeit = {}, id = {}, incident = {}'''.format(ort, zeit , id ,incident,ort, zeit , id ,incident))
         except FileExistsError as er:
             messagebox.showerror('Fehler','{} ein Fehler ist aufgetreten, bitte versuchen es sie nochmals oder infromieren es!'.format(lambda : datetime.datetime.now()))
+class delete:
+
+    def delete(self,id):
+        cur.execute('DELETE * FROM student WHERE id={}'.format(instance))
+        cur.execute()
+        mydb.commit()
 
 
 # Doing action
@@ -182,6 +228,9 @@ while True:
 
     cThread.start()
 
+    atexit.register(lambda: S.close())
 
 
 
+
+atexit.register(lambda: S.close())
