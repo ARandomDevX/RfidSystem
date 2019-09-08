@@ -59,7 +59,7 @@ def Anmelden(id,incident,zeit,ort,status):
 	
 	sSock.sendall(f"{id}".encode("utf-8"))
 
-	sSock.sendall("Type: Anmelden/Abmelden".decode("utf-8"))
+	sSock.sendall("Type: Anmelden/Abmelden".encode("utf-8"))
 
 	time.sleep(1)
 

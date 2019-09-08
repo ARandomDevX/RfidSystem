@@ -37,8 +37,7 @@ class Notfall:
             records = cur.fetchall()
             num = 0
             if cur.rowcount == 0:
-                messagebox.showerror('Fehler',
-                                     'Prozes kann nicht weiter geführt werden,Person ist nicht in der datenbank eingetragen')
+                messagebox.showerror('Fehler','Prozes kann nicht weiter geführt werden,Person ist nicht in der datenbank eingetragen')
                 from time import sleep
                 sleep(1)
                 messagebox.showinfo('Info','Sie können die person in die datenbank eintragen an dem sie die seite aufüllen um eine Person anzumelden')
@@ -83,19 +82,19 @@ def Handler(c,a):
                 c.send(Notfall.Nifo(id = data))
             elif data == "Type: Add new member":
                 
-                data3 = c.recv(1078)
+                data3 = c.recv(1078.decode("utf-8"))
 
-                data4 = c.recv(1078)
+                data4 = c.recv(1078.decode("utf-8"))
 
-                data5 = c.recv(1078)
+                data5 = c.recv(1078.decode("utf-8"))
 
-                data6 = c.recv(1078)
+                data6 = c.recv(1078.decode("utf-8"))
 
-                data7 = c.recv(1078)
+                data7 = c.recv(1078.decode("utf-8"))
+                
+                data8 = c.recv(1078.decode("utf-8"))
 
-                data8 = c.recv(1078)
-
-                data9 = c.recv(1078)
+                data9 = c.recv(1078.decode("utf-8"))
 
                 HandleNewMember(id = data2, fname = data3, lname = data4, klasse = data5, erw1 = data6, erw2 = data7 , n1 = data8 , n2 = data9)
             elif data == "Command: Exit":
@@ -233,4 +232,4 @@ while True:
 
 
 
-atexit.register(lambda: S.close())
+atexit.register((lambda: S.close(), mydb.commit()))
