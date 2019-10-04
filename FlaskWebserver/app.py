@@ -62,7 +62,7 @@ def Login():
 
     print(details)
 
-    if (uname,passw) in details:
+    if (uname,hash(passw)) in details:
         global isLogin
 
         isLogin = True
