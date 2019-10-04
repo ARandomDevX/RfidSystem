@@ -1,0 +1,16 @@
+#Bitte nichts verändern, ist nur zum version vergleich da
+@futureconfig
+#
+{
+    (jsonisoin#3)
+}
+#
+@defineMethods
+string.json={}
+@workmethods
+verl:'10.0.0.2'
+vers:'out:1.0.0.0'
+verc:{'CurrentVersion':'9.0.0.2'}
+CmpPer:-python-3.7
+@futurmethods
+.quit()

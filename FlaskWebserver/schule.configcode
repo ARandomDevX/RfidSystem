@@ -1,0 +1,17 @@
+!/vr.crt=2.0
+.create(clientside.obj)
+specs.parameter(schlusszeiten)
+### ausfullen wenn die offnugszeiten sich verandert haben
+mo= 17:30
+di= 17:30
+mi= 17:30
+do= 17:30
+fr= 17:30
+### nicht ausfullen
+time.maxtime=24:59
+time.mintime=0:0
+time.chars=num(),char(:)
+iffalse logfile.write('errorMSG')
+set.var= True
+wrote= sep1119
+
