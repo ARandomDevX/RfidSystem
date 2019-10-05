@@ -1,8 +1,11 @@
 # Importing the required modules
 
-from flask import Flask, render_template, request, jsonify, redirect
+from flask import Flask, render_template, request, jsonify, redirect, session
 import json
 import mysql.connector
+import Hash
+
+
 
 # Creating Globals (So i can acces these variables everywhere)
 
@@ -30,7 +33,7 @@ mydb = mysql.connector.connect(
     auth_plugin='mysql_native_password'
 )
 
-cur = mydb.cursor()
+cur = mydb.cursor(buffered=True)
 
 
 # Creating the Flask object
@@ -52,7 +55,9 @@ def Login():
     uname = request.form['uname']
     print(uname)
     passw = request.form['pass']
-    print(passw)
+    passw = Hash.hashPassword(passw)
+
+    passw = passw.decode("utf-8")
 
     cur.execute('SELECT uname, password FROM users')
 
@@ -60,9 +65,7 @@ def Login():
 
     details = list(details)
 
-    print(details)
-
-    if (uname,hash(passw)) in details:
+    if (uname,(passw)) in details:
         global isLogin
 
         isLogin = True
@@ -251,12 +254,15 @@ def GetValue():
     if isLogin == True:
         name = request.form['firstname']
         lname = request.form['lastname']
-        db = request.form['dofb']
         id = request.form['id']
+        mon = request.form['Montag']
+        die = request.form['Dienstag']
+        mit= request.form['Mitwoch']
+        don = request.form['Donnerstag']
+        fri = request.form['Freitag']
 
         print(name)
         print(lname)
-        print(db)
         print(id)
         return render_template('procces_done.html')
     else:
@@ -296,6 +302,9 @@ def eas():
             email = request.form['email']
             uname = request.form['uname']
             password = request.form['pass']
+            password = Hash.hashPassword(password)
+
+            password = password.decode("utf-8")
 
             cur.execute('SELECT id FROM users')
 
@@ -310,13 +319,14 @@ def eas():
             print(index)
 
             
-            try:
-                cur.execute("INSERT INTO details VALUES('{}','{}','{}','{}','{}')".format(index,email,password,name,lname))
+            cur.execute("INSERT INTO details(id,email,password,name,lname) VALUES('{}','{}','{}','{}','{}')".format(index,email,password,name,lname))
 
-                cur.execute("INSERT INTO users VALUES('{}','{}')".format(index,uname,password))
-            except:
+            cur.execute("INSERT INTO users(id,uname,password) VALUES('{}','{}','{}')".format(index,uname,password))
 
-                return render_template('AllreadyExists.html')
+            mydb.commit()
+
+
+            
             
 
             return render_template('Done2.html')
@@ -361,6 +371,8 @@ def ania():
 #End/Startup options
 
 import atexit
+
+
 
 
 from signal import signal, SIGPIPE, SIG_DFL

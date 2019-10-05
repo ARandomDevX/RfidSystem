@@ -1,31 +1,10 @@
-import mysql.connector
-
 import bcrypt
 
-mydb = mysql.connector.connect(
-    host='localhost',
-    database ="dev",
-    user='developer',
-    passwd='DevAnantha',
-    auth_plugin='mysql_native_password'
-)
-
-global cur
-
-cur = mydb.cursor()
-
-def getSalt():
 
 
+def hashPassword(password):
 
-    cur.execute('SELECT * FROM salt')
+    Salt = b'$2b$12$hFo/Hp4u4NuOWXHlONDAJO'
 
-    preSalt = cur.fetchall()
 
-    print(preSalt[0])
-    
-    #salt = bytearray(str(preSalt))
-
-    #return salt
-
-print(getSalt())
+    return bcrypt.hashpw(password=password.encode('utf-8'), salt=Salt)
