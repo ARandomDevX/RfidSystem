@@ -24,14 +24,17 @@ loginFile = open('lif.lginfo','w')
 run = 0
 
 users = {}
+try:
+    mydb = mysql.connector.connect(
+        host='localhost',
+        database ="dev",
+        user='developer',
+        passwd='DevAnantha',
+        auth_plugin='mysql_native_password'
+    )
+except:
 
-mydb = mysql.connector.connect(
-    host='localhost',
-    database ="dev",
-    user='developer',
-    passwd='DevAnantha',
-    auth_plugin='mysql_native_password'
-)
+    pass
 
 cur = mydb.cursor(buffered=True)
 
@@ -147,12 +150,6 @@ def return_bins():
     return jsonify({''})
 
 
-@app.route('/nsa/<string:id>/<string:fname>/<string:lname>/<string:kl>/<string:erw1>/<string:erw2>/<string:n1>/<string:n2>',methods=['POST'])
-def nsa_nsa(id,fname,lname,kl,erw1,erw2,n1,n2):
-
-    data = request.get_json()
-
-    return jsonify({'....':'....'})
 
 
 @app.route("/raspberrypi/test/gui",methods=['GET'])
@@ -260,10 +257,11 @@ def GetValue():
         mit= request.form['Mitwoch']
         don = request.form['Donnerstag']
         fri = request.form['Freitag']
+        Eltern1 = request.form['Erw1']
+        Eltern2 = request.form['Erw2']
 
-        print(name)
-        print(lname)
-        print(id)
+        
+        cur.execute("INSERT INTO kids VALUES('{}','{}','{}','{}','{}')".format(name, lname, id, Eltern1, Eltern2))
         return render_template('procces_done.html')
     else:
 

@@ -1,7 +1,30 @@
 <!DOCTYPE html>
+<style>
+    table,
+    td {
+
+        padding: 15px;
+
+        border: 1px solid black;
+
+        border-collapse: collapse;
+
+    }
+
+    th {
+        color: black;
+
+        font: normal;
+
+        border: 1px solid black;
+
+        text-align: center;
+    }
+</style>
 <html>
     <head>
         <title>Online daten senden</title>
+        <link href="https://fonts.googleapis.com/css?family=Quattrocento+Sans&display=swap" rel="stylesheet">
     </head>
     <body>
         <h1>Willkommen, Hier kann jeder online schüler Registrieren</h1>
@@ -19,6 +42,12 @@
                     <p></p><br>
                     Karten Number:<br>
                     <input type="text" name="id"><br>
+                    <p></p><br>
+                    Nummer vom Vater:<br>
+                    <input type="number" name="Erw1"/>
+                    <p></p><br>
+                    Nummer vom Mutter:<br>
+                    <input type="number" name="Erw2"/>
                     <p></p><br>
                     <p>Abhol/Heimgehzeiten</p>
                     <p></p><br>
@@ -49,21 +78,47 @@
                                     </div>
                             </tr>
                             <tr>
-                                    <td align="left">Mitwoch</td>
-                                    <td align="left"><input type="radio" name='Mitwoch' value="mitAb"> wird abgeholt</td>
-                                    <td align="left">
-                                        <div align="left" class="style-1">
-                                            <input type="radio" name="Mitwoch"> geht allein um:
-                                            <input type="time" name="Mitwoch"/>
-                                        </div>
-                                </tr>
-                            
+                                <td align="left">Mitwoch</td>
+                                <td align="left"><input type="radio" name='Mitwoch' value="mitAb"> wird abgeholt</td>
+                                <td align="left">
+                                    <div align="left" class="style-1">
+                                        <input type="radio" name="Mitwoch"> geht allein um:
+                                        <input type="time" name="Mitwoch"/>
+                                    </div>
+                            </tr>
+                            <tr>
+                                <td align="left">Donnerstag</td>
+                                <td align="left"><input type="radio" name='Donnerstag' value="donnAb"> wird abgeholt</td>
+                                <td align="left">
+                                    <div align="left" class="style-1">
+                                        <input type="radio" name="Donnerstag"> geht allein um:
+                                        <input type="time" name="Donnerstag" />
+                                    </div>
+                            </tr>
+                            <tr>
+                                <td align="left">Freitag</td>
+                                <td align="left"><input type="radio" name='Freitag' value="friAb"> wird abgeholt</td>
+                                <td align="left">
+                                    <div align="left" class="style-1">
+                                        <input type="radio" name="Freitag"> geht allein um:
+                                        <input type="time" name="Freitag" />
+                                    </div>
+                            </tr>
                             <br>
                             <br>
+
+                    </table>
+
+
+
+                    <br>
+                    <br>
+                    
+                    <input type="submit" value="Senden"/>
                    
                 </fieldset>
 
-                <input type="submit" value="Senden"/>
+                
         </form>
     </body>
 </html>
