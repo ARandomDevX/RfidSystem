@@ -260,7 +260,7 @@ def GetValue():
         Eltern2 = request.form['Erw2']
 
         
-        cur.execute("INSERT INTO kids VALUES('{}','{}','{}','{}','{}')".format(name, lname, id, Eltern1, Eltern2))
+        cur.execute("INSERT INTO schuler VALUES('{}','{}','{}','{}','{}')".format(name, lname, id, Eltern1, Eltern2))
         cur.execute("INSERT INTO heim VALUES('{}','{}','{}','{}','{}')".format(mon,die,mit,don,fri))
         return render_template('procces_done.html')
     else:
