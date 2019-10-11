@@ -11,14 +11,21 @@
 
         <p>Sonderabholzeiten, Hier können sie abholzeiten eintragen die nur für heute gelten</p>
 
-        <form action="/sonder" method="POST">
-        
-            Karten Nummer:<br>
-            <input type="number" name="id">
-            <p></p><br>
-            Zeit:<br>
-            <input type="time">
-        </form>
+        <fieldset>
+            <form action="/sonder" method="POST">
+            
+                Karten Nummer:<br>
+                <input type="number" name="id">
+                <p></p><br>
+                Zeit:<br>
+                <input type="time">
+                <br>
+                <p></p><br>
+                <input type="submit" text="Senden">
+            </form>
 
+        </fieldset>
+
+        
     </body>
 </html>

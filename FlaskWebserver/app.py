@@ -24,17 +24,16 @@ loginFile = open('lif.lginfo','w')
 run = 0
 
 users = {}
-try:
-    mydb = mysql.connector.connect(
-        host='localhost',
-        database ="dev",
-        user='developer',
-        passwd='DevAnantha',
-        auth_plugin='mysql_native_password'
-    )
-except:
 
-    pass
+mydb = mysql.connector.connect(
+    host='localhost',
+    database ="dev",
+    user='developer',
+    passwd='DevAnantha',
+    auth_plugin='mysql_native_password'
+)
+
+
 
 cur = mydb.cursor(buffered=True)
 
