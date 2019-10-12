@@ -36,7 +36,7 @@ except:
 
     pass
 
-cur = mydb.cursor(buffered=True)
+cur = mydb.cursor()
 
 
 # Creating the Flask object
@@ -61,6 +61,8 @@ def Login():
     passw = Hash.hashPassword(passw)
 
     passw = passw.decode("utf-8")
+
+    print(passw)
 
     cur.execute('SELECT uname, password FROM users')
 
