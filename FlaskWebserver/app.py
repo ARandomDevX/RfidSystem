@@ -268,6 +268,7 @@ def GetValue():
     else:
 
         return render_template('noLogin.html')
+    mydb.commit()
 
     
 @app.route('/Del')
