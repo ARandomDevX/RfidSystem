@@ -31,7 +31,7 @@ mydb = mysql.connector.connect(
     host='localhost',
     database ="dev",
     user='developer',
-    passwd='DevAnantha',
+    passwd='Waldschule',
     auth_plugin='mysql_native_password'
 )
 
@@ -266,11 +266,12 @@ def GetValue():
         print(name, lname, id, mon, die)
         cur.execute("INSERT INTO schuler VALUES('{}','{}','{}','{}','{}')".format(name, lname, id, Eltern1, Eltern2))
         cur.execute("INSERT INTO heim VALUES('{}','{}','{}','{}','{}')".format(mon,die,mit,don,fri))
+        mydb.commit()
         return render_template('procces_done.html')
     else:
 
         return render_template('noLogin.html')
-    mydb.commit()
+    
 
     
 @app.route('/Del')
