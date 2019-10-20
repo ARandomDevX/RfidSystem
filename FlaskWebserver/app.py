@@ -372,7 +372,12 @@ def ania():
 
 import atexit
 
+def clqs():
 
+    mydb.commit()
+    mydb.close()
+
+atexit.register(clqs)
 
 
 from signal import signal, SIGPIPE, SIG_DFL
