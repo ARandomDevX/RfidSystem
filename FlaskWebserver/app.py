@@ -17,6 +17,8 @@ global run
 
 global cur
 
+global mydb
+
 isLogin = None
 
 loginFile = open('lif.lginfo','w')
@@ -261,7 +263,7 @@ def GetValue():
         Eltern1 = request.form['Erw1']
         Eltern2 = request.form['Erw2']
 
-        
+        print(name, lname, id, mon, die)
         cur.execute("INSERT INTO schuler VALUES('{}','{}','{}','{}','{}')".format(name, lname, id, Eltern1, Eltern2))
         cur.execute("INSERT INTO heim VALUES('{}','{}','{}','{}','{}')".format(mon,die,mit,don,fri))
         return render_template('procces_done.html')
