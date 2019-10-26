@@ -394,7 +394,7 @@ def Render():
         return render_template('Sonderabholzeiten.html')
     else:
         return render_template('noLogin.html')
-@app.route('/sonder')
+@app.route('/sonder',methods=['POST'])
 def Working():
 
     time = request.form['time']
