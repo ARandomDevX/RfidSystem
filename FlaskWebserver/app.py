@@ -264,8 +264,10 @@ def GetValue():
         Eltern2 = request.form['Erw2']
 
         print(name, lname, id, mon, die)
+        # Logic
+        
         cur.execute("INSERT INTO schuler VALUES('{}','{}','{}','{}','{}')".format(name, lname, id, Eltern1, Eltern2))
-        cur.execute("INSERT INTO heim VALUES('{}','{}','{}','{}','{}')".format(mon,die,mit,don,fri))
+        cur.execute("INSERT INTO heim VALUES('{}','{}',{}','{}','{}','{}')".format(id,mon,die,mit,don,fri))
         mydb.commit()
         return render_template('procces_done.html')
     else:
@@ -371,6 +373,20 @@ def ania():
         return render_template('Done4.html')
     else:
         return render_template('noLogin.html')
+
+@app.route('/Sst')
+def RunAction():
+
+    if isLogin == True:
+
+        return render_template('sst.html')
+@app.route('/Sst')
+def Actions():
+
+    Status = request.form['Status']
+    Id = request.form['id']
+
+
 
 #End/Startup options
 
