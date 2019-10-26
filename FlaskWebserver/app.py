@@ -403,6 +403,8 @@ def Working():
 
     cur.execute("INSERT INTO sonderab VALUES('{}','{}','{}')".format(id,time,date))
     mydb.commit()
+
+    return render_template("ReturnSonder.html")
 #End/Startup options
 
 import atexit
