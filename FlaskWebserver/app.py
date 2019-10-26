@@ -49,7 +49,7 @@ app = Flask(__name__)
 @app.route("/",methods=['GET'])
 
 def main():
-    
+
     # Rendering the Login
 
     return render_template('Login.html')
@@ -81,11 +81,11 @@ def Login():
         return render_template('Fail.html')
 
 
-    
+
 @app.route("/index",methods=['GET','POST'])
 
 def maain():
-    
+
     if isLogin != False:
     # Rendering the index file
 
@@ -98,7 +98,7 @@ def maain():
 
 @app.route("/procces",methods=['POST'])
 def sendJson():
-    
+
     # Letting the Code to recive the JSON code
 
     data = request.get_json()
@@ -127,7 +127,7 @@ def Anmelden():
     Misc, Location = status.split("=")
 
     print('Rfid Code : ' + Number)
-    
+
     print('Current Location : ' + Location)
 
     return data
@@ -218,7 +218,7 @@ def notfall():
     print('Identifier = ' + Use)
 
     return jsonify({'test':'123'})
-        
+
 # Getting data from raspberrypis
 
 @app.route('/Data',methods=['POST'])
@@ -265,7 +265,7 @@ def GetValue():
 
         print(name, lname, id, mon, die)
         # Logic
-        
+
         cur.execute("INSERT INTO schuler VALUES('{}','{}','{}','{}','{}')".format(name, lname, id, Eltern1, Eltern2))
         cur.execute("INSERT INTO heim VALUES('{}','{}',{}','{}','{}','{}')".format(id,mon,die,mit,don,fri))
         mydb.commit()
@@ -273,9 +273,9 @@ def GetValue():
     else:
 
         return render_template('noLogin.html')
-    
 
-    
+
+
 @app.route('/Del')
 def Delete():
     if isLogin == True:
@@ -316,7 +316,7 @@ def eas():
 
             curid = cur.fetchall()
 
-            
+
 
             lenid = len(curid)
 
@@ -324,7 +324,7 @@ def eas():
 
             print(index)
 
-            
+
             cur.execute("INSERT INTO details(id,email,password,name,lname) VALUES('{}','{}','{}','{}','{}')".format(index,email,password,name,lname))
 
             cur.execute("INSERT INTO users(id,uname,password) VALUES('{}','{}','{}')".format(index,uname,password))
@@ -332,8 +332,8 @@ def eas():
             mydb.commit()
 
 
-            
-            
+
+
 
             return render_template('Done2.html')
         else:
@@ -343,7 +343,7 @@ def eas():
 def an():
 
 
-     
+
     return render_template('noLogin.html')
 @app.route("/an", methods=['POST'])
 def ani():
@@ -386,8 +386,23 @@ def Actions():
     Status = request.form['Status']
     Id = request.form['id']
 
+@app.route('/sonder')
+def Render():
 
+    if isLogin == True:
 
+        return render_template('Sonderabholzeiten.html')
+    else:
+        return render_template('noLogin.html')
+@app.route('/sonder')
+def Working():
+
+    time = request.form['time']
+    id = request.form['id']
+    date = request.form['date']
+
+    cur.execute("INSERT INTO sonderab VALUES('{}','{}','{}')".format(id,time,date))
+    mydb.commit()
 #End/Startup options
 
 import atexit
@@ -399,9 +414,8 @@ def clqs():
 
 atexit.register(clqs)
 
-
 from signal import signal, SIGPIPE, SIG_DFL
-signal(SIGPIPE,SIG_DFL) 
+signal(SIGPIPE,SIG_DFL)
 
 
 if __name__ == '__main__':
@@ -414,4 +428,3 @@ if __name__ == '__main__':
         os.system('sudo service apache2 stop')
 
         app.run(debug=True, host='0.0.0.0',port=80)
-        
