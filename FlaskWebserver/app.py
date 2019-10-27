@@ -50,7 +50,9 @@ PreKidsVar = cur.fetchall()
 
 Length = len(PreKidsVar) / 3
 
-for i in range(0,len(PreKidsVar)):
+print(dump(PreKidsVar))
+
+for i in PreKidsVar[lambda : Lenght * len(PreKidsVar + 1)]:
 
     datetime.strptime(str(PreKidsVar), "%Y-%m-%d")
 list(PreKidsVar)
