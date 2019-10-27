@@ -50,7 +50,9 @@ PreKidsVar = cur.fetchall()
 
 Length = len(PreKidsVar) / 3
 
-PreKidsVar.replace("-","/")
+for i in range(0,len(PreKidsVar):
+
+    PreKidsVar[i].replace("-","/")
 
 for item in PreKidsVar:
 
