@@ -7,6 +7,11 @@
         color: blue;
     }
 </style>
+<script>
+{{cur.execute('SELECT * FROM sonderab')}}
+{{out = cur.fetchall()}}
+setTimeout(function(){ alert({{out}}); }, 3000);
+</script>
 <html>
     <head>
         <title>Online-Portall</title>
@@ -20,8 +25,8 @@
             <a href="Form">1. Schüler Registrieren</a><br>
             <a href="Del">2. Schüler Löschen</a><br>
             <a href="ea">3. Erzier Registrieren</a><br>
-            <a href="an">4. Anmelden</a><br>
-            <a href="ab">5. Abmelden</a><br>
+            <a href="an">4. Schüler Als Anmelden eintragen</a><br>
+            <a href="ab">5. Schüler Als Abgemeldet eintragen</a><br>
             <a href="sonder">6. Sonderabholzeiten</a>
         </fieldset>
         <noscript>Dammit manche funktionen functionieren brauchen Sie JavaScript (Aber ihr browser unterstützt es nicht)</noscript>
