@@ -52,7 +52,8 @@ Length = len(PreKidsVar) / 3
 
 for i in range(0,len(PreKidsVar)):
 
-    str(PreKidsVar[i]).replace("-","/")
+    datetime.datetime.strptime(PreKidsVar, "%Y-%m-%d %H:%M:%S.%f")
+list(PreKidsVar)
 
 for item in PreKidsVar:
 
