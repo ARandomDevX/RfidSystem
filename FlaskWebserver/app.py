@@ -50,9 +50,11 @@ PreKidsVar = cur.fetchall()
 
 Length = len(PreKidsVar) / 3
 
+PreKidsVar.replace("-","/")
+
 for item in PreKidsVar:
 
-    if datetime.strftime('%d/%m/%Y') in item and datetime.strftime('%H:%M:%S') in item:
+    if datetime.strftime('%Y/%m/%d') in item and datetime.strftime('%H:%M:%S') in item:
 
         kids = []
 
