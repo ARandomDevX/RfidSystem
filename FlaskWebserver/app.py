@@ -52,7 +52,7 @@ Length = len(PreKidsVar) / 3
 
 for i in range(0,len(PreKidsVar)):
 
-    PreKidsVar[i].replace("-","/")
+    str(PreKidsVar[i]).replace("-","/")
 
 for item in PreKidsVar:
 
