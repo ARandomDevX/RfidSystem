@@ -89,7 +89,7 @@ def maain():
     if isLogin != False:
     # Rendering the index file
 
-        return render_template('index.html')
+        return render_template('index.html',cur=cur)
     else:
 
         return render_template('noLogin.html')
