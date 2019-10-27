@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, jsonify, redirect, session
 import json
 import mysql.connector
 import Hash
-import datetime
+from datetime import datetime
 
 
 
@@ -20,6 +20,8 @@ global cur
 
 global mydb
 
+global now
+
 isLogin = None
 
 loginFile = open('lif.lginfo','w')
@@ -27,6 +29,8 @@ loginFile = open('lif.lginfo','w')
 run = 0
 
 users = {}
+
+now = datetime.now()
 
 mydb = mysql.connector.connect(
     host='localhost',
@@ -48,7 +52,7 @@ Length = len(PreKidsVar) / 3
 
 for item in PreKidsVar:
 
-    if datetime.date.today() in item and datetime.time.now() in item:
+    if datetime.date.today() in item and datetime.strftime('%H:%M:%S') in item:
 
         kids = []
 
