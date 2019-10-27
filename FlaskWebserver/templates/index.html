@@ -8,10 +8,10 @@
     }
 </style>
 <script>
+{%for item in names%}
+alert({{item}} + 'Mus nach Hause')
+{%endfor%}
 
-{{cur.execute('SELECT * FROM sonderab')}}
-
-setTimeout(function(){ alert({{cur.fetchall()}}); }, 3000);
 </script>
 <html>
     <head>

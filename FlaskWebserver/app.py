@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, jsonify, redirect, session
 import json
 import mysql.connector
 import Hash
+import datetime
 
 
 
@@ -38,6 +39,20 @@ mydb = mysql.connector.connect(
 
 
 cur = mydb.cursor()
+
+cur.execute('SELECT * FROM sonderab')
+
+PreKidsVar = cur.fetchall()
+
+Length = len(PreKidsVar) / 3
+
+for item in PreKidsVar:
+
+    if datetime.date.today() in item and datetime.time.now() in item:
+
+        kids = []
+
+        kids.append(item)
 
 
 # Creating the Flask object
@@ -76,7 +91,7 @@ def Login():
 
         isLogin = True
 
-        return render_template('index.html')
+        return render_template('index.html',time=datetime.time.now(),names=kids)
     else:
         return render_template('Fail.html')
 
@@ -89,7 +104,7 @@ def maain():
     if isLogin != False:
     # Rendering the index file
 
-        return render_template('index.html',cur=cur)
+        return render_template('index.html',time=datetime.time.now(),names=kids)
     else:
 
         return render_template('noLogin.html')
