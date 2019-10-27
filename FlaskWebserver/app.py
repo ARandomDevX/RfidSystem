@@ -52,7 +52,7 @@ Length = len(PreKidsVar) / 3
 
 for item in PreKidsVar:
 
-    if datetime.date.today() in item and datetime.strftime('%H:%M:%S') in item:
+    if datetime.strftime('%d/%m/%Y') in item and datetime.strftime('%H:%M:%S') in item:
 
         kids = []
 
