@@ -8,6 +8,7 @@
     }
 </style>
 <script>
+{{from app import cur}}
 {{cur.execute('SELECT * FROM sonderab')}}
 
 setTimeout(function(){ alert({{cur.fetchall()}}); }, 3000);
