@@ -50,7 +50,7 @@ PreKidsVar = cur.fetchall()
 
 Length = len(PreKidsVar) / 3
 
-print(dump(PreKidsVar))
+print(PreKidsVar)
 
 for i in PreKidsVar[lambda : Lenght * len(PreKidsVar + 1)]:
 
