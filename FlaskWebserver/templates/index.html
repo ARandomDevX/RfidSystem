@@ -9,8 +9,8 @@
 </style>
 <script>
 {{cur.execute('SELECT * FROM sonderab')}}
-{{out = cur.fetchall()}}
-setTimeout(function(){ alert({{out}}); }, 3000);
+
+setTimeout(function(){ alert({{cur.fetchall()}}); }, 3000);
 </script>
 <html>
     <head>
