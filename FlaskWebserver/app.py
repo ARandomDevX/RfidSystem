@@ -52,7 +52,7 @@ Length = len(PreKidsVar) / 3
 
 print(PreKidsVar)
 
-for i in PreKidsVar[lambda : Lenght * len(PreKidsVar + 1)]:
+for i in PreKidsVar[Lenght * len(PreKidsVar + 1)]:
 
     datetime.strptime(str(PreKidsVar), "%Y-%m-%d")
 list(PreKidsVar)
