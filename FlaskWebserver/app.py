@@ -48,7 +48,7 @@ cur.execute('SELECT * FROM sonderab')
 
 PreKidsVar = cur.fetchall()
 
-Length = len(PreKidsVar) / 3
+Length = len(PreKidsVar)
 
 print(PreKidsVar)
 
@@ -56,6 +56,7 @@ list(PreKidsVar)
 
 for item in PreKidsVar:
 
+    datetime.strptime(PreKidsVar,'%Y-%m-%d')
     if datetime.strftime('%Y-%m-%d') in item and datetime.strftime('%H:%M:%S') in item:
 
         kids = []
