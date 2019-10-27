@@ -5,7 +5,6 @@ import json
 import mysql.connector
 import Hash
 from datetime import datetime
-import datetime
 
 
 
@@ -53,7 +52,7 @@ Length = len(PreKidsVar) / 3
 
 for i in range(0,len(PreKidsVar)):
 
-    datetime.datetime.strptime(PreKidsVar, "%Y-%m-%d %H:%M:%S.%f")
+    datetime.strptime(PreKidsVar, "%Y-%m-%d %H:%M:%S.%f")
 list(PreKidsVar)
 
 for item in PreKidsVar:
