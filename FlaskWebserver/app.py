@@ -56,7 +56,7 @@ list(PreKidsVar)
 
 for item in PreKidsVar:
 
-    if datetime.strftime('%Y/%m/%d') in item and datetime.strftime('%H:%M:%S') in item:
+    if datetime.strftime('%Y-%m-%d') in item and datetime.strftime('%H:%M:%S') in item:
 
         kids = []
 
