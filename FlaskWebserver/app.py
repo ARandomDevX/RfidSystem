@@ -421,7 +421,9 @@ def Render():
 @app.route('/sonder',methods=['POST'])
 def Working():
 
-    time = request.form['time']
+    min = request.form['min']
+    stunden = request.form['ho']
+    sekun = request.form['sek']
     id = request.form['id']
     date = request.form['date']
 
