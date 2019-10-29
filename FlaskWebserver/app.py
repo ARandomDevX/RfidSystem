@@ -106,7 +106,7 @@ def maain():
     if isLogin != False:
     # Rendering the index file
 
-        return render_template('index.html',time=current_time,names=kids)
+        return render_template('index.html',names=kids)
     else:
 
         return render_template('noLogin.html')
@@ -420,7 +420,7 @@ def Working():
     id = request.form['id']
     date = request.form['date']
 
-    time = min + '/' + stunden + '/' sekun
+    time = (min + '/' + stunden + '/' sekun)
 
 
     cur.execute("INSERT INTO sonderab VALUES('{}','{}','{}')".format(id,time,date))
