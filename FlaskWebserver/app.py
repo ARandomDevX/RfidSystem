@@ -93,7 +93,7 @@ def Login():
 
         isLogin = True
 
-        return render_template('index.html',time=datetime.time.now(),names=kids)
+        return render_template('index.html',time=current_time,names=kids)
     else:
         return render_template('Fail.html')
 
