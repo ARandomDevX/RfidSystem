@@ -54,15 +54,8 @@ print(PreKidsVar)
 
 list(PreKidsVar)
 
-for item in PreKidsVar:
-
-    datetime.strptime(str(PreKidsVar),'%Y-%m-%d')
-    if datetime.strftime('%Y-%m-%d') in item and datetime.strftime('%H:%M:%S') in item:
-
-        kids = []
-
-        kids.append(item)
-
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
 
 # Creating the Flask object
 
@@ -113,7 +106,7 @@ def maain():
     if isLogin != False:
     # Rendering the index file
 
-        return render_template('index.html',time=datetime.time.now(),names=kids)
+        return render_template('index.html',time=current_time,names=kids)
     else:
 
         return render_template('noLogin.html')
@@ -426,6 +419,9 @@ def Working():
     sekun = request.form['sek']
     id = request.form['id']
     date = request.form['date']
+
+    time = min + '/' + stunden + '/' sekun
+
 
     cur.execute("INSERT INTO sonderab VALUES('{}','{}','{}')".format(id,time,date))
     mydb.commit()
