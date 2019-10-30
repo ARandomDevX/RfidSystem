@@ -52,7 +52,13 @@ Length = len(PreKidsVar)
 
 print(PreKidsVar)
 
-list(PreKidsVar)
+QueedNames = {}
+
+for length in Length:
+
+
+
+
 
 now = datetime.now()
 current_time = now.strftime("%H:%M:%S")
@@ -60,6 +66,7 @@ current_time = now.strftime("%H:%M:%S")
 # Creating the Flask object
 
 app = Flask(__name__)
+
 
 # Listening For connections on the Main directory
 
