@@ -72,6 +72,8 @@ list(PreKidsVar)
 now = datetime.now()
 current_time = now.strftime("%H:%M:%S")
 
+now2 = datetime.now()
+
 # Creating the Flask object
 
 app = Flask(__name__)
@@ -449,13 +451,13 @@ def Graphics():
 
     if isLogin == True:
 
-        cur.execute("SELECT * FROM heim")
+        cur.execute('SELECT id FROM sonderab where date = {}'.format(now2.strftime("%Y-%m-%d")))
 
         Headings = ["Name","Zeit"]
 
         HomeTime = cur.fetchall()
 
-        IdList = HomeTime[i for i in HomeTime]
+        IdList = HomeTime[i[0] for i in HomeTime]
 
         return render_template("schuleruber.html",columns=Heading,item_list=IdList)
     else:
