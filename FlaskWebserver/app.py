@@ -48,6 +48,12 @@ cur.execute('SELECT * FROM sonderab')
 
 PreKidsVar = cur.fetchall()
 
+Time = {i[0]:i[1] for i in PreKidsVar}
+
+Date = {i[0]:i[2] for i in PreKidsVar}
+
+print(Date + "and" + Time)
+
 Length = len(PreKidsVar)
 
 print(PreKidsVar)
