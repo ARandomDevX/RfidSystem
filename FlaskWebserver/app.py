@@ -449,9 +449,21 @@ def Graphics():
 
     if isLogin == True:
 
-        return render_template("schuleruber.html")
+        cur.execute("SELECT * FROM heim")
+
+        Headings = ["Name","Zeit"]
+
+        HomeTime = cur.fetchall()
+
+        IdList = HomeTime[i for i in HomeTime]
+
+        return render_template("schuleruber.html",columns=Heading,item_list=IdList)
     else:
         return render_template("noLogin.html")
+
+
+
+
 #End/Startup options
 
 import atexit

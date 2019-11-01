@@ -33,6 +33,18 @@
     <p></p><br>
     <p><b><i>Heimgehzeiten</i></b></p>
     <p></p><br>
-    
+    <table>
+      <thead>
+        {% for column in colmuns %}
+            <th>{{ column }}</th>
+        {% endfor %}
+      </thead>
+      <tbody>
+        {% for item in item_list %}
+            <tr>
+              <td>{{ item }}</td>
+            </tr>
+      </tbody>
+    </table>
   </body>
 </html>
