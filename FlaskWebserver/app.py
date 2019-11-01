@@ -457,7 +457,7 @@ def Graphics():
 
         HomeTime = cur.fetchall()
 
-        IdList = HomeTime[i[0] for i in HomeTime]
+        IdList = {i[0]:i[1] for i in HomeTime}
 
         return render_template("schuleruber.html",columns=Heading,item_list=IdList)
     else:
