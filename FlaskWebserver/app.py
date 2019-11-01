@@ -54,6 +54,8 @@ Date = {i[0]:i[2] for i in PreKidsVar}
 
 print(Date + "and" + Time)
 
+kids = None
+
 Length = len(PreKidsVar)
 
 print(PreKidsVar)
