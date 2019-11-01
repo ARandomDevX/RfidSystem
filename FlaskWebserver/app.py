@@ -197,7 +197,7 @@ def delete(name):
 
     return jsonify({'...':'...'})
 
-@app.route("/closeServer",methods=['POST'])
+@app.route("/closeServer",methods=['GET'])
 def clsServer():
 
     import os
