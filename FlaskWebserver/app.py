@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, jsonify, redirect, session
 import json
 import mysql.connector
 import Hash
+from datetime import datetime
 
 
 
@@ -19,6 +20,8 @@ global cur
 
 global mydb
 
+global now
+
 isLogin = None
 
 loginFile = open('lif.lginfo','w')
@@ -26,6 +29,8 @@ loginFile = open('lif.lginfo','w')
 run = 0
 
 users = {}
+
+now = datetime.now()
 
 mydb = mysql.connector.connect(
     host='localhost',
@@ -39,6 +44,18 @@ mydb = mysql.connector.connect(
 
 cur = mydb.cursor()
 
+cur.execute('SELECT * FROM sonderab')
+
+PreKidsVar = cur.fetchall()
+
+Length = len(PreKidsVar)
+
+print(PreKidsVar)
+
+list(PreKidsVar)
+
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
 
 # Creating the Flask object
 
@@ -49,7 +66,7 @@ app = Flask(__name__)
 @app.route("/",methods=['GET'])
 
 def main():
-    
+
     # Rendering the Login
 
     return render_template('Login.html')
@@ -76,20 +93,20 @@ def Login():
 
         isLogin = True
 
-        return render_template('index.html')
+        return render_template('index.html',time=current_time,names=kids)
     else:
         return render_template('Fail.html')
 
 
-    
+
 @app.route("/index",methods=['GET','POST'])
 
 def maain():
-    
+
     if isLogin != False:
     # Rendering the index file
 
-        return render_template('index.html')
+        return render_template('index.html',names=kids)
     else:
 
         return render_template('noLogin.html')
@@ -98,7 +115,7 @@ def maain():
 
 @app.route("/procces",methods=['POST'])
 def sendJson():
-    
+
     # Letting the Code to recive the JSON code
 
     data = request.get_json()
@@ -127,7 +144,7 @@ def Anmelden():
     Misc, Location = status.split("=")
 
     print('Rfid Code : ' + Number)
-    
+
     print('Current Location : ' + Location)
 
     return data
@@ -218,7 +235,7 @@ def notfall():
     print('Identifier = ' + Use)
 
     return jsonify({'test':'123'})
-        
+
 # Getting data from raspberrypis
 
 @app.route('/Data',methods=['POST'])
@@ -264,16 +281,18 @@ def GetValue():
         Eltern2 = request.form['Erw2']
 
         print(name, lname, id, mon, die)
+        # Logic
+
         cur.execute("INSERT INTO schuler VALUES('{}','{}','{}','{}','{}')".format(name, lname, id, Eltern1, Eltern2))
-        cur.execute("INSERT INTO heim VALUES('{}','{}','{}','{}','{}')".format(mon,die,mit,don,fri))
+        cur.execute("INSERT INTO heim VALUES('{}','{}',{}','{}','{}','{}')".format(id,mon,die,mit,don,fri))
         mydb.commit()
         return render_template('procces_done.html')
     else:
 
         return render_template('noLogin.html')
-    
 
-    
+
+
 @app.route('/Del')
 def Delete():
     if isLogin == True:
@@ -314,7 +333,7 @@ def eas():
 
             curid = cur.fetchall()
 
-            
+
 
             lenid = len(curid)
 
@@ -322,7 +341,7 @@ def eas():
 
             print(index)
 
-            
+
             cur.execute("INSERT INTO details(id,email,password,name,lname) VALUES('{}','{}','{}','{}','{}')".format(index,email,password,name,lname))
 
             cur.execute("INSERT INTO users(id,uname,password) VALUES('{}','{}','{}')".format(index,uname,password))
@@ -330,8 +349,8 @@ def eas():
             mydb.commit()
 
 
-            
-            
+
+
 
             return render_template('Done2.html')
         else:
@@ -341,7 +360,7 @@ def eas():
 def an():
 
 
-     
+
     return render_template('noLogin.html')
 @app.route("/an", methods=['POST'])
 def ani():
@@ -372,6 +391,42 @@ def ania():
     else:
         return render_template('noLogin.html')
 
+@app.route('/Sst')
+def RunAction():
+
+    if isLogin == True:
+
+        return render_template('sst.html')
+@app.route('/Sst')
+def Actions():
+
+    Status = request.form['Status']
+    Id = request.form['id']
+
+@app.route('/sonder')
+def Render():
+
+    if isLogin == True:
+
+        return render_template('Sonderabholzeiten.html')
+    else:
+        return render_template('noLogin.html')
+@app.route('/sonder',methods=['POST'])
+def Working():
+
+    min = request.form['min']
+    stunden = request.form['ho']
+    sekun = request.form['sek']
+    id = request.form['id']
+    date = request.form['date']
+
+    time = min + '/' + stunden + '/' + sekun
+
+
+    cur.execute("INSERT INTO sonderab VALUES('{}','{}','{}')".format(id,time,date))
+    mydb.commit()
+
+    return render_template("ReturnSonder.html")
 #End/Startup options
 
 import atexit
@@ -383,9 +438,8 @@ def clqs():
 
 atexit.register(clqs)
 
-
 from signal import signal, SIGPIPE, SIG_DFL
-signal(SIGPIPE,SIG_DFL) 
+signal(SIGPIPE,SIG_DFL)
 
 
 if __name__ == '__main__':
@@ -398,4 +452,3 @@ if __name__ == '__main__':
         os.system('sudo service apache2 stop')
 
         app.run(debug=True, host='0.0.0.0',port=80)
-        
