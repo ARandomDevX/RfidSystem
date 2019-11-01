@@ -52,7 +52,7 @@ Time = {i[0]:i[1] for i in PreKidsVar}
 
 Date = {i[0]:i[2] for i in PreKidsVar}
 
-print(Date + "and" + Time)
+print(str(Date) + "and" + str(Time))
 
 kids = None
 
