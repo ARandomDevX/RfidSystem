@@ -41,7 +41,6 @@ mydb = mysql.connector.connect(
 )
 
 
-
 cur = mydb.cursor()
 
 cur.execute('SELECT * FROM sonderab')
@@ -459,8 +458,11 @@ import atexit
 
 def clqs():
 
+    cur.execute("TRUNCATE TABLE sonderab")
     mydb.commit()
     mydb.close()
+
+    return alert("Sever ist aus")
 
 atexit.register(clqs)
 
