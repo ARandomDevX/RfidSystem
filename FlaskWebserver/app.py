@@ -50,13 +50,19 @@ PreKidsVar = cur.fetchall()
 
 Time = {i[0]:i[1] for i in PreKidsVar}
 
-str(Time.keys()).join("/")
+Time = str(Time.keys()).join("/")
 
 Date = {i[0]:i[2] for i in PreKidsVar}
 
 print(str(Date) + "and" + str(Time))
 
 kids = []
+
+for item in Time:
+
+    print(item)
+
+
 
 Length = len(PreKidsVar)
 
@@ -437,6 +443,16 @@ def Working():
     mydb.commit()
 
     return render_template("ReturnSonder.html")
+
+
+@app.route("/schuleruber")
+def Graphics():
+
+    if isLogin == True:
+
+        return render_template("schuleruber.html")
+    else:
+        return render_template("noLogin.html")
 #End/Startup options
 
 import atexit
