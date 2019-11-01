@@ -50,6 +50,8 @@ PreKidsVar = cur.fetchall()
 
 Time = {i[0]:i[1] for i in PreKidsVar}
 
+Time.keys().join("/")
+
 Date = {i[0]:i[2] for i in PreKidsVar}
 
 print(str(Date) + "and" + str(Time))
@@ -428,7 +430,7 @@ def Working():
     id = request.form['id']
     date = request.form['date']
 
-    time = stunden + '/' + min + '/' + sekun
+    time = stunden + ':' + min + ':' + sekun
 
 
     cur.execute("INSERT INTO sonderab VALUES('{}','{}','{}')".format(id,time,date))
