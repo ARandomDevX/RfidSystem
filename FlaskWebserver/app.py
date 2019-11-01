@@ -50,7 +50,7 @@ PreKidsVar = cur.fetchall()
 
 Time = {i[0]:i[1] for i in PreKidsVar}
 
-Time.keys().join("/")
+str(Time.keys()).join("/")
 
 Date = {i[0]:i[2] for i in PreKidsVar}
 
