@@ -428,7 +428,7 @@ def Working():
     id = request.form['id']
     date = request.form['date']
 
-    time = min + '/' + stunden + '/' + sekun
+    time = stunden + '/' + min + '/' + sekun
 
 
     cur.execute("INSERT INTO sonderab VALUES('{}','{}','{}')".format(id,time,date))
