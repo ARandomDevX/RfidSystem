@@ -45,11 +45,7 @@ cur = mydb.cursor()
 
 cur.execute('SELECT id FROM sonderab WHERE date = {} AND zeit={}'.format(now2.strftime("%Y-%m-%d"),current_time))
 
-Length = len(PreKidsVar)
-
-print(PreKidsVar)
-
-QueedNames = {}
+PreKidsVar = cur.fetchall()
 
 now = datetime.now()
 
@@ -73,6 +69,10 @@ def main():
     return render_template('Login.html')
 @app.route("/",methods=['POST'])
 def Login():
+
+    cur.execute('SELECT id FROM sonderab WHERE date = {} AND zeit={}'.format(now2.strftime("%Y-%m-%d"),current_time))
+
+    PreKidsVar = cur.fetchall()
 
     uname = request.form['uname']
     print(uname)
@@ -107,9 +107,11 @@ def maain():
     if isLogin != False:
     # Rendering the index file
 
-        kids = PreKidsVar
+        cur.execute('SELECT id FROM sonderab WHERE date = {} AND zeit={}'.format(now2.strftime("%Y-%m-%d"),current_time))
 
-        return render_template('index.html',names=kids)
+        PreKidsVar = cur.fetchall()
+
+        return render_template('index.html',names=PreKidsVar)
     else:
 
         return render_template('noLogin.html')
@@ -435,6 +437,8 @@ def Working():
 @app.route("/schuleruber")
 def Graphics():
 
+
+
     if isLogin == True:
 
         cur.execute("SELECT id FROM sonderab WHERE date = '{}' AND zeit = '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
@@ -451,9 +455,11 @@ def Graphics():
 
         Outputofcur = cur.fetchall()
 
+        item_list = [i[0,1] for i in Outputofcur]
+
         print(Outputofcur)
 
-        return render_template("schuleruber.html",columns=Heading,item_list=IdList)s
+        return render_template("schuleruber.html",columns=Heading,item_list=Items)
     else:
         return render_template("noLogin.html")
 
