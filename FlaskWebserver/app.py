@@ -107,7 +107,7 @@ def maain():
     if isLogin != False:
     # Rendering the index file
 
-    kids = PreKidsVar
+        kids = PreKidsVar
 
         return render_template('index.html',names=kids)
     else:
