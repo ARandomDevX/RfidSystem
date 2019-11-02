@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<style>
+    table,
+    td {
+
+        padding: 15px;
+
+        border: 1px solid black;
+
+        border-collapse: collapse;
+
+    }
+
+    th {
+        color: black;
+
+        font: normal;
+
+        border: 1px solid black;
+
+        text-align: center;
+    }
+</style>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Schülerübersicht</title>
+  </head>
+  <body>
+    <h1>Schülerübersicht</h1>
+    <p></p><br>
+    <p></p><br>
+    <p><b><i>Heimgehzeiten</i></b></p>
+    <p></p><br>
+    <table>
+      <thead>
+        {% for column in colmuns %}
+            <th>{{ column }}</th>
+        {% endfor %}
+      </thead>
+      <tbody>
+        {% for item in item_list %}
+            <tr>
+              <td>{{ item }}</td>
+            </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

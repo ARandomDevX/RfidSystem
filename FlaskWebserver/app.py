@@ -41,12 +41,27 @@ mydb = mysql.connector.connect(
 )
 
 
-
 cur = mydb.cursor()
 
 cur.execute('SELECT * FROM sonderab')
 
 PreKidsVar = cur.fetchall()
+
+Time = {i[0]:i[1] for i in PreKidsVar}
+
+Time = str(Time.keys()).join("/")
+
+Date = {i[0]:i[2] for i in PreKidsVar}
+
+print(str(Date) + "and" + str(Time))
+
+kids = []
+
+for item in Time:
+
+    print(item)
+
+
 
 Length = len(PreKidsVar)
 
@@ -62,6 +77,8 @@ for length in Length:
 
 now = datetime.now()
 current_time = now.strftime("%H:%M:%S")
+
+now2 = datetime.now()
 
 # Creating the Flask object
 
@@ -221,7 +238,7 @@ def delete(name):
 
     return jsonify({'...':'...'})
 
-@app.route("/closeServer",methods=['POST'])
+@app.route("/closeServer",methods=['GET'])
 def clsServer():
 
     import os
@@ -427,21 +444,46 @@ def Working():
     id = request.form['id']
     date = request.form['date']
 
-    time = min + '/' + stunden + '/' + sekun
+    time = stunden + ':' + min + ':' + sekun
 
 
     cur.execute("INSERT INTO sonderab VALUES('{}','{}','{}')".format(id,time,date))
     mydb.commit()
 
     return render_template("ReturnSonder.html")
+
+
+@app.route("/schuleruber")
+def Graphics():
+
+    if isLogin == True:
+
+        cur.execute('SELECT id FROM sonderab where date = {}'.format(now2.strftime("%Y-%m-%d")))
+
+        Headings = ["Name","Zeit"]
+
+        HomeTime = cur.fetchall()
+
+        IdList = {i[0]:i[1] for i in HomeTime}
+
+        return render_template("schuleruber.html",columns=Heading,item_list=IdList)
+    else:
+        return render_template("noLogin.html")
+
+
+
+
 #End/Startup options
 
 import atexit
 
 def clqs():
 
+    cur.execute("TRUNCATE TABLE sonderab")
     mydb.commit()
     mydb.close()
+
+    return alert("Sever ist aus")
 
 atexit.register(clqs)
 
