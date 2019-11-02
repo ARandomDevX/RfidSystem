@@ -22,6 +22,8 @@ global mydb
 
 global now
 
+global now2
+
 isLogin = None
 
 loginFile = open('lif.lginfo','w')
