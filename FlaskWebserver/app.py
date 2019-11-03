@@ -72,6 +72,8 @@ def main():
 @app.route("/",methods=['POST'])
 def Login():
 
+    now2 = datetime.now()
+
     cur.execute('SELECT id FROM sonderab WHERE date = {} AND zeit={}'.format(now2.strftime("%Y-%m-%d"),current_time))
 
     PreKidsVar = cur.fetchall()
@@ -108,6 +110,8 @@ def maain():
 
     if isLogin != False:
     # Rendering the index file
+
+        now2 = datetime.now()
 
         cur.execute('SELECT id FROM sonderab WHERE date = {} AND zeit={}'.format(now2.strftime("%Y-%m-%d"),current_time))
 
@@ -443,6 +447,8 @@ def Graphics():
 
     if isLogin == True:
 
+        now2 = datetime.now()
+
         cur.execute("SELECT id FROM sonderab WHERE date = '{}' AND zeit = '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
 
         Headings = ["Name","Zeit"]
@@ -451,7 +457,7 @@ def Graphics():
 
         now3 = datetime.now()
 
-        Current_Weekday = now.strftime("%A")
+        Current_Weekday = now2.strftime("%A")
 
         cur.execute("SELECT {} FROM heim".format(Current_Weekday))
 
@@ -493,6 +499,6 @@ if __name__ == '__main__':
     except OSError:
         import os
 
-        os.system('sudo service apache2 stop')
+        os.system('sudo service nginx stop')
 
         app.run(debug=True, host='0.0.0.0',port=80)
