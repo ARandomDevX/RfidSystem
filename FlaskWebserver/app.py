@@ -45,7 +45,7 @@ mydb = mysql.connector.connect(
 
 cur = mydb.cursor()
 
-now2 = datetime.time()
+now2 = datetime.now()
 
 cur.execute('SELECT id FROM sonderab WHERE date = {} AND zeit={}'.format(now2.strftime("%Y-%m-%d"),current_time))
 
