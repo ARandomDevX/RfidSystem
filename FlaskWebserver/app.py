@@ -45,6 +45,8 @@ mydb = mysql.connector.connect(
 
 cur = mydb.cursor()
 
+now2 = datetime.time()
+
 cur.execute('SELECT id FROM sonderab WHERE date = {} AND zeit={}'.format(now2.strftime("%Y-%m-%d"),current_time))
 
 PreKidsVar = cur.fetchall()
