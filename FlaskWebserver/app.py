@@ -47,6 +47,8 @@ cur = mydb.cursor()
 
 now2 = datetime.now()
 
+print(now2.strftime("%H:%M:%S"))
+
 cur.execute('SELECT id FROM sonderab WHERE date = {} AND zeit={}'.format(now2.strftime("%Y-%m-%d"),now2.strftime("%H:%M:%S")))
 
 PreKidsVar = cur.fetchall()
