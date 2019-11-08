@@ -80,7 +80,7 @@ def Login():
 
     now2 = datetime.now()
 
-    cur.execute('SELECT id FROM sonderab WHERE date = {} AND zeit={}'.format(now2.strftime("%Y-%m-%d"),current_time))
+    cur.execute("SELECT id FROM sonderab WHERE date = '{}' AND zeit = '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
 
     PreKidsVar = cur.fetchall()
 
@@ -119,7 +119,7 @@ def maain():
 
         now2 = datetime.now()
 
-        cur.execute('SELECT id FROM sonderab WHERE date = {} AND zeit={}'.format(now2.strftime("%Y-%m-%d"),current_time))
+        cur.execute("SELECT id FROM sonderab WHERE date = '{}' AND zeit= '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
 
         PreKidsVar = cur.fetchall()
 
