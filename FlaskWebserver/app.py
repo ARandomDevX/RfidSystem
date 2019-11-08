@@ -306,7 +306,7 @@ def GetValue():
         # Logic
 
         cur.execute("INSERT INTO schuler VALUES('{}','{}','{}','{}','{}')".format(name, lname, id, Eltern1, Eltern2))
-        cur.execute("INSERT INTO heim VALUES('{}','{}',{}','{}','{}','{}')".format(id,mon,die,mit,don,fri))
+        cur.execute("INSERT INTO heim VALUES('{}','{}','{}','{}','{}','{}')".format(id,mon,die,mit,don,fri))
         mydb.commit()
         return render_template('procces_done.html')
     else:
