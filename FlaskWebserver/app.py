@@ -49,7 +49,9 @@ now2 = datetime.now()
 
 print(now2.strftime("%H:%M:%S"))
 
-cur.execute('SELECT id FROM sonderab WHERE date = {} AND zeit={}'.format(now2.strftime("%Y-%m-%d"),now2.strftime("%H:%M:%S")))
+
+
+cur.execute('SELECT id FROM sonderab WHERE (date = {} AND zeit={})'.format(now2.strftime("%Y-%m-%d"),now2.strftime("%H:%M:%S")))
 
 PreKidsVar = cur.fetchall()
 
@@ -233,6 +235,11 @@ def delete(name):
 def clsServer():
 
     import os
+
+    os.system('sudo shutdown now')
+
+    return alert("Sever ist aus")
+
 
     os.system('sudo shutdown now')
 
