@@ -492,7 +492,7 @@ def Graphics():
         if item_list != None:
             return render_template("schuleruber.html",columns=Headings,item_list=item_list)
         else:
-            return render_template("schuleruber.html",columns=Headings,item_list=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
+            return render_template("schulerubersicht.html",columns=Headings,item_list=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
     else:
         return render_template("noLogin.html")
 
