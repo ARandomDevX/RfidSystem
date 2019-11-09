@@ -470,7 +470,12 @@ def Graphics():
 
         Current_Weekday = now2.strftime("%A")
 
-        cur.execute("SELECT {} FROM heim".format(Current_Weekday))
+        if Current_Weekday in ('Saturday','Sunday'):
+
+            pass
+        else:
+            
+            cur.execute("SELECT {} FROM heim".format(Current_Weekday))
 
         Outputofcur = cur.fetchall()
 
