@@ -460,6 +460,8 @@ def Graphics():
 
         now2 = datetime.now()
 
+        item_list = None
+
         cur.execute("SELECT id FROM sonderab WHERE date = '{}' AND zeit = '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
 
         Headings = ["Name","Zeit"]
@@ -474,16 +476,23 @@ def Graphics():
 
             pass
         else:
-            
+
             cur.execute("SELECT {} FROM heim".format(Current_Weekday))
 
-        Outputofcur = cur.fetchall()
+            Outputofcur = cur.fetchall()
 
-        item_list = [i[0,1] for i in Outputofcur]
+            item_list = [i[0,1] for i in Outputofcur]
 
-        print(Outputofcur)
+            print(Outputofcur)
 
-        return render_template("schuleruber.html",columns=Heading,item_list=Items)
+
+
+
+
+        if item_list != None:
+            return render_template("schuleruber.html",columns=Headings,item_list=item_list)
+        else:
+            return render_template("schuleruber.html",columns=Headings,item_list=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
     else:
         return render_template("noLogin.html")
 
