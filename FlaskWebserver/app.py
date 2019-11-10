@@ -142,8 +142,16 @@ def sendJson():
 
     return jsonify({'value':'succes'})
 
-# Listening For connections on the /getNames directory
+@app.route('/rpisst')
+def ListenAndFunction():
 
+    Data = request.json()
+
+    Id = Data.keys()
+
+    Ort = Data.values()
+
+    cur.execute("INSERT INTO ")
 
 @app.route("/getNames",methods=['GET'])
 def GetNames():
@@ -462,6 +470,8 @@ def Graphics():
 
         item_list = None
 
+        Outputofcur = None
+
         cur.execute("SELECT id FROM sonderab WHERE date = '{}' AND zeit = '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
 
         Headings = ["Name","Zeit"]
@@ -481,16 +491,14 @@ def Graphics():
 
             Outputofcur = cur.fetchall()
 
-            item_list = [i[0,1] for i in Outputofcur]
-
             print(Outputofcur)
 
 
 
 
 
-        if item_list != None:
-            return render_template("schuleruber.html",columns=Headings,item_list=item_list)
+        if Outputofcur != None:
+            return render_template("schuleruber.html",columns=Headings,Name=[i[0] for i in Outputofcur],Zeit=[i[1] for i in Outputofcur])
         else:
             return render_template("schulerubersicht.html",columns=Headings,item_list=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
     else:
