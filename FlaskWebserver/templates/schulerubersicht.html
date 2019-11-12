@@ -33,27 +33,22 @@
     <p></p><br>
     <p><b><i>Heimgehzeiten</i></b></p>
     <p></p><br>
-    <table border="1">
-      <tr>
-        {% for column in colmuns %}
-            <th>{{ column }}</th>
-        {% endfor %}
-      </tr>
-      <tr>
-        {% for item in Name %}
+    <table>
+     <thead>
+      {%- for column in columns %}
+         <th>{{ column }}</th>
+      {%- endfor %}
+     </thead>
 
-            <td>{{ item }}</td>
-
-        {% endfor %}
-      </tr>
-      >
-      <tr>
-        {% for item in Zeit %}
-
-            <td>{{ item }}</td>
-
-        {% endfor %}
-      </tr>
-    </table>
+     <tbody>
+     {%- for row in items %}
+        <tr>
+        {%- for column in columns %}
+           <td>{{ row|attr(column) }}</td>
+        {%- endfor %}
+        </tr>
+     {%- endfor %}
+     </tbody>
+     </table>
   </body>
 </html>

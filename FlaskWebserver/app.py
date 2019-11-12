@@ -151,7 +151,7 @@ def ListenAndFunction():
 
     Ort = Data.values()
 
-    cur.execute("INSERT INTO ")
+    cur.execute("INSERT INTO ort VALUES({},{})".format(Id,Ort))
 
 @app.route("/getNames",methods=['GET'])
 def GetNames():
@@ -498,9 +498,9 @@ def Graphics():
 
 
         if Outputofcur != None:
-            return render_template("schuleruber.html",columns=Headings,Name=[i[0] for i in Outputofcur],Zeit=[i[1] for i in Outputofcur])
+            return render_template("schuleruber.html",columns=Headings,items=[[i[0] for i in Outputofcur],[i[1] for i in Outputofcur]])
         else:
-            return render_template("schulerubersicht.html",columns=Headings,item_list=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
+            return render_template("schulerubersicht.html",columns=Headings,items=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
     else:
         return render_template("noLogin.html")
 
