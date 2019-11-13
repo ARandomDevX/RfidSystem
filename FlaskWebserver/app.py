@@ -480,6 +480,8 @@ def Graphics():
 
         now3 = datetime.now()
 
+        cur.execute("SELECT * FROM heim where tag='{}'")
+
         Current_Weekday = now2.strftime("%A")
 
         if Current_Weekday in ('Saturday','Sunday'):
@@ -497,8 +499,8 @@ def Graphics():
 
 
 
-        if Outputofcur != [()]:
-            return render_template("schuleruber.html",columns=Headings,items=[[i[0] for i in Outputofcur],[i[1] for i in Outputofcur]])
+        if len(Outputofcur) != 0:
+            return render_template("schuleruber.html",columns=Headings,items=[[i[0] for i in Outputofcur],[i[-1] for i in Outputofcur]])
         else:
             return render_template("schulerubersicht.html",columns=Headings,items=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
     else:
@@ -534,4 +536,4 @@ if __name__ == '__main__':
 
         os.system('sudo service nginx stop')
 
-        app.run(debug=True, host='0.0.0.0',port=80)
+        app.run(debug=True, host='www.Verwaltungsnetz.org',port=80)
