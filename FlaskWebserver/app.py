@@ -530,7 +530,7 @@ signal(SIGPIPE,SIG_DFL)
 if __name__ == '__main__':
 
     try:
-        app.run(debug=True,host='0.0.0.0',port=80)
+        app.run(debug=True,host='www.Verwaltungsnetz.org',port=80)
     except OSError:
         import os
 
