@@ -480,7 +480,7 @@ def Graphics():
 
         now3 = datetime.now()
 
-        cur.execute("SELECT * FROM heim where tag='{}'")
+        cur.execute("SELECT id FROM heim WHERE {}='{}'".format(now2.strftime('%A'),now2.strftime('%A')))
 
         Current_Weekday = now2.strftime("%A")
 
@@ -499,7 +499,7 @@ def Graphics():
 
 
 
-        if len(Outputofcur) != 0:
+        if int(len(Outputofcur)) != 0:
             return render_template("schuleruber.html",columns=Headings,items=[[i[0] for i in Outputofcur],[i[-1] for i in Outputofcur]])
         else:
             return render_template("schulerubersicht.html",columns=Headings,items=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
