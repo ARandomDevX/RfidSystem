@@ -470,7 +470,7 @@ def Graphics():
 
         item_list = None
 
-        Outputofcur = None
+        Outputofcur = [()]
 
         cur.execute("SELECT id FROM sonderab WHERE date = '{}' AND zeit = '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
 
@@ -488,8 +488,6 @@ def Graphics():
 
             pass
         else:
-
-            cur.execute("SELECT {} FROM heim".format(Current_Weekday))
 
             Outputofcur = cur.fetchall()
 
