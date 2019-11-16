@@ -529,7 +529,7 @@ def SendEmail():
     message = """\
 Subject: Passwort Wiederherstellen
 
-Hallo, Ihr passwort wiederherstellungscode lautet """ + str(Use)
+Hallo, Ihr passwort wiederherstellungscode lautet : """
 
 
 
@@ -544,7 +544,7 @@ Hallo, Ihr passwort wiederherstellungscode lautet """ + str(Use)
         server.ehlo()  # Can be omitted
         server.login(sender_email, password)
 
-        server.sendmail(sender_email, email, message)
+        server.sendmail(sender_email, email, message + Use)
 
     except Exception as e:
         # Print any error messages to stdout
