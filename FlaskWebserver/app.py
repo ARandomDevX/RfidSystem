@@ -244,10 +244,7 @@ def clsServer():
 
     import os
 
-    os.system('sudo shutdown now')
-
-    return alert("Sever ist aus")
-
+    os.system('sudo git pull')
 
     os.system('sudo shutdown now')
 
@@ -565,7 +562,7 @@ def clqs():
     mydb.commit()
     mydb.close()
 
-    return alert("Sever ist aus")
+    exit()
 
 atexit.register(clqs)
 
