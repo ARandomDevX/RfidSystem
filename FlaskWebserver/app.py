@@ -555,8 +555,10 @@ Hallo, Ihr passwort wiederherstellungscode lautet : """
         print(e)
     finally:
         server.quit()
-        return redirect("/reset2/" + email + "/")
-@app.route("/reset2")
+        return redirect("/reset2/" + email + "/" + Use)
+
+
+@app.route("/reset2/<mail>/<code>")
 def Graph():
 
     return render_template("Passwordreste2.html")
@@ -580,7 +582,8 @@ def Core(mail,code):
 
         OnConflict()
 
-@app.route("/reset3")
+
+@app.route("/reset3/<code>/<email>")
 def Screend():
 
     return render_template("NewPassword.html")
