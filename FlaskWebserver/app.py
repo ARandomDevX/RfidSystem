@@ -561,7 +561,7 @@ Hallo, Ihr passwort wiederherstellungscode lautet : """
 @app.route("/reset2/<mail>/<code>")
 def Graph(mail,code):
 
-    return render_template("Passwordreste2.html")
+    return render_template("Passowerdreste2.html")
 @app.route("/reset2/<mail>/<code>",methods=["POST"])
 def Core(mail,code):
 
