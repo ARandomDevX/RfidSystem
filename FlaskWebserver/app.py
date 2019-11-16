@@ -565,10 +565,6 @@ def Graph(mail,code):
 @app.route("/reset2/<mail>/<code>",methods=["POST"])
 def Core(mail,code):
 
-    def OnConflict():
-
-        return render_template("_EmailNotInTb.html")
-    
     try:
         code = request.form["code"]
     
@@ -578,10 +574,9 @@ def Core(mail,code):
 
         return redirect("/reset3/" + code + "/" + mail)
     
-    except:
+    except Exception as e:
 
-        OnConflict()
-
+        print(e)
 
 @app.route("/reset3/<code>/<email>")
 def Screend(code,email):
