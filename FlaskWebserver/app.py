@@ -104,7 +104,7 @@ def Login():
 
         isLogin = True
 
-        return render_template('index.html',names=PreKidsVar,Names=["Hallo," + None])
+        return render_template('index.html',names=PreKidsVar,Names=["Hallo," + "None"])
     else:
         return render_template('Fail.html')
 
