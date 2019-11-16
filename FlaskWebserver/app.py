@@ -529,6 +529,8 @@ def SendEmail():
     message = """\
 Subject: Passwort Wiederherstellen
 
+Bitte Keine Antwort Senden
+
 Hallo, Ihr passwort wiederherstellungscode lautet : """
 
 
@@ -546,12 +548,50 @@ Hallo, Ihr passwort wiederherstellungscode lautet : """
 
         server.sendmail(sender_email, email, message + Use)
 
+        cur.execute("INSERT INTO passwordreset VALUES({},{})".format(email,Use))
+
     except Exception as e:
         # Print any error messages to stdout
         print(e)
     finally:
         server.quit()
-        return render_template("Login.html")
+        return redirect("/reset2/" + email + "/")
+@app.route("/reset2")
+def Graph():
+
+    return render_template("Passwordreste2.html")
+@app.route("/reset2/<mail>/<code>",methods=["POST"])
+def Core(mail,code):
+
+    def OnConflict():
+
+        return render_template("_EmailNotInTb.html")
+    
+    try:
+        code = request.form["code"]
+    
+        cur.execute("SELECT email from details WHERE email = {}".format(mail))
+
+        cur.execute("SELECT code FROM passwordreset WHERE code = {}".format(code))
+
+        return redirect("/reset3/" + code + "/" + mail)
+    
+    except:
+
+        OnConflict()
+
+@app.route("/reset3")
+def Screend():
+
+    return render_template("NewPassword.html")
+@app.route("/reset3/<code>/<email>",methods = ["POST"])
+def BAckend(code):
+
+    password = request.form["password"]
+    username = request.form["uname"]
+
+    cur.execute("UPDATE users(uname,password) VALUES({},{}) WHERE uname={}".format(username,Hash.hashPassword(password),username))
+
 #End/Startup options
 
 import atexit
