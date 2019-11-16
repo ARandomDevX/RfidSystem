@@ -518,7 +518,7 @@ def SendEmail():
 
     import smtplib
     import ssl
-    from random import *
+    from random import random
 
 
     smtp_server = "smtp.gmail.com"
