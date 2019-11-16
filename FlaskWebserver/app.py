@@ -516,25 +516,40 @@ def SendEmail():
  
     email = request.form["email"]
 
+    import smtplib
+    import ssl
+    import random
 
-    # creates SMTP session
-    s = smtplib.SMTP('smtp.gmail.com', 587)
 
-    # start TLS for security
-    s.starttls()
+    smtp_server = "smtp.gmail.com"
+    port = 587  # For starttls
+    sender_email = "resetbot46@gmail.com"
+    password = "Passwordresetbot"
 
-    # Authentication
-    s.login("resetbot46@gmail.com", "Passwordresetbot")
+    number = random()
+    Misc, Use = str(number).split("0.")
 
-    # message to be sent
-    message = ""
 
-    # sending the mail
-    s.sendmail("resetbot46@gmail.com", email, message)
+    message = "Hallo, Ihr Sicherheitscode ist : " + Use
 
-    # terminating the session
-    s.quit()
+    # Create a secure SSL context
+    context = ssl.create_default_context()
 
+    # Try to log in to server and send email
+    try:
+        server = smtplib.SMTP(smtp_server, port)
+        server.ehlo()  # Can be omitted
+        server.starttls(context=context)  # Secure the connection
+        server.ehlo()  # Can be omitted
+        server.login(sender_email, password)
+
+        server.sendmail(sender_email, email, message)
+
+    except Exception as e:
+        # Print any error messages to stdout
+        print(e)
+    finally:
+        server.quit()
 #End/Startup options
 
 import atexit
