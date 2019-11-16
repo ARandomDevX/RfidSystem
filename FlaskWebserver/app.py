@@ -507,7 +507,7 @@ def Graphics():
 @app.route("/reset")
 def Screen():
 
-    return render_template("Reset.html")
+    return render_template("Passwordreset.html")
 
 @app.route("/reset")
 def SendEmail():
