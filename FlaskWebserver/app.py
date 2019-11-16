@@ -530,9 +530,11 @@ def SendEmail():
     Misc, Use = str(number).split("0.")
 
     message = """\
-Subject: Hi there
+Subject: Passwort Wiederherstellen
 
-This message is sent from Python."""
+Hallo, Ihr passwort wiederherstellungscode lautet """ + str(Use)
+
+
 
     # Create a secure SSL context
     context = ssl.create_default_context()
