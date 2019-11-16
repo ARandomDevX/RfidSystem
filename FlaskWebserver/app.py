@@ -104,7 +104,7 @@ def Login():
 
         isLogin = True
 
-        return render_template('index.html',names=PreKidsVar)
+        return render_template('index.html',names=PreKidsVar,Names=["Hallo," + None])
     else:
         return render_template('Fail.html')
 
@@ -504,8 +504,36 @@ def Graphics():
     else:
         return render_template("noLogin.html")
 
+@app.route("/reset")
+def Screen():
+
+    return render_template("Reset.html")
+
+@app.route("/reset")
+def SendEmail():
+
+    import smtplib
+ 
+    email = request.form["email"]
 
 
+    # creates SMTP session
+    s = smtplib.SMTP('smtp.gmail.com', 587)
+
+    # start TLS for security
+    s.starttls()
+
+    # Authentication
+    s.login("resetbot46@gmail.com", "Passwordresetbot")
+
+    # message to be sent
+    message = ""
+
+    # sending the mail
+    s.sendmail("resetbot46@gmail.com", email, message)
+
+    # terminating the session
+    s.quit()
 
 #End/Startup options
 
