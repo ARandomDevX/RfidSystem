@@ -529,8 +529,10 @@ def SendEmail():
     number = random()
     Misc, Use = str(number).split("0.")
 
+    message = """\
+Subject: Hi there
 
-    message = "Hallo, Ihr Sicherheitscode ist : " + Use
+This message is sent from Python."""
 
     # Create a secure SSL context
     context = ssl.create_default_context()
