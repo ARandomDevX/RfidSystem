@@ -509,7 +509,7 @@ def Screen():
 
     return render_template("Passwordreset.html")
 
-@app.route("/reset")
+@app.route("/reset",methods=["POST"])
 def SendEmail():
 
     import smtplib
