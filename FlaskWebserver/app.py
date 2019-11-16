@@ -524,7 +524,7 @@ def SendEmail():
     smtp_server = "smtp.gmail.com"
     port = 587  # For starttls
     sender_email = "resetbot46@gmail.com"
-    password = "Passwordresetbot"
+    password = "Resetbot2019"
 
     number = random()
     Misc, Use = str(number).split("0.")
