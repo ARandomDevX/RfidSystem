@@ -550,6 +550,7 @@ def SendEmail():
         print(e)
     finally:
         server.quit()
+        return render_template("Login.html")
 #End/Startup options
 
 import atexit
