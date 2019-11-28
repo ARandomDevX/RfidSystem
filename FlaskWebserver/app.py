@@ -51,7 +51,7 @@ print(now2.strftime("%H:%M:%S"))
 
 
 
-cur.execute("SELECT id FROM sonderab WHERE date = '{}' AND zeit = '{}'".format(now2.strftime("%Y-%m-%d"),now2.strftime("%H:%M:%S")))
+cur.execute("SELECT id FROM sonderab WHERE datum = '{}' AND zeit = '{}'".format(now2.strftime("%Y-%m-%d"),now2.strftime("%H:%M:%S")))
 
 PreKidsVar = cur.fetchall()
 
@@ -80,7 +80,7 @@ def Login():
 
     now2 = datetime.now()
 
-    cur.execute("SELECT id FROM sonderab WHERE date = '{}' AND zeit = '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
+    cur.execute("SELECT id FROM sonderab WHERE datum = '{}' AND zeit = '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
 
     PreKidsVar = cur.fetchall()
 
@@ -119,7 +119,7 @@ def maain():
 
         now2 = datetime.now()
 
-        cur.execute("SELECT id FROM sonderab WHERE date = '{}' AND zeit= '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
+        cur.execute("SELECT id FROM sonderab WHERE datum = '{}' AND zeit= '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
 
         PreKidsVar = cur.fetchall()
 
@@ -311,7 +311,7 @@ def GetValue():
         # Logic
 
         cur.execute("INSERT INTO schuler VALUES('{}','{}','{}','{}','{}')".format(name, lname, id, Eltern1, Eltern2))
-        cur.execute("INSERT INTO heim VALUES('{}','{}','{}','{}','{}','{}')".format(id,mon,die,mit,don,fri))
+        cur.execute("INSERT INTO heim VALUES('{}','{}','{}','{}','{}','{}')".format(mon,die,mit,don,fri,id))
         mydb.commit()
         return render_template('procces_done.html')
     else:
