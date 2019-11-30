@@ -104,11 +104,17 @@ def Login():
 
         isLogin = True
 
-        Name = cur.execute("SELECT name FROM details WHERE id = {}".format(cur.execute("SELECT id FROM users WHERE uname = " + uname)))
+        X = cur.execute("SELECT id FROM users WHERE uname = " + uname)
+
+        y_test = cur.fetchall()
+
+        Y = [i[0] for i in y_test]
+
+        Name = cur.execute("SELECT name FROM details WHERE id = {}".format(Y[0]))
 
         Name_Final = [i[0] for i in Name]
 
-        return render_template('index.html',names=PreKidsVar,Names=["Hallo," + Name_Final])
+        return render_template('index.html',names=PreKidsVar,Names=["Hallo," + Name_Final[0]])
     else:
         return render_template('Fail.html')
 
