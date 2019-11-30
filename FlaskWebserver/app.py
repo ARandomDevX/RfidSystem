@@ -43,7 +43,7 @@ mydb = mysql.connector.connect(
 )
 
 
-cur = mydb.cursor()
+cur = mydb.cursor(bufferd=True)
 
 now2 = datetime.now()
 
