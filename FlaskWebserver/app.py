@@ -104,13 +104,13 @@ def Login():
 
         isLogin = True
 
-        X = cur.execute("SELECT id FROM users WHERE uname = " + str(uname))
+        X = cur.execute("SELECT id FROM users WHERE uname = '" + str(uname) + "'")
 
         y_test = cur.fetchall()
 
         Y = [i[0] for i in y_test]
 
-        Name = cur.execute("SELECT name FROM details WHERE id = {}".format(str(Y[0])))
+        Name = cur.execute("SELECT name FROM details WHERE id = '{}'".format(str(Y[0])))
 
         Name_Final = [i[0] for i in Name]
 
