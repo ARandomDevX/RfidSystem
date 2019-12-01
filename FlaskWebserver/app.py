@@ -344,7 +344,7 @@ def Deleite(uname):
 def ea():
 
     return render_template("Te.html")
-@app.route("/ea/<string:uname>",methods=['POST',"GET"])
+@app.route("/ea/<string:uname>",methods=['POST',"GET","HEAD","PUT","DELETE"])
 def eas(uname):
         if isLogin[uname] == True:
             name = request.form['name']
