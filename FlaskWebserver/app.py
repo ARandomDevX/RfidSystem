@@ -102,8 +102,6 @@ def Login():
     if (uname,(passw)) in details:
         global isLogin
 
-        global uname
-
         isLogin[uname] = True
 
         X = cur.execute("SELECT id FROM users WHERE uname = '" + str(uname) + "'")
