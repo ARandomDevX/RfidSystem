@@ -116,8 +116,8 @@ def Login():
 
         Name_Final = cur.fetchall()
 
-        Name_Final = Name_Final.split()
-        
+        Name_Final = str(Name_Final.split())
+
         Name_Final = Name_Final[3]
 
 
