@@ -340,7 +340,7 @@ def Deleite(uname):
 
         return render_template('noLogin.html')
 
-@app.route("/ea")
+@app.route("/ea",methods = ["POST","GET"])
 def ea():
 
     return render_template("Te.html")
