@@ -118,9 +118,7 @@ def Login():
 
         Name_Final = str(Name_Final).split()
 
-        print(Name_Final)
-
-        #Name_Final = Name_Final[3]
+        Name_Final = [i[0] for i in Name_Final]
 
 
         return render_template('index.html',names=PreKidsVar,Names=["Hallo, " + Name_Final[0]],Uname=uname)
