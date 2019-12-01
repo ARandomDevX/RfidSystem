@@ -114,7 +114,10 @@ def Login():
 
         Name = cur.execute("SELECT name FROM details WHERE id = '{}'".format(str(Y[0])))
 
-        Name_Final = [i[0] for i in Name]
+        Name_Final = [i[0] for i in Name].split()
+
+        Name_Final = Name_Final[3]
+
 
         return render_template('index.html',names=PreKidsVar,Names=["Hallo," + Name_Final[0]],Uname=uname)
     else:
