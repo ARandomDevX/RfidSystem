@@ -118,10 +118,12 @@ def Login():
 
         Name_Final = str(Name_Final).split()
 
-        Name_Final = Name_Final[3]
+        print(Name_Final)
+
+        #Name_Final = Name_Final[3]
 
 
-        return render_template('index.html',names=PreKidsVar,Names=["Hallo," + Name_Final[0]],Uname=uname)
+        return render_template('index.html',names=PreKidsVar,Names=["Hallo, " + Name_Final[0]],Uname=uname)
     else:
         return render_template('Fail.html')
 
