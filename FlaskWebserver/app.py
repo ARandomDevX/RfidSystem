@@ -114,7 +114,7 @@ def Login():
 
         Name = cur.execute("SELECT name FROM details WHERE id = '{}'".format(str(Y[0])))
 
-        Name_Final = [i[0] for i in Name].split()
+        Name_Final = cur.fetchall().split()
 
         Name_Final = Name_Final[3]
 
