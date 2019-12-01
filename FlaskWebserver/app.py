@@ -24,7 +24,7 @@ global now
 
 global now2
 
-isLogin = None
+isLogin = {}
 
 loginFile = open('lif.lginfo','w')
 
@@ -102,11 +102,15 @@ def Login():
     if (uname,(passw)) in details:
         global isLogin
 
-        isLogin = True
+        global uname
+
+        isLogin[uname] = True
 
         X = cur.execute("SELECT id FROM users WHERE uname = '" + str(uname) + "'")
 
         y_test = cur.fetchall()
+
+        print(y_test)
 
         Y = [i[0] for i in y_test]
 
@@ -114,17 +118,17 @@ def Login():
 
         Name_Final = [i[0] for i in Name]
 
-        return render_template('index.html',names=PreKidsVar,Names=["Hallo," + Name_Final[0]])
+        return render_template('index.html',names=PreKidsVar,Names=["Hallo," + Name_Final[0]],Uname=uname)
     else:
         return render_template('Fail.html')
 
 
 
-@app.route("/index",methods=['GET','POST'])
+@app.route("/index/<string:uname>",methods=['GET','POST'])
 
-def maain():
+def maain(uname):
 
-    if isLogin != False:
+    if isLogin[uname] == True:
     # Rendering the index file
 
         now2 = datetime.now()
@@ -303,9 +307,9 @@ def maion():
 
         return render_template('noLogin.html')
 
-@app.route('/Form',methods=['POST'])
-def GetValue():
-    if isLogin == True:
+@app.route('/Form/<string:uname>',methods=['POST'])
+def GetValue(uname):
+    if isLogin[uname] == True:
         name = request.form['firstname']
         lname = request.form['lastname']
         id = request.form['id']
@@ -338,9 +342,9 @@ def Delete():
 
         return render_template('noLogin.html')
 
-@app.route("/Del",methods=['POST'])
-def Deleite():
-    if isLogin == True:
+@app.route("/Del/<string:uname>",methods=['POST'])
+def Deleite(uname):
+    if isLogin[uname] == True:
         id = request.form['id']
 
         print(id)
@@ -354,9 +358,9 @@ def Deleite():
 def ea():
 
     return render_template("Te.html")
-@app.route("/ea",methods=['POST'])
-def eas():
-        if isLogin == True:
+@app.route("/ea/<string:uname>",methods=['POST'])
+def eas(uname):
+        if isLogin[uname] == True:
             name = request.form['name']
             lname = request.form['lname']
             email = request.form['email']
@@ -399,10 +403,10 @@ def an():
 
 
     return render_template('noLogin.html')
-@app.route("/an", methods=['POST'])
+@app.route("/an/<string:uname>", methods=['POST'])
 def ani():
 
-    if isLogin == True:
+    if isLogin[uname] == True:
 
         id = request.form['id']
 
@@ -415,10 +419,10 @@ def ani():
 def ad_def():
 
     return render_template('Abmelden.html')
-@app.route("/ab", methods=['POST'])
-def ania():
+@app.route("/ab/<string:uname>", methods=['POST'])
+def ania(uname):
 
-    if isLogin == True:
+    if isLogin[uname] == True:
 
         id = request.form['id']
 
@@ -434,23 +438,24 @@ def RunAction():
     if isLogin == True:
 
         return render_template('sst.html')
-@app.route('/Sst')
-def Actions():
+@app.route('/Sst/<string:uname>')
+def Actions(uname):
 
-    Status = request.form['Status']
-    Id = request.form['id']
+    if isLogin[uname] == True:
 
-@app.route('/sonder')
-def Render():
+        Status = request.form['Status']
+        Id = request.form['id']
 
-    if isLogin == True:
+@app.route('/sonder/<string:uname>')
+def Render(uname):
+
+    if isLogin[uname] == True:
 
         return render_template('Sonderabholzeiten.html')
     else:
         return render_template('noLogin.html')
-@app.route('/sonder',methods=['POST'])
+@app.route('/sonder/<string:uname>',methods=['POST'])
 def Working():
-
     min = request.form['min']
     stunden = request.form['ho']
     sekun = request.form['sek']
@@ -466,12 +471,12 @@ def Working():
     return render_template("ReturnSonder.html")
 
 
-@app.route("/schuleruber")
-def Graphics():
+@app.route("/schuleruber/<string:uname>")
+def Graphics(uname):
 
 
 
-    if isLogin == True:
+    if isLogin[uname] == True:
 
         now2 = datetime.now()
 
