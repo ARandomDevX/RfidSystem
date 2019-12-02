@@ -102,7 +102,7 @@ def Login():
     if (uname,(passw)) in details:
         global isLogin
 
-        isLogin[uname] = True
+        isLogin = True
 
         return render_template('index.html',names=PreKidsVar,Names=["Hallo, " + uname])
     else:
