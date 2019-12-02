@@ -340,8 +340,8 @@ def Deleite(uname):
 
         return render_template('noLogin.html')
 
-@app.route("/ea",methods = ["POST","GET"])
-def ea():
+@app.route("/ea/<string:uname>",methods = ["GET"])
+def ea(uname):
 
     return render_template("Te.html")
 @app.route("/ea/<string:uname>",methods=['POST',"GET","HEAD","PUT","DELETE"])
@@ -390,7 +390,7 @@ def an():
 
     return render_template('noLogin.html')
 @app.route("/an/<string:uname>", methods=['POST'])
-def ani():
+def ani(uname):
 
     if isLogin[uname] == True:
 
