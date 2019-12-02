@@ -110,7 +110,7 @@ def Login():
 
 
 
-@app.route("/index/<string:uname>",methods=['GET','POST'])
+@app.route("/index",methods=['GET','POST'])
 
 def maain(uname):
 
@@ -293,7 +293,7 @@ def maion():
 
         return render_template('noLogin.html')
 
-@app.route('/Form/<string:uname>',methods=['POST'])
+@app.route('/Form',methods=['POST'])
 def GetValue(uname):
     if isLogin[uname] == True:
         name = request.form['firstname']
@@ -328,7 +328,7 @@ def Delete():
 
         return render_template('noLogin.html')
 
-@app.route("/Del/<string:uname>",methods=['POST'])
+@app.route("/Del",methods=['POST'])
 def Deleite(uname):
     if isLogin[uname] == True:
         id = request.form['id']
@@ -340,11 +340,11 @@ def Deleite(uname):
 
         return render_template('noLogin.html')
 
-@app.route("/ea/<string:uname>",methods = ["GET"])
+@app.route("/ea",methods = ["GET"])
 def ea(uname):
 
     return render_template("Te.html")
-@app.route("/ea/<string:uname>",methods=['POST',"GET","HEAD","PUT","DELETE"])
+@app.route("/ea",methods=['POST',"GET","HEAD","PUT","DELETE"])
 def eas(uname):
         if isLogin[uname] == True:
             name = request.form['name']
@@ -389,7 +389,7 @@ def an():
 
 
     return render_template('noLogin.html')
-@app.route("/an/<string:uname>", methods=['POST'])
+@app.route("/an", methods=['POST'])
 def ani(uname):
 
     if isLogin[uname] == True:
@@ -405,7 +405,7 @@ def ani(uname):
 def ad_def():
 
     return render_template('Abmelden.html')
-@app.route("/ab/<string:uname>", methods=['POST'])
+@app.route("/ab", methods=['POST'])
 def ania(uname):
 
     if isLogin[uname] == True:
@@ -424,7 +424,7 @@ def RunAction():
     if isLogin == True:
 
         return render_template('sst.html')
-@app.route('/Sst/<string:uname>')
+@app.route('/Sst')
 def Actions(uname):
 
     if isLogin[uname] == True:
@@ -432,7 +432,7 @@ def Actions(uname):
         Status = request.form['Status']
         Id = request.form['id']
 
-@app.route('/sonder/<string:uname>')
+@app.route('/sonder')
 def Render(uname):
 
     if isLogin[uname] == True:
@@ -440,7 +440,7 @@ def Render(uname):
         return render_template('Sonderabholzeiten.html')
     else:
         return render_template('noLogin.html')
-@app.route('/sonder/<string:uname>',methods=['POST'])
+@app.route('/sonder',methods=['POST'])
 def Working():
     min = request.form['min']
     stunden = request.form['ho']
@@ -457,7 +457,7 @@ def Working():
     return render_template("ReturnSonder.html")
 
 
-@app.route("/schuleruber/<string:uname>")
+@app.route("/schuleruber")
 def Graphics(uname):
 
 
