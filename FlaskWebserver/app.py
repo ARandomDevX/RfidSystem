@@ -470,7 +470,7 @@ def Graphics():
 
         Outputofcur = [()]
 
-        cur.execute("SELECT id FROM sonderab WHERE date = '{}' AND zeit = '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
+        cur.execute("SELECT id FROM sonderab WHERE datum = '{}' AND zeit = '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
 
         Headings = ["Name","Zeit"]
 
@@ -511,7 +511,7 @@ def Screen():
 def SendEmail():
 
     import smtplib
- 
+
     email = request.form["email"]
 
     import smtplib
@@ -568,13 +568,13 @@ def Core(mail,code):
 
     try:
         code = request.form["code"]
-    
+
         cur.execute("SELECT email from details WHERE email = {}".format(mail))
 
         cur.execute("SELECT code FROM passwordreset WHERE code = {}".format(code))
 
         return redirect("/reset3/" + code + "/" + mail)
-    
+
     except Exception as e:
 
         print(e)
