@@ -246,7 +246,7 @@ def clsServer():
 
     os.system('sudo git pull')
 
-    os.system('sudo shutdown now')
+    os.system('sudo shutdown -h now')
 
 @app.route("/notfall",methods=['GET'])
 def notfall():
