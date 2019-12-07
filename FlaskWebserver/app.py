@@ -591,6 +591,14 @@ def BAckend(code):
 
     cur.execute("UPDATE users(uname,password) VALUES({},{}) WHERE uname={}".format(username,Hash.hashPassword(password),username))
 
+@app.route("/update")
+def Update():
+
+    import os
+
+    os.system("sudo git pull")
+
+    return redirect("/index")
 #End/Startup options
 
 import atexit
