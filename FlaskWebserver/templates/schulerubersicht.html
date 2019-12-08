@@ -42,11 +42,9 @@
 
      <tr>
      {%- for row in items %}
-        <tr>
-        {%- for item in range(len(items)) %}
-           <td>{{item}}</td>
-        {%- endfor %}
-        </tr>
+
+         <td>{{item}}</td>
+
      {%- endfor %}
     </tr>
      </table>
