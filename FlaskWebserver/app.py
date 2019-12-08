@@ -492,7 +492,7 @@ def Graphics():
 
         print(Outputofcur)
         for item in Outputofcur:
-            print item
+            print(item)
 
 
 
