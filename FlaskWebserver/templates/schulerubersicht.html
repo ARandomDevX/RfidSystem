@@ -34,13 +34,13 @@
     <p><b><i>Heimgehzeiten</i></b></p>
     <p></p><br>
     <table>
-     <thead>
+     <tr>
       {%- for column in columns %}
          <th>{{ column }}</th>
       {%- endfor %}
-     </thead>
+    </tr>
 
-     <tbody>
+     <tr>
      {%- for row in items %}
         <tr>
         {%- for column in columns %}
@@ -48,7 +48,7 @@
         {%- endfor %}
         </tr>
      {%- endfor %}
-     </tbody>
+    </tr>
      </table>
   </body>
 </html>
