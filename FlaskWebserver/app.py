@@ -248,6 +248,8 @@ def clsServer():
 
     os.system("sudo su")
 
+    cur.execute("TRUNCATE TABLE sonderab")
+
     os.system("mysqldump -uroot --databases dev > devx.sql")
 
     os.system('sudo shutdown -h now')
