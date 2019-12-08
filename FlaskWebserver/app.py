@@ -478,24 +478,23 @@ def Graphics():
 
         cur.execute("SELECT id FROM sonderab WHERE datum = '{}' AND zeit = '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
 
-        Headings = ["Name","Zeit"]
+        Headings = ["Tag","Name","Zeit"]
 
         HomeTime = cur.fetchall()
 
         now3 = datetime.now()
 
-        cur.execute("SELECT id FROM heim WHERE {}='{}'".format(now2.strftime('%A'),now2.strftime('%A')))
+        cur.execute("SELECT * from heim")
 
         Current_Weekday = now2.strftime("%A")
 
         if Current_Weekday in ('Saturday','Sunday'):
 
             pass
-        else:
 
-            Outputofcur = cur.fetchall()
+        Outputofcur = cur.fetchall()
 
-            print(Outputofcur)
+        print(Outputofcur)
 
 
 
