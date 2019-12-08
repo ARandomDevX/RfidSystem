@@ -490,36 +490,15 @@ def Graphics():
 
         Outputofcur = cur.fetchall()
 
-        Monday = [i[0] for i in Outputofcur]
-
-        Tuesday = [i[1] for i in Outputofcur]
-
-        Wednesday = [i[2] for i in Outputofcur]
-
-        Thursday = [i[3] for i in Outputofcur]
-
-        Friday = [i[4] for i in Outputofcur]
-
-        Saturday = [i[5] for i in Outputofcur]
-
-        Sunday = [i[6] for i in Outputofcur]
-
-        idd = [i[7] for i in Outputofcur]
-
         print(Outputofcur)
-
-        print(len(Outputofcur))
-
-        items=(Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday,idd)
-
-        print(items)
-
+        for item in Outputofcur:
+            print item
 
 
 
 
         if int(len(Outputofcur)) != 0:
-            return render_template("schulerubersicht.html",columns=Headings,items=[Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday,idd])
+            return render_template("schulerubersicht.html",columns=Headings,items=Outputofcur)
         else:
             return render_template("schulerubersicht.html",columns=Headings,items=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
     else:
