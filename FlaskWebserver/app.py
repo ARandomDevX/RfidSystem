@@ -501,7 +501,7 @@ def Graphics():
 
 
         if int(len(Outputofcur)) != 0:
-            return render_template("schuleruber.html",columns=Headings,items=[[i[0] for i in Outputofcur],[i[-1] for i in Outputofcur]])
+            return render_template("schulerubersicht.html",columns=Headings,items=[[i[0] for i in Outputofcur],[i[-1] for i in Outputofcur]])
         else:
             return render_template("schulerubersicht.html",columns=Headings,items=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
     else:
