@@ -488,13 +488,11 @@ def Graphics():
 
         Current_Weekday = now2.strftime("%A")
 
-        if Current_Weekday in ('Saturday','Sunday'):
-
-            pass
-
         Outputofcur = cur.fetchall()
 
         print(Outputofcur)
+
+        print(len(Outputofcur))
 
 
 
