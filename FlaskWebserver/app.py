@@ -519,7 +519,7 @@ def Graphics():
 
 
         if int(len(Outputofcur)) != 0:
-            return render_template("schulerubersicht.html",columns=Headings,items=(Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday,idd))
+            return render_template("schulerubersicht.html",columns=Headings,items=[Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday,idd])
         else:
             return render_template("schulerubersicht.html",columns=Headings,items=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
     else:
