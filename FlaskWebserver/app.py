@@ -510,12 +510,16 @@ def Graphics():
 
         print(len(Outputofcur))
 
+        items=(Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday,idd)
+
+        print(items)
+
 
 
 
 
         if int(len(Outputofcur)) != 0:
-            return render_template("schulerubersicht.html",columns=Headings,items=(Monday,Tuesday[0],Wednesday[0],Thursday[0],Friday[0],Saturday[0],Sunday[0],idd[0]))
+            return render_template("schulerubersicht.html",columns=Headings,items=(Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday,idd))
         else:
             return render_template("schulerubersicht.html",columns=Headings,items=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
     else:
