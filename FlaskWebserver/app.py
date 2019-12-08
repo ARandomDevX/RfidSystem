@@ -478,7 +478,7 @@ def Graphics():
 
         cur.execute("SELECT id FROM sonderab WHERE datum = '{}' AND zeit = '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
 
-        Headings = ["Tag","Name","Zeit"]
+        Headings = ["Montag","Dienstag","Mitwoch","Donnerstag","Freitag","Samstag","Sonntag","Karten Nummer"]
 
         HomeTime = cur.fetchall()
 
@@ -499,7 +499,7 @@ def Graphics():
 
 
         if int(len(Outputofcur)) != 0:
-            return render_template("schulerubersicht.html",columns=Headings,items=[[i[0] for i in Outputofcur],[i[-1] for i in Outputofcur]])
+            return render_template("schulerubersicht.html",columns=Headings,items=[[i[0] for i in Outputofcur],[i[1] for i in Outputofcur],[i[2] for i in Outputofcur],[i[3] for i in Outputofcur],[i[4] for i in Outputofcur],[i[5] for i in Outputofcur],[i[6] for i in Outputofcur],[i[7] for i in Outputofcur]])
         else:
             return render_template("schulerubersicht.html",columns=Headings,items=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
     else:
