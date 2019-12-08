@@ -246,6 +246,10 @@ def clsServer():
 
     os.system('sudo git pull')
 
+    os.system("sudo su")
+
+    os.system("mysqldump -uroot --databases dev > devx.sql")
+
     os.system('sudo shutdown -h now')
 
 @app.route("/notfall",methods=['GET'])
@@ -610,8 +614,6 @@ def clqs():
     mydb.close()
 
     exit()
-
-atexit.register(clqs)
 
 from signal import signal, SIGPIPE, SIG_DFL
 signal(SIGPIPE,SIG_DFL)
