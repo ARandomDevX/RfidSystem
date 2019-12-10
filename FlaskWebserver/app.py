@@ -494,7 +494,7 @@ def Graphics():
         for item in Outputofcur:
             print(item)
 
-        cur.select("SELECT * ort")
+        cur.execute("SELECT * ort")
 
         objjjj = cur.fetchall()
 
