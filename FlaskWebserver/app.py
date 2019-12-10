@@ -494,11 +494,17 @@ def Graphics():
         for item in Outputofcur:
             print(item)
 
+        cur.select("SELECT * ort")
+
+        objjjj = cur.fetchall()
+
+        hds = ["Karten nummer","ort"]
+
 
 
 
         if int(len(Outputofcur)) != 0:
-            return render_template("schulerubersicht.html",columns=Headings,items=Outputofcur)
+            return render_template("schulerubersicht.html",columns=Headings,items=Outputofcur,ds=hds,obj=objjjj)
         else:
             return render_template("schulerubersicht.html",columns=Headings,items=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
     else:

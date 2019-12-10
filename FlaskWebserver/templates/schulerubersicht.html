@@ -50,5 +50,23 @@
      {%- endfor %}
     </tr>
      </table>
+     <table>
+      <tr>
+       {%- for hd in ds %}
+          <th>{{ column }}</th>
+       {%- endfor %}
+     </tr>
+
+      <tr>
+      {%- for row in obj %}
+         <tr>
+         {%- for item in row %}
+            <td>{{item}}</td>
+         {%- endfor %}
+         </tr>
+      {%- endfor %}
+     </tr>
+      </table>
+
   </body>
 </html>
