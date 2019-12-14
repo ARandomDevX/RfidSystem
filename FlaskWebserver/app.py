@@ -509,7 +509,16 @@ def Graphics():
             return render_template("schulerubersicht.html",columns=Headings,items=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
     else:
         return render_template("noLogin.html")
+@app.route("/getSgData")
+def Rnder():
 
+    return render_template("sgData.html")
+@app.route("/getSgData")
+def Escript():
+
+    Id = request.form["Idc"]
+
+    return "<h1>Fertig</h1>"
 @app.route("/reset")
 def Screen():
 
