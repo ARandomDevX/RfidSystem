@@ -518,7 +518,7 @@ def Escript():
 
     Id = request.form["Idc"]
 
-    return redirect("/gsgd/" + Idc)
+    return redirect("/gsgd/" + Id)
 @app.route("/gsgd/<card>",methods=["POST"])
 def Escripft(card):
 
