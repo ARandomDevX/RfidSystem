@@ -519,7 +519,7 @@ def Escript():
     Id = request.form["Idc"]
 
     return redirect("/gsgd/" + Id)
-@app.route("/gsgd/<card>",methods=["POST"])
+@app.route("/gsgd/<card>",methods=["POST","GET"])
 def Escripft(card):
 
     cur.execute("SELECT * FROM heim WHERE id = {}".format(card))
