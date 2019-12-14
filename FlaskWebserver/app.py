@@ -513,12 +513,23 @@ def Graphics():
 def Rnder():
 
     return render_template("sgData.html")
-@app.route("/getSgData")
+@app.route("/getSgData",methods["POST"])
 def Escript():
 
     Id = request.form["Idc"]
 
-    return "<h1>Fertig</h1>"
+    return redirect("/gsgd/" + Idc)
+@app.route("/gsgd/<card>",methods["POST"])
+def Escripft(card):
+
+    cur.execute("SELECT * FROM heim WHERE id = {}".format(card))
+
+    Out = cur.fetchall()
+
+    Headings = ["Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag","Sonntag"]
+
+    return render_template("Display.html",ds=Headings,obj=Out)
+
 @app.route("/reset")
 def Screen():
 
