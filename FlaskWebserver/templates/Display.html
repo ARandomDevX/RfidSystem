@@ -1,0 +1,17 @@
+<table>
+ <tr>
+  {%- for hd in ds %}
+     <th>{{ hd }}</th>
+  {%- endfor %}
+</tr>
+
+ <tr>
+ {%- for row in obj %}
+    <tr>
+    {%- for item in row %}
+       <td>{{item}}</td>
+    {%- endfor %}
+    </tr>
+ {%- endfor %}
+</tr>
+ </table>
