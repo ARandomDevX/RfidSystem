@@ -513,13 +513,13 @@ def Graphics():
 def Rnder():
 
     return render_template("sgData.html")
-@app.route("/getSgData",methods["POST"])
+@app.route("/getSgData",methods=["POST"])
 def Escript():
 
     Id = request.form["Idc"]
 
     return redirect("/gsgd/" + Idc)
-@app.route("/gsgd/<card>",methods["POST"])
+@app.route("/gsgd/<card>",methods=["POST"])
 def Escripft(card):
 
     cur.execute("SELECT * FROM heim WHERE id = {}".format(card))
