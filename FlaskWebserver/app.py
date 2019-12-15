@@ -528,8 +528,6 @@ def Escripft(card):
 
     Headings = ["Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag","Sonntag",'Karten Nummer']
 
-    return render_template("Display.html",ds=Headings,obj=Out)
-
     Xyz = []
 
     for row in Out:
@@ -551,6 +549,9 @@ def Escripft(card):
             nine.append(rowx[y])
 
     Xyz[8] = nine[0]
+
+    return render_template("Display.html",ds=Headings,obj=Xyz)
+
 
 
 @app.route("/reset")
