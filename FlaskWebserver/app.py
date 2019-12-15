@@ -530,6 +530,29 @@ def Escripft(card):
 
     return render_template("Display.html",ds=Headings,obj=Out)
 
+    Xyz = []
+
+    for row in Out:
+
+        for x in row:
+
+            Xyz.append(row[x])
+
+    cur.execute("SELECT * FROM schuler WHERE id = {}".format(Xyz[8]))
+
+    eight = cur.fetchall()
+
+    nine = []
+
+    for rowx in eight:
+
+        for y in rowx:
+
+            nine.append(rowx[y])
+
+    Xyz[8] = nine[0]
+
+
 @app.route("/reset")
 def Screen():
 
