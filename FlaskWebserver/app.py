@@ -37,8 +37,8 @@ now = datetime.now()
 mydb = mysql.connector.connect(
     host='localhost',
     database ="dev",
-    user='developer',
-    passwd='Waldschule',
+    user='demouser',
+    passwd='demo$#123',
     auth_plugin='mysql_native_password'
 )
 
