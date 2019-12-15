@@ -526,7 +526,7 @@ def Escripft(card):
 
     Out = cur.fetchall()
 
-    Headings = ["Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag","Sonntag"]
+    Headings = ["Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag","Sonntag",'Karten Nummer']
 
     return render_template("Display.html",ds=Headings,obj=Out)
 
