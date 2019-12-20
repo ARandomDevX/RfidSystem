@@ -37,8 +37,8 @@ now = datetime.now()
 mydb = mysql.connector.connect(
     host='localhost',
     database ="dev",
-    user='developer',
-    passwd='Waldschule',
+    user='demouser',
+    passwd='demo$#123',
     auth_plugin='mysql_native_password'
 )
 
@@ -568,9 +568,33 @@ def Escripft(card):
 
     Out = cur.fetchall()
 
-    Headings = ["Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag","Sonntag"]
+    Headings = ["Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag","Sonntag",'Karten Nummer']
 
-    return render_template("Display.html",ds=Headings,obj=Out)
+    Xyz = []
+
+    for row in Out:
+
+        for x in row:
+
+            Xyz.append(row[x])
+
+    cur.execute("SELECT * FROM schuler WHERE id = {}".format(Xyz[8]))
+
+    eight = cur.fetchall()
+
+    nine = []
+
+    for rowx in eight:
+
+        for y in rowx:
+
+            nine.append(rowx[y])
+
+    Xyz[8] = nine[0]
+
+    return render_template("Display.html",ds=Headings,obj=Xyz)
+
+
 
 @app.route("/reset")
 def Screen():

@@ -1,17 +1,51 @@
-<table>
- <tr>
-  {%- for hd in ds %}
-     <th>{{ hd }}</th>
-  {%- endfor %}
-</tr>
+<!DOCTYPE html>
 
- <tr>
- {%- for row in obj %}
-    <tr>
-    {%- for item in row %}
-       <td>{{item}}</td>
-    {%- endfor %}
+<style>
+    table,
+    td {
+
+        padding: 15px;
+
+        border: 1px solid black;
+
+        border-collapse: collapse;
+
+    }
+
+    th {
+        color: black;
+
+        font: normal;
+
+        border: 1px solid black;
+
+        text-align: center;
+    }
+
+</style>
+
+
+
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <table>
+     <tr>
+      {%- for hd in ds %}
+         <th>{{ hd }}</th>
+      {%- endfor %}
     </tr>
- {%- endfor %}
-</tr>
- </table>
+
+    <tr>
+
+        {%- for item in obj %}
+           <td>{{item}}</td>
+        {%- endfor %}
+    </tr>
+     </table>
+  </body>
+</html>
