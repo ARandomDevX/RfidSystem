@@ -420,14 +420,14 @@ def eas():
 
                 server.sendmail(sender_email, email, message)
 
+                server.quit()
+
+                return render_template('Done2.html')
+
             except Exception as e:
                 # Print any error messages to stdout
-                print(e)
-            finally:
-                server.quit()
-                return redirect("/reset2/" + email + "/" + Use)
+                return "<h1>" + e + "</h1>"
 
-            return render_template('Done2.html')
         else:
 
             return render_template('noLogin.html')
