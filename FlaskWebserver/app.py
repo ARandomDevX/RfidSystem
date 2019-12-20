@@ -381,9 +381,51 @@ def eas():
 
             mydb.commit()
 
+            import smtplib
+            import ssl
+            from random import random
 
+            smtp_server = "smtp.gmail.com"
+            port = 587  # For starttls
+            sender_email = "resetbot46@gmail.com"
+            password = "Resetbot2019"
 
+            number = random()
+            Misc, Use = str(number).split("0.")
 
+            message = """\
+            Subject: Angemeldet!
+
+            Bitte Keine Antwort Senden
+
+            Hallo, Sie haben sich hier angemeldet, sie können sich mit den angegebenen loggin daten anmelden!
+             
+            Falls es dazu kommt das sie ihr passwort vergessen haben dann können sie einfach ihr passwort wiederherstellen(Unfunktionell)
+            
+            Danke!
+            
+            
+            (Falls sie sich nicht angemeldet haben dann ignorieren sie diese nachricht)"""
+
+            # Create a secure SSL context
+            context = ssl.create_default_context()
+
+            # Try to log in to server and send email
+            try:
+                server = smtplib.SMTP(smtp_server, port)
+                server.ehlo()  # Can be omitted
+                server.starttls(context=context)  # Secure the connection
+                server.ehlo()  # Can be omitted
+                server.login(sender_email, password)
+
+                server.sendmail(sender_email, email, message)
+
+            except Exception as e:
+                # Print any error messages to stdout
+                print(e)
+            finally:
+                server.quit()
+                return redirect("/reset2/" + email + "/" + Use)
 
             return render_template('Done2.html')
         else:
@@ -606,6 +648,7 @@ def Core(mail,code):
     except Exception as e:
 
         print(e)
+
 
 @app.route("/reset3/<code>/<email>")
 def Screend(code,email):
