@@ -399,9 +399,9 @@ def eas():
 
             Bitte Keine Antwort Senden
 
-            Hallo, Sie haben sich hier angemeldet, sie können sich mit den angegebenen loggin daten anmelden!
+            Hallo, Sie haben sich hier angemeldet, sie koennen sich mit den angegebenen loggin daten anmelden!
 
-            Falls es dazu kommt das sie ihr passwort vergessen haben dann können sie einfach ihr passwort wiederherstellen(Unfunktionell ist gerade noch am entwikeln)
+            Falls es dazu kommt das sie ihr passwort vergessen haben dann koennen sie einfach ihr passwort wiederherstellen(Unfunktionell ist gerade noch am entwikeln)
 
             Danke!
 
