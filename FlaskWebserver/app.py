@@ -1,3 +1,4 @@
+
 # Importing the required modules
 
 from flask import Flask, render_template, request, jsonify, redirect, session
@@ -399,34 +400,29 @@ def eas():
             Bitte Keine Antwort Senden
 
             Hallo, Sie haben sich hier angemeldet, sie können sich mit den angegebenen loggin daten anmelden!
-             
+
             Falls es dazu kommt das sie ihr passwort vergessen haben dann können sie einfach ihr passwort wiederherstellen(Unfunktionell)
-            
+
             Danke!
-            
-            
+
+
             (Falls sie sich nicht angemeldet haben dann ignorieren sie diese nachricht)"""
 
             # Create a secure SSL context
             context = ssl.create_default_context()
 
             # Try to log in to server and send email
-            try:
-                server = smtplib.SMTP(smtp_server, port)
-                server.ehlo()  # Can be omitted
-                server.starttls(context=context)  # Secure the connection
-                server.ehlo()  # Can be omitted
-                server.login(sender_email, password)
+            server = smtplib.SMTP(smtp_server, port)
+            server.ehlo()  # Can be omitted
+            server.starttls(context=context)  # Secure the connection
+            server.ehlo()  # Can be omitted
+            server.login(sender_email, password)
 
-                server.sendmail(sender_email, email, message)
+            server.sendmail(sender_email, email, message)
 
-                server.quit()
+            server.quit()
 
-                return render_template('Done2.html')
-
-            except Exception as e:
-                # Print any error messages to stdout
-                return "<h1>" + e + "</h1>"
+            return render_template('Done2.html')
 
         else:
 
