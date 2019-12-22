@@ -401,7 +401,7 @@ def eas():
 
             Hallo, Sie haben sich hier angemeldet, sie können sich mit den angegebenen loggin daten anmelden!
 
-            Falls es dazu kommt das sie ihr passwort vergessen haben dann können sie einfach ihr passwort wiederherstellen(Unfunktionell)
+            Falls es dazu kommt das sie ihr passwort vergessen haben dann können sie einfach ihr passwort wiederherstellen(Unfunktionell ist gerade noch am entwikeln)
 
             Danke!
 
