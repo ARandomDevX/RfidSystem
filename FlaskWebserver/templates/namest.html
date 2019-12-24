@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <table>
+     <tr>
+      {%- for hd in ds %}
+         <th>{{ hd }}</th>
+      {%- endfor %}
+    </tr>
+
+    <tr>
+
+        {%- for item in obj %}
+           <td>{{ id | item}}</td>
+        {%- endfor %}
+    </tr>
+     </table>
+  </body>
+</html>

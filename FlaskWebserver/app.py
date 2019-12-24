@@ -690,6 +690,38 @@ def Update():
     os.system("sudo git pull")
 
     return redirect("/index")
+
+@app.route("/names")
+def Gnms():
+
+    return render_template('nameso.html')
+@app.route("/names")
+def Gnms():
+
+    id = request.form['id']
+
+
+
+    return redirect('/nms/' + id)
+
+
+@app.route('/nms/<id>')
+def edf(id):
+
+    if isLogin == True:
+
+        cur.execute('SELECT name FROM schuler WHERE id = {}'.format(id))
+
+        out = cur.fetchall()
+
+        hd = ['Karten Nummer','Name']
+
+        return render_template('namest.html',ds = hd, obj = out, id = id)
+
+    else :
+
+        return render_template('noLogin.html')
+
 #End/Startup options
 
 import atexit
