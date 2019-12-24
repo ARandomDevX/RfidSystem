@@ -695,7 +695,7 @@ def Update():
 def Gnms():
 
     return render_template('nameso.html')
-@app.route("/names")
+@app.route("/names",methods =['POST'])
 def Gnmts():
 
     id = request.form['id']
