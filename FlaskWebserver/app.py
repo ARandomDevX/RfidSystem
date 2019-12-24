@@ -696,7 +696,7 @@ def Gnms():
 
     return render_template('nameso.html')
 @app.route("/names")
-def Gnms():
+def Gnmts():
 
     id = request.form['id']
 
