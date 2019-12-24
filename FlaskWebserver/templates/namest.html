@@ -16,9 +16,12 @@
     <tr>
 
         {%- for item in obj %}
-           <td>{{ id | item}}</td>
+           <td>{{ item }}</td>
         {%- endfor %}
     </tr>
+    {%- for item in obj %}
+       <td>{{ id }}</td>
+    {%- endfor %}
      </table>
   </body>
 </html>
