@@ -204,8 +204,12 @@ def test_Gui_Raspberrypi():
     return render_template('Raspberrypitest.html')
 
 
-@app.route("/raspberrypi",methods=['GET'])
+@app.route("/raspberrypi",methods=['POST'])
 def raspberrypi_json_test():
+
+    data = request.get_json()
+
+
 
     return jsonify({'JSON':'TEST.rpi'})
 
