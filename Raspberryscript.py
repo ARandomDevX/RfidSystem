@@ -1,14 +1,18 @@
-import request
+import requests
 
-url = '192.168.0.31/rpisst'
 
+# Config
+
+lines = [line.rstrip('\n') for line in open('config.txt')]
+
+Ip = lines[0]
+
+Location = lines[1]
+
+# Send Data
 
 while True:
 
-    Id = input()
+    CrdNumber = input()
 
-    Ort = 'Hof'
-
-    Body = {Id:Ort}
-
-    request.post(url,data=Body)
+    requests.post('https://' + Ip, data = CrdNumber + '?' + Location)
