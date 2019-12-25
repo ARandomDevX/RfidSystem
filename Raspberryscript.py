@@ -1,4 +1,4 @@
-import requests
+import request
 
 
 # Config
@@ -15,4 +15,4 @@ while True:
 
     CrdNumber = input()
 
-    requests.post('https://' + Ip, data = CrdNumber + '?' + Location)
+    request.post('https://' + Ip + '/raspberrypi', data = {'Id' : CrdNumber, 'Ort' : Location})
