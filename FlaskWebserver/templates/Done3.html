@@ -6,6 +6,33 @@
     a{
         color: blue;
     }
+
+    .topnav {
+    background-color: #333;
+  overflow: hidden;
+    }
+
+    /* Style the links inside the navigation bar */
+    .topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    }
+
+    /* Change the color of links on hover */
+    .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+    }
+
+    /* Add a color to the active/current link */
+    .topnav a.active {
+    background-color: #4CAF50;
+    color: white;
+    }
 </style>
 <html>
     <head>
@@ -13,6 +40,11 @@
         <link href="https://fonts.googleapis.com/css?family=Quattrocento+Sans&display=swap" rel="stylesheet">
     </head>
     <body>
+        <div class="topnav">
+            <a class="active" href="index">Menü</a>
+            <a href="isloginfalse">Abmelden</a>
+            <a href="update">Aktualizieren</a>
+        </div>
         <h1>Der schüler solte in wenigen sekunden angemeldet sein</h1>
         <a href="Del">Möchten sie noch schüler anmelden?</a><br>
         <p></p><br>
