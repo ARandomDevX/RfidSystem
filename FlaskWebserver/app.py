@@ -504,6 +504,12 @@ def Working():
 
     return render_template("ReturnSonder.html")
 
+@app.route("/isloginfalse")
+def SD():
+
+    isLogin = False
+
+    return redirect("/")
 
 @app.route("/schuleruber")
 def Graphics():
