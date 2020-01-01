@@ -204,8 +204,12 @@ def test_Gui_Raspberrypi():
     return render_template('Raspberrypitest.html')
 
 
-@app.route("/raspberrypi",methods=['GET'])
+@app.route("/raspberrypi",methods=['POST'])
 def raspberrypi_json_test():
+
+    data = request.get_json()
+
+
 
     return jsonify({'JSON':'TEST.rpi'})
 
@@ -690,6 +694,38 @@ def Update():
     os.system("sudo git pull")
 
     return redirect("/index")
+
+@app.route("/names")
+def Gnms():
+
+    return render_template('nameso.html')
+@app.route("/names",methods =['POST'])
+def Gnmts():
+
+    id = request.form['id']
+
+
+
+    return redirect('/nms/' + id)
+
+
+@app.route('/nms/<id>')
+def edf(id):
+
+    if isLogin == True:
+
+        cur.execute('SELECT name FROM schuler WHERE id = {}'.format(id))
+
+        out = cur.fetchall()
+
+        hd = ['Karten Nummer','Name']
+
+        return render_template('namest.html',ds = hd, obj = out, id = id)
+
+    else :
+
+        return render_template('noLogin.html')
+
 #End/Startup options
 
 import atexit
