@@ -756,7 +756,7 @@ def RaspeiGraphic():
 
     Locations["0002"] = ooo2
 
-    return "d"
+    return render_template("Done5.html")
 
 
 #End/Startup options
