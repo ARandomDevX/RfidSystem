@@ -158,7 +158,7 @@ def ListenAndFunction():
 
     cur.execute("INSERT INTO ort VALUES({},{})".format(Id,Ort))
 
-    cur.commit()
+    mydb.commit()
 
 @app.route("/getNames",methods=['GET'])
 def GetNames():
@@ -261,7 +261,7 @@ def clsServer():
 
     cur.execute("TRUNCATE TABLE sonderab")
 
-    cur.commit()
+    mydb.commit()
 
     os.system("mysqldump -uroot --databases dev > devx.sql")
 
@@ -356,7 +356,7 @@ def Deleite():
 
         cur.execute("DELETE FROM heim WHERE id = '{}'".format(id))
 
-        cur.commit()
+        mydb.commit()
 
         return render_template('Done.html')
     else:
@@ -663,7 +663,7 @@ Hallo, Ihr passwort wiederherstellungscode lautet : """
 
         cur.execute("INSERT INTO passwordreset VALUES({},{})".format(email,Use))
 
-        cur.commit()
+        mydb.commit()
 
     except Exception as e:
         # Print any error messages to stdout
@@ -706,7 +706,7 @@ def BAckend(code):
 
     cur.execute("UPDATE users(uname,password) VALUES({},{}) WHERE uname={}".format(username,Hash.hashPassword(password),username))
 
-    cur.commit()
+    mydb.commit()
 
 @app.route("/update")
 def Update():
