@@ -458,6 +458,10 @@ def ani():
 
         print(id)
 
+        cur.execute("insert into isAngemeldet values({},{})".format(id,"Angemeldet"))
+
+        mydb.commit()
+
         return render_template('Done3.html')
     else:
         return render_template('noLogin.html')
@@ -473,6 +477,10 @@ def ania():
         id = request.form['id']
 
         print(id)
+
+        cur.execute("delete from isAngemeldet where id = {}".format(id))
+
+        mydb.commt()
 
         return render_template('Done4.html')
     else:
