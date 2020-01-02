@@ -348,7 +348,7 @@ def Deleite():
     if isLogin == True:
         id = request.form['id']
 
-        print(id)
+        cur.execute("DELETE FROM schuler, heim WHERE id = {}".format(id))
 
         return render_template('Done.html')
     else:
