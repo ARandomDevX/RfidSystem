@@ -745,7 +745,7 @@ def RaspiGraphic():
     return render_template("ChooseRaspilocation.html")
 
 
-@app.route("/Raspireffer",methods="POST")
+@app.route("/Raspireffer",methods=["POST"])
 def RaspeiGraphic():
 
     ooo1 = request.form["0001"]
