@@ -352,6 +352,8 @@ def Deleite():
 
         cur.execute("DELETE FROM heim WHERE id = '{}'".format(id))
 
+        cur.commit()
+
         return render_template('Done.html')
     else:
 
