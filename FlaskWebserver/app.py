@@ -25,6 +25,8 @@ global now
 
 global now2
 
+global Locations
+
 isLogin = {}
 
 loginFile = open('lif.lginfo','w')
@@ -61,6 +63,8 @@ now = datetime.now()
 current_time = now.strftime("%H:%M:%S")
 
 now2 = datetime.now()
+
+Locations = {"0001":"Hof","0002":"Garten"}
 
 # Creating the Flask object
 
@@ -714,7 +718,10 @@ def Gnmts():
 
     return redirect('/nms/' + id)
 
+@app.route("/assignLocation/<id>")
+def Dosoemthing(id):
 
+    return Locations[id]
 @app.route('/nms/<id>')
 def edf(id):
 
