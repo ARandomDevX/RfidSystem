@@ -756,6 +756,8 @@ def RaspeiGraphic():
 
     Locations["0002"] = ooo2
 
+    return "d"
+
 
 #End/Startup options
 
