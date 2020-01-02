@@ -13,10 +13,12 @@ Raspicode = lines[1]
 
 Location = requests.get("http://" + Ip + "/assignLocation/" + Raspicode)
 
+Location = Location.text
+
 print(Location)
 
 while True:
 
     CrdNumber = input()
 
-    requests.post('https://' + Ip + '/raspberrypi', data = {'Id' : CrdNumber, 'Ort' : Location})
+    requests.post('http://' + Ip + '/raspberrypi', data = {'Id' : CrdNumber, 'Ort' : Location})

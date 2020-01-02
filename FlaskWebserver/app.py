@@ -739,6 +739,24 @@ def edf(id):
 
         return render_template('noLogin.html')
 
+@app.route("/Raspireffer")
+def RaspiGraphic():
+
+    return render_template("ChooseRaspilocation.html")
+
+
+@app.route("/Raspireffer")
+def RaspiGraphic():
+
+    ooo1 = request.form["0001"]
+
+    ooo2 = request.form["0002"]
+
+    Location["0001"] = ooo1
+
+    Location["0002"] = ooo2
+
+
 #End/Startup options
 
 import atexit
