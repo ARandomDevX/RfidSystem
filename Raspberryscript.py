@@ -11,7 +11,9 @@ Raspicode = lines[1]
 
 # Send Data
 
-Location = requests.get("http://" + Ip + "/assign/" + Raspicode)
+Location = requests.get("http://" + Ip + "/assignLocation/" + Raspicode)
+
+print(Location)
 
 while True:
 
