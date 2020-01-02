@@ -752,9 +752,9 @@ def RaspeiGraphic():
 
     ooo2 = request.form["0002"]
 
-    Location["0001"] = ooo1
+    Locations["0001"] = ooo1
 
-    Location["0002"] = ooo2
+    Locations["0002"] = ooo2
 
 
 #End/Startup options
