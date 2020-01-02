@@ -480,7 +480,7 @@ def ania():
 
         cur.execute("delete from isAngemeldet where id = '{}'".format(id))
 
-        mydb.commt()
+        mydb.commit()
 
         return render_template('Done4.html')
     else:
