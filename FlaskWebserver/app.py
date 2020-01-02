@@ -746,7 +746,7 @@ def RaspiGraphic():
 
 
 @app.route("/Raspireffer")
-def RaspiGraphic():
+def RaspeiGraphic():
 
     ooo1 = request.form["0001"]
 
