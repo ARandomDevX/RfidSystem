@@ -458,7 +458,7 @@ def ani():
 
         print(id)
 
-        cur.execute("insert into isAngemeldet values({},{})".format(id,"Angemeldet"))
+        cur.execute("insert into isAngemeldet values('{}','{}')".format(id,"Angemeldet"))
 
         mydb.commit()
 
@@ -478,7 +478,7 @@ def ania():
 
         print(id)
 
-        cur.execute("delete from isAngemeldet where id = {}".format(id))
+        cur.execute("delete from isAngemeldet where id = '{}'".format(id))
 
         mydb.commt()
 
