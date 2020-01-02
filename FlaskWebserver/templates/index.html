@@ -38,11 +38,71 @@
     background-color: #4CAF50;
     color: white;
     }
-    body{
-        background-image: url("Waldschule-Logo-ohne-Fuchs-e1538047804258.jpg");
-        background-repeat: no-repeat;
-        background-position: right bottom;
+    .content {
+    max-width: 500px;
+    margin: auto;
     }
+    .sidebar {
+    margin: 0;
+    padding: 0;
+    width: 600px;
+    background-color: #f1f1f1;
+    position: center right;
+    height: 100%;
+    overflow: auto;
+    }
+
+    /* Sidebar links */
+    .sidebar a {
+    display: block;
+    color: black;
+    padding: 18px;
+    text-decoration: none;
+    }
+
+    /* Active/current link */
+    .sidebar a.active {
+    background-color: #4CAF50;
+    color: white;
+    }
+
+    /* Links on mouse-over */
+    .sidebar a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+    }
+
+    /* Page content. The value of the margin-left property should match the value of the sidebar's width property */
+    div.content {
+    margin-left: 1000px;
+    padding: 1px 16px;
+    height: 1000px;
+    }
+
+    /* On screens that are less than 700px wide, make the sidebar into a topbar */
+    @media screen and (max-width: 700px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    .sidebar a {float: left;}
+    div.content {margin-left: 0;}
+    }
+
+    /* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+    @media screen and (max-width: 400px) {
+    .sidebar a {
+        text-align: center;
+        float: none;
+    }
+    }
+    @media only screen and (max-width: 600px) {
+    div.onlyBig {
+    display: none;
+  }
+}
+
 </style>
 
 <html>
@@ -52,35 +112,38 @@
         <link href="https://fonts.googleapis.com/css?family=Quattrocento+Sans&display=swap" rel="stylesheet">
     </head>
 
+    <div class="topnav">
+        <a class="active" href="index">Menü</a>
+        <a href="isloginfalse">Abmelden</a>
+        <a href="update">Aktualizieren</a>
+    
+    </div>
+
     <body>
-        <div class="topnav">
-            <a class="active" href="index">Menü</a>
-            <a href="isloginfalse">Abmelden</a>
-            <a href="update">Aktualizieren</a>
-
-        </div>
-        <h1>Willkommen im Verwaltungsbereich</h1>
+    <div class="content">
         
-        <fieldset width=400>
-            <h3 style="font-family: &quot;Encode Sans script=all rev=2&quot;, &quot;Adobe Blank&quot;; font-weight: 100; font-style: normal;"><i>Optionen</i></h3>
-            <a href="Form">Schüler Registrieren</a><br>
-            <a href="Del">Schüler Löschen</a><br>
-            <a href="names">Namen von Schüler Ansehen</a><br>
-            <a href="ea">Erzier Registrieren</a><br>
-            <a href="an">Schüler Als Anmelden eintragen</a><br>
-            <a href="ab">Schüler Als Abgemeldet eintragen</a><br>
-            <a href="sonder">Sonderabholzeiten</a><br>
-            <a href="Raspireffer">Raspberrypi orte eintragen</a><br>
-            <a href="schuleruber">Schülerübersicht</a><br>
-            <a href="getSgData">Daten von einzelnen Schüler Ansehen</a><br>
-            <a href="update">Aktualizieren </a><br>
-            <a href="closeServer">Server Ausschalten</a>
+        <h1>Willkommen im Verwaltungsbereich</h1>
+        <div class="sidebar">
+            <fieldset width=400>
+                <h3 style="font-family: &quot;Encode Sans script=all rev=2&quot;, &quot;Adobe Blank&quot;; font-weight: 100; font-style: normal;"><i>Optionen</i></h3>
+                <a href="Form">Schüler Registrieren</a><br>
+                <a href="Del">Schüler Löschen</a><br>
+                <a href="names">Namen von Schüler Ansehen</a><br>
+                <a href="ea">Erzier Registrieren</a><br>
+                <a href="an">Schüler Als Anmelden eintragen</a><br>
+                <a href="ab">Schüler Als Abgemeldet eintragen</a><br>
+                <a href="sonder">Sonderabholzeiten</a><br>
+                <a href="Raspireffer">Raspberrypi orte eintragen</a><br>
+                <a href="schuleruber">Schülerübersicht</a><br>
+                <a href="getSgData">Daten von einzelnen Schüler Ansehen</a><br>
+                <a href="update">Aktualizieren </a><br>
+                <a href="closeServer">Server Ausschalten</a>
+            </fieldset>
+        </div>
+    </div>
 
-
-
-
-        </fieldset>
-
+    <div class="onlyBig">
         <noscript>Dammit manche funktionen functionieren brauchen Sie JavaScript (Aber ihr browser unterstützt es nicht)</noscript>
+    </div>
     </body>
 </html>
