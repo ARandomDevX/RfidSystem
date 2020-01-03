@@ -512,11 +512,14 @@ def Render():
 def Working():
     min = request.form['min']
     stunden = request.form['ho']
-    sekun = request.form['sek']
     id = request.form['id']
-    date = request.form['date']
+    Tag = request.form['date']
+    Monat = request.form["month"]
+    Jahr = request.form["Year"]
 
-    time = stunden + ':' + min + ':' + sekun
+    time = stunden + ':' + min
+
+    date = datetime.date(Jahr,Monat,Tag)
 
 
     cur.execute("INSERT INTO sonderab VALUES('{}','{}','{}')".format(id,time,date))
