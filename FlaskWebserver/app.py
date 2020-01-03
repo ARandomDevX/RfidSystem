@@ -35,7 +35,7 @@ run = 0
 
 users = {}
 
-now = datetime.now()
+now = datetime.datetime.now()
 
 mydb = mysql.connector.connect(
     host='localhost',
@@ -48,7 +48,7 @@ mydb = mysql.connector.connect(
 
 cur = mydb.cursor(buffered=True)
 
-now2 = datetime.now()
+now2 = datetime.datetime.now()
 
 print(now2.strftime("%H:%M:%S"))
 
@@ -58,11 +58,11 @@ cur.execute("SELECT id FROM sonderab WHERE datum = '{}' AND zeit = '{}'".format(
 
 PreKidsVar = cur.fetchall()
 
-now = datetime.now()
+now = datetime.datetime.now()
 
 current_time = now.strftime("%H:%M:%S")
 
-now2 = datetime.now()
+now2 = datetime.datetime.now()
 
 Locations = {"0001":"Hof","0002":"Garten"}
 
@@ -83,7 +83,7 @@ def main():
 @app.route("/",methods=['POST'])
 def Login():
 
-    now2 = datetime.now()
+    now2 = datetime.datetime.now()
 
     cur.execute("SELECT id FROM sonderab WHERE datum = '{}' AND zeit = '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
 
@@ -122,7 +122,7 @@ def maain():
     if isLogin == True:
     # Rendering the index file
 
-        now2 = datetime.now()
+        now2 = datetime.datetime.now()
 
         cur.execute("SELECT id FROM sonderab WHERE datum = '{}' AND zeit= '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
 
