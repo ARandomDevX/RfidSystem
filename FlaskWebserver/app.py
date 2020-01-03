@@ -547,7 +547,7 @@ def Graphics():
 
         Outputofcur = [()]
 
-        cur.execute("SELECT id FROM sonderab WHERE datum = '{}' AND zeit = '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
+        cur.execute("SELECT id FROM sonderab WHERE datum = '{}' AND zeit = '{}'".format(datetime.date().now(),current_time))
 
         Headings = ["Montag","Dienstag","Mitwoch","Donnerstag","Freitag","Karten Nummer"]
 
