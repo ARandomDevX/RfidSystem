@@ -35,7 +35,7 @@ run = 0
 
 users = {}
 
-now = datetime.datetime.now()
+now = datetime.datetimedatetime.datetimenow()
 
 mydb = mysql.connector.connect(
     host='localhost',
@@ -519,7 +519,7 @@ def Working():
 
     time = stunden + ':' + min
 
-    date = datetime.date(int(Jahr),int(Monat),int(Tag))
+    date = datetime.datetime.date(int(Jahr),int(Monat),int(Tag))
 
 
     cur.execute("INSERT INTO sonderab VALUES('{}','{}','{}')".format(id,time,date))
@@ -541,7 +541,7 @@ def Graphics():
 
     if isLogin == True:
 
-        now2 = datetime.now()
+        now2 = datetime.datetime.now()
 
         item_list = None
 
@@ -553,7 +553,7 @@ def Graphics():
 
         HomeTime = cur.fetchall()
 
-        now3 = datetime.now()
+        now3 = datetime.datetime.now()
 
         Sonderab = []
 
