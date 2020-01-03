@@ -86,6 +86,8 @@
      <p></p>
      <p></p>
      <p></p>
+
+     <p><b><i>Orte wo schüler sind</i></b></p>
      <table>
       <tr>
        {%- for hd in ds %}
@@ -102,6 +104,30 @@
          </tr>
       {%- endfor %}
      </tr>
+      </table>
+      
+      <p></p>
+      <p></p>
+      <p></p>
+      <p></p>
+      
+      <p><b><i>Heimgehzeiten Ausnahme</i></b></p>
+      <table>
+         <tr>
+            {%- for hd in gdd %}
+            <th>{{ hd }}</th>
+            {%- endfor %}
+         </tr>
+      
+         <tr>
+            {%- for row in itty -%}
+         <tr>
+            {%- for item in row %}
+            <td>{{item}}</td>
+            {%- endfor %}
+         </tr>
+         {%- endfor %}
+         </tr>
       </table>
 
   </body>

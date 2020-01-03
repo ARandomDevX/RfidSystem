@@ -546,7 +546,7 @@ def Graphics():
 
         cur.execute("SELECT id FROM sonderab WHERE datum = '{}' AND zeit = '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
 
-        Headings = ["Montag","Dienstag","Mitwoch","Donnerstag","Freitag","Samstag","Sonntag","Karten Nummer"]
+        Headings = ["Montag","Dienstag","Mitwoch","Donnerstag","Freitag","Karten Nummer"]
 
         HomeTime = cur.fetchall()
 
@@ -564,10 +564,6 @@ def Graphics():
 
         Sonderab = [", ".join(item.split(" ")) for item in Sonderab]
 
-                    
-
-
-
         cur.execute(f"SELECT * from heim WHERE NOT id = ({String})")
 
         Current_Weekday = now2.strftime("%A")
@@ -584,8 +580,10 @@ def Graphics():
 
         hds = ["Karten nummer","ort"]
 
+        gdd = ["Karten Nummer","Zeit"]
+
         if int(len(Outputofcur)) != 0:
-            return render_template("schulerubersicht.html",columns=Headings,items=Outputofcur,ds=hds,obj=objjjj)
+            return render_template("schulerubersicht.html",columns=Headings,items=Outputofcur,ds=hds,obj=objjjj,gdd=gdd,itty=HomeTime)
         else:
             return render_template("schulerubersicht.html",columns=Headings,items=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
     else:
