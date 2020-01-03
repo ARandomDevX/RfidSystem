@@ -564,7 +564,7 @@ def Graphics():
 
         Sonderab = [", ".join(item.split(" ")) for item in Sonderab]
 
-        cur.execute(f"SELECT * from heim WHERE NOT id = ({String})")
+        cur.execute("SELECT * from heim")
 
         Current_Weekday = now2.strftime("%A")
 
