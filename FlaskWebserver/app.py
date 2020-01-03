@@ -549,7 +549,7 @@ def Graphics():
 
         Outputofcur = [()]
 
-        cur.execute("SELECT id FROM sonderab WHERE datum = '{}' AND zeit = '{}'".format(datetime.date.today(),current_time))
+        cur.execute("SELECT id FROM sonderab WHERE datum = '{}'".format(datetime.date.today()))
 
         Headings = ["Montag","Dienstag","Mitwoch","Donnerstag","Freitag","Karten Nummer"]
 
@@ -566,6 +566,7 @@ def Graphics():
             for x in row:
 
                 Sonderab.append(x)
+        print(Hometime)
 
         Sonderab = [", ".join(item.split(" ")) for item in Sonderab]
 
