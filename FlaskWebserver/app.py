@@ -519,10 +519,12 @@ def Working():
 
     time = stunden + ':' + min
 
-    date = datetime.datetime.date(int(Jahr),int(Monat),int(Tag))
+    from datetime import date
+
+    daxte = date(int(Jahr),int(Monat),int(Tag))
 
 
-    cur.execute("INSERT INTO sonderab VALUES('{}','{}','{}')".format(id,time,date))
+    cur.execute("INSERT INTO sonderab VALUES('{}','{}','{}')".format(id,time,daxte))
     mydb.commit()
 
     return render_template("ReturnSonder.html")
