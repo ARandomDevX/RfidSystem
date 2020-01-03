@@ -562,9 +562,7 @@ def Graphics():
 
                 Sonderab.append(x)
 
-                for y in Sonderab:
-
-                    String = "{}".format(y)
+        Sonderab = [", ".join(item.split(" ")) for item in Sonderab]
 
                     
 
