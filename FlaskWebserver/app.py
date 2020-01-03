@@ -566,7 +566,7 @@ def Graphics():
             for x in row:
 
                 Sonderab.append(x)
-        print(Hometime)
+        print(HomeTime)
 
         Sonderab = [", ".join(item.split(" ")) for item in Sonderab]
 
