@@ -552,7 +552,25 @@ def Graphics():
 
         now3 = datetime.now()
 
-        cur.execute("SELECT * from heim")
+        Sonderab = []
+
+        String = ""
+
+        for row in HomeTime:
+
+            for x in row:
+
+                Sonderab.append(x)
+
+                for y in Sonderab:
+
+                    String = "{}".format(y)
+
+                    
+
+
+
+        cur.execute(f"SELECT * from heim WHERE NOT id = ({String})")
 
         Current_Weekday = now2.strftime("%A")
 
@@ -567,9 +585,6 @@ def Graphics():
         objjjj = cur.fetchall()
 
         hds = ["Karten nummer","ort"]
-
-
-
 
         if int(len(Outputofcur)) != 0:
             return render_template("schulerubersicht.html",columns=Headings,items=Outputofcur,ds=hds,obj=objjjj)
