@@ -519,7 +519,7 @@ def Working():
 
     time = stunden + ':' + min
 
-    date = datetime.date(Jahr,Monat,Tag)
+    date = datetime.date(int(Jahr),int(Monat),int(Tag))
 
 
     cur.execute("INSERT INTO sonderab VALUES('{}','{}','{}')".format(id,time,date))
