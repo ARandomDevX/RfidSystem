@@ -561,14 +561,8 @@ def Graphics():
 
         String = ""
 
-        for row in HomeTime:
-
-            for x in row:
-
-                Sonderab.append(x)
+       
         print(HomeTime)
-
-        Sonderab = [", ".join(item.split(" ")) for item in Sonderab]
 
         cur.execute("SELECT * from heim")
 
