@@ -557,15 +557,10 @@ def Working():
 
     time = stunden + ':' + min
 
-    if "wird abgeholt" in min.lower() or "wird abgeholt" in stunden.lower():
 
-        daxte = "Wird Abgeholt"
+    from datetime import date
 
-    else:
-
-        from datetime import date
-
-        daxte = date(int(Jahr),int(Monat),int(Tag))
+    daxte = date(int(Jahr),int(Monat),int(Tag))
 
 
     cur.execute("INSERT INTO sonderab VALUES('{}','{}','{}')".format(id,time,daxte))
