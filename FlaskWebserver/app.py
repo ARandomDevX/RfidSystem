@@ -324,37 +324,12 @@ def GetValue():
         dienstagH = request.form['dienstagH']
         mittwochM = request.form['mittwochM']
         mittwochH = request.form['mittwochH']
-        donnerstagM = request.form['donnerstagM']
-        donnerstagH = request.form['donnerstagH']
-        freitagM = request.form['freitagM']
-        freitagH = request.form['freitagH']
+        donnerstagM = request.form['DonnerstagM']
+        donnerstagH = request.form['DonnerstagH']
+        freitagM = request.form['FreitagM']
+        freitagH = request.form['FreitagH']
         Eltern1 = request.form['Erw1']
         Eltern2 = request.form['Erw2']
-
-        if "wird abgeholt" in montagM.lower() and "wird abgeholt" in montagH.lower():
-
-            montagM = "wird abgeholt"
-            montagH = "wird abgeholt"
-
-        if "wird abgeholt" in dienstagM.lower() and "wird abgeholt" in dienstagH.lower():
-
-            montagM = "wird abgeholt"
-            montagH = "wird abgeholt"
-
-        if "wird abgeholt" in mittwochM.lower() and "wird abgeholt" in mittwochH.lower():
-
-            montagM = "wird abgeholt"
-            montagH = "wird abgeholt"
-
-        if "wird abgeholt" in donnerstagM.lower() and "wird abgeholt" in donnerstagH.lower():
-
-            montagM = "wird abgeholt"
-            montagH = "wird abgeholt"
-
-        if "wird abgeholt" in freitagM.lower() and "wird abgeholt" in freitagH.lower():
-
-            montagM = "wird abgeholt"
-            montagH = "wird abgeholt"
 
 
 
@@ -588,7 +563,8 @@ def Graphics():
 
         Outputofcur = [()]
 
-        cur.execute("SELECT id,zeit,datum FROM sonderab WHERE datum = '{}'".format(datetime.date.today()))
+        cur.execute("SELECT schuler.name, schuler.lname, sonderab.zeit FROM sonderab, schuler WHERE  sonderab.id = schuler.id and datum = '{}'".format(datetime.date.today()))
+
 
         Headings = ["Montag","Dienstag","Mitwoch","Donnerstag","Freitag","Name"]
 
