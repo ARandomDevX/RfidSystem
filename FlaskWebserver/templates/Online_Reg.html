@@ -87,67 +87,73 @@
                     Nummer vom Mutter:<br>
                     <input type="number" name="Erw2"/>
                     <p></p><br>
-                    <p>Abhol/Heimgehzeiten</p>
+                    <p>Abhol/Heimgehzeiten (Falls er/sie abgeholt wird bitte bei stunde und minute "Wird Abgeholt" Eintragen)</p>
                     <p></p><br>
 
-                    <table border="1">
-                            <tr>
-                                
-                                <th>Tag</th>
-                                <th>Abholung</th>
-                                <th>Zeit</th>
-                            </tr>
-                            <tr>
-                                <td align="left">Montag</td>
-                                <td align="left"><input type="radio" name="Montag" value="montagAb" checked> wird abgeholt</input></td>
-                                <td align="left">
-                                    <div align="left" class="style-1">
-                                        <input type="radio" name="Montag"> geht allein um: </input>
-                                        <input type="time" name="Montag"/>
-                                    </div>
-                            </tr>
-                            <tr>
-                                <td align="left">Dienstag</td>
-                                <td align="left"><input type="radio" name='Dienstag' value="dienAb" checked> wird abgeholt</td>
-                                <td align="left">
-                                    <div align="left" class="style-1">
-                                        <input type="radio" name="Dienstag"> geht allein um:
-                                        <input type="time" name="Dienstag">
-                                    </div>
-                            </tr>
-                            <tr>
-                                <td align="left">Mitwoch</td>
-                                <td align="left"><input type="radio" name='Mitwoch' value="mitAb" checked> wird abgeholt</td>
-                                <td align="left">
-                                    <div align="left" class="style-1">
-                                        <input type="radio" name="Mitwoch"> geht allein um:
-                                        <input type="time" name="Mitwoch"/>
-                                    </div>
-                            </tr>
-                            <tr>
-                                <td align="left">Donnerstag</td>
-                                <td align="left"><input type="radio" name='Donnerstag' value="donnAb" checked> wird abgeholt</td>
-                                <td align="left">
-                                    <div align="left" class="style-1">
-                                        <input type="radio" name="Donnerstag"> geht allein um:
-                                        <input type="time" name="Donnerstag" />
-                                    </div>
-                            </tr>
-                            <tr>
-                                <td align="left">Freitag</td>
-                                <td align="left"><input type="radio" name='Freitag' value="friAb" checked> wird abgeholt</td>
-                                <td align="left">
-                                    <div align="left" class="style-1">
-                                        <input type="radio" name="Freitag"> geht allein um:
-                                        <input type="time" name="Freitag" />
-                                    </div>
-                            </tr>
-                            <br>
-                            <br>
+                    <div class="Montag">
 
-                    </table>
+                        <p>Montag</p>
+                        <p></p>
 
+                        Stunde<br>
+                        <input type="number" name="montagH"><br>
 
+                        Minute<br>
+                        <input type="number" name="montagM"><br>
+
+                    </div>
+
+                    <div class="Dienstag">
+                    
+                        <p>Montag</p>
+                        <p></p>
+                    
+                        Stunde<br>
+                        <input type="number" name="dienstagH"><br>
+                    
+                        Minute<br>
+                        <input type="number" name="dienstagM"><br>
+                    
+                    </div>
+
+                    <div class="Mittwoch">
+                    
+                        <p>Montag</p>
+                        <p></p>
+                    
+                        Stunde<br>
+                        <input type="number" name="mittwochH"><br>
+                    
+                        Minute<br>
+                        <input type="number" name="mittwochM"><br>
+                    
+                    </div>
+
+                    <div class="Donnerstag">
+                    
+                        <p>Montag</p>
+                        <p></p>
+                    
+                        Stunde<br>
+                        <input type="number" name="DonnerstagH"><br>
+                    
+                        Minute<br>
+                        <input type="number" name="DonnerstagM"><br>
+                    
+                    </div>
+
+                    <div class="Freitag">
+                    
+                        <p>Montag</p>
+                        <p></p>
+                    
+                        Stunde<br>
+                        <input type="number" name="FreitagH"><br>
+                    
+                        Minute<br>
+                        <input type="number" name="FreitagM"><br>
+                    
+                    </div>
 
                     <br>
                     <br>

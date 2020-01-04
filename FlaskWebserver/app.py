@@ -318,13 +318,51 @@ def GetValue():
         name = request.form['firstname']
         lname = request.form['lastname']
         id = request.form['id']
-        mon = request.form['Montag']
-        die = request.form['Dienstag']
-        mit= request.form['Mitwoch']
-        don = request.form['Donnerstag']
-        fri = request.form['Freitag']
+        montagM = request.form['montagM']
+        montagH = request.form['montagH']
+        dienstagM = request.form['dienstagM']
+        dienstagH = request.form['dienstagH']
+        mittwochM = request.form['mittwochM']
+        mittwochH = request.form['mittwochH']
+        donnerstagM = request.form['donnerstagM']
+        donnerstagH = request.form['donnerstagH']
+        freitagM = request.form['freitagM']
+        freitagH = request.form['freitagH']
         Eltern1 = request.form['Erw1']
         Eltern2 = request.form['Erw2']
+
+        if "wird abgeholt" in montagM.lower() and "wird abgeholt" in montagH.lower():
+
+            montagM = "wird abgeholt"
+            montagH = "wird abgeholt"
+
+        if "wird abgeholt" in dienstagM.lower() and "wird abgeholt" in dienstagH.lower():
+
+            montagM = "wird abgeholt"
+            montagH = "wird abgeholt"
+
+        if "wird abgeholt" in mittwochM.lower() and "wird abgeholt" in mittwochH.lower():
+
+            montagM = "wird abgeholt"
+            montagH = "wird abgeholt"
+
+        if "wird abgeholt" in donnerstagM.lower() and "wird abgeholt" in donnerstagH.lower():
+
+            montagM = "wird abgeholt"
+            montagH = "wird abgeholt"
+
+        if "wird abgeholt" in freitagM.lower() and "wird abgeholt" in freitagH.lower():
+
+            montagM = "wird abgeholt"
+            montagH = "wird abgeholt"
+
+
+
+        mon = montagH + ":" + montagM
+        die = dienstagH + ":" + dienstagM
+        mit = mittwochH + ":" + mittwochM
+        don = donnerstagH + ":" + donnerstagM
+        fri = freitagH + ":" + freitagM
 
         print(name, lname, id, mon, die)
         # Logic
@@ -519,9 +557,15 @@ def Working():
 
     time = stunden + ':' + min
 
-    from datetime import date
+    if "wird abgeholt" in min.lower() or "wird abgeholt" in stunden.lower():
 
-    daxte = date(int(Jahr),int(Monat),int(Tag))
+        daxte = "Wird Abgeholt"
+
+    else:
+
+        from datetime import date
+
+        daxte = date(int(Jahr),int(Monat),int(Tag))
 
 
     cur.execute("INSERT INTO sonderab VALUES('{}','{}','{}')".format(id,time,daxte))
@@ -549,9 +593,9 @@ def Graphics():
 
         Outputofcur = [()]
 
-        cur.execute("SELECT * FROM sonderab WHERE datum = '{}'".format(datetime.date.today()))
+        cur.execute("SELECT id,zeit,datum FROM sonderab WHERE datum = '{}' INNER JOIN SELECT fname,lname FROM schuler WHERE id = '{}'".format(datetime.date.today()))
 
-        Headings = ["Montag","Dienstag","Mitwoch","Donnerstag","Freitag","Karten Nummer"]
+        Headings = ["Montag","Dienstag","Mitwoch","Donnerstag","Freitag","Name"]
 
         HomeTime = cur.fetchall()
 
@@ -578,9 +622,9 @@ def Graphics():
 
         objjjj = cur.fetchall()
 
-        hds = ["Karten nummer","ort"]
+        hds = ["Name","ort"]
 
-        gdd = ["Karten Nummer","Zeit"]
+        gdd = ["Name","Zeit","Datum Jahr-Monat-Tag"]
 
         if int(len(Outputofcur)) != 0:
             return render_template("schulerubersicht.html",columns=Headings,items=Outputofcur,ds=hds,obj=objjjj,gdd=gdd,itty=HomeTime)
