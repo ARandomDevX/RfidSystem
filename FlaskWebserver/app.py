@@ -593,7 +593,7 @@ def Graphics():
 
         Outputofcur = [()]
 
-        cur.execute("SELECT id,zeit,datum FROM sonderab WHERE datum = '{}' INNER JOIN SELECT fname,lname FROM schuler WHERE id = '{}'".format(datetime.date.today()))
+        cur.execute("SELECT id,zeit,datum FROM sonderab WHERE datum = '{}'".format(datetime.date.today()))
 
         Headings = ["Montag","Dienstag","Mitwoch","Donnerstag","Freitag","Name"]
 
