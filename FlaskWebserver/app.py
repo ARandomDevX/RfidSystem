@@ -152,9 +152,9 @@ def ListenAndFunction():
 
     Data = request.json()
 
-    Id = Data.keys()
+    Id = Data["Id"]
 
-    Ort = Data.values()
+    Ort = Data["Ort"]
 
     cur.execute("INSERT INTO ort VALUES({},{})".format(Id,Ort))
 
@@ -568,7 +568,7 @@ def Graphics():
         cur.execute("SELECT schuler.name, schuler.lname, sonderab.zeit FROM sonderab, schuler WHERE sonderab.id = schuler.id and datum = '{}'".format(datetime.date.today()))
 
 
-        Headings = ["Vorname","Nachname","Montag","Dienstag","Mitwoch","Donnerstag","Freitag","Name"]
+        Headings = ["Vorname","Nachname","Montag","Dienstag","Mitwoch","Donnerstag","Freitag"]
 
         HomeTime = cur.fetchall()
 

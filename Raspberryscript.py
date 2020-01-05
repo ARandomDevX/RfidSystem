@@ -21,4 +21,4 @@ while True:
 
     CrdNumber = input()
 
-    requests.post('http://' + Ip + '/raspberrypi', data = {'Id' : CrdNumber, 'Ort' : Location})
+    requests.post('http://' + Ip + '/rpisst', data = {'Id' : CrdNumber, 'Ort' : Location})
