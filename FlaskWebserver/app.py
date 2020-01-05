@@ -563,7 +563,7 @@ def Graphics():
 
         Outputofcur = [()]
 
-        cur.execute("SELECT schuler.name, schuler.lname, sonderab.zeit FROM sonderab, schuler WHERE  sonderab.id = schuler.id and datum = '{}'".format(datetime.date.today()))
+        cur.execute("SELECT schuler.name, schuler.lname, sonderab.zeit FROM sonderab, schuler WHERE sonderab.id = schuler.id and datum = '{}'".format(datetime.date.today()))
 
 
         Headings = ["Montag","Dienstag","Mitwoch","Donnerstag","Freitag","Name"]
@@ -579,7 +579,7 @@ def Graphics():
        
         print(HomeTime)
 
-        cur.execute("SELECT * from heim")
+        cur.execute("SELECT schuler.name, schuler.lname, heim.Monday , heim.Tuesday, heim.Wednesday, heim.Thursday, heim.Friday FROM heim, schuler WHERE heim.id = schuler.id")
 
         Current_Weekday = now2.strftime("%A")
 
@@ -589,7 +589,7 @@ def Graphics():
         for item in Outputofcur:
             print(item)
 
-        cur.execute("SELECT * FROM ort")
+        cur.execute("SELECT schuler.name, schuler.lname, sonderab.ort FROM ort, schuler WHERE ort.id = schuler.id and datum = '{}'")
 
         objjjj = cur.fetchall()
 
