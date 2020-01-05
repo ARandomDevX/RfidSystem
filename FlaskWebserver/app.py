@@ -505,7 +505,7 @@ def RunAction():
     if isLogin == True:
 
         return render_template('sst.html')
-@app.route('/Sst')
+@app.route('/Sst',methods=["POST"])
 def Actions():
 
     if isLogin == True:
@@ -591,7 +591,7 @@ def Graphics():
         for item in Outputofcur:
             print(item)
 
-        cur.execute("SELECT schuler.name, schuler.lname, sonderab.ort FROM ort, schuler WHERE ort.id = schuler.id and datum = '{}'")
+        cur.execute("SELECT schuler.name, schuler.lname, ort.ort FROM ort, schuler WHERE ort.id = schuler.id and datum = '{}'")
 
         objjjj = cur.fetchall()
 
