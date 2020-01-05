@@ -591,7 +591,7 @@ def Graphics():
         for item in Outputofcur:
             print(item)
 
-        cur.execute("SELECT schuler.name, schuler.lname, ort.ort FROM ort, schuler WHERE ort.id = schuler.id and datum = '{}'")
+        cur.execute("SELECT schuler.name, schuler.lname, ort.ort FROM ort, schuler WHERE ort.id = schuler.id")
 
         objjjj = cur.fetchall()
 
