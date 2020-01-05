@@ -568,7 +568,7 @@ def Graphics():
         cur.execute("SELECT schuler.name, schuler.lname, sonderab.zeit FROM sonderab, schuler WHERE sonderab.id = schuler.id and datum = '{}'".format(datetime.date.today()))
 
 
-        Headings = ["Montag","Dienstag","Mitwoch","Donnerstag","Freitag","Name"]
+        Headings = ["Vorname","Nachname","Montag","Dienstag","Mitwoch","Donnerstag","Freitag","Name"]
 
         HomeTime = cur.fetchall()
 
@@ -595,9 +595,9 @@ def Graphics():
 
         objjjj = cur.fetchall()
 
-        hds = ["Name","ort"]
+        hds = ["Vorname","Nachname","ort"]
 
-        gdd = ["Name","Zeit","Datum Jahr-Monat-Tag"]
+        gdd = ["Vorname","Nachname","Zeit","Datum Jahr-Monat-Tag"]
 
         if int(len(Outputofcur)) != 0:
             return render_template("schulerubersicht.html",columns=Headings,items=Outputofcur,ds=hds,obj=objjjj,gdd=gdd,itty=HomeTime)
