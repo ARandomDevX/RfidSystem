@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7210fbc7-2925-412e-b60f-8ed1e92f52c2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/FlaskWebserver/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskWebserver/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FlaskWebserver/templates/sst.html" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskWebserver/templates/sst.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,11 +15,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FlaskWebserver/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="791">
-              <caret line="428" column="42" selection-start-line="428" selection-start-column="42" selection-end-line="428" selection-end-column="42" />
-              <folding>
-                <element signature="e#34#111#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="1114">
+              <caret line="474" lean-forward="true" selection-start-line="473" selection-start-column="1" selection-end-line="474" />
             </state>
           </provider>
         </entry>
@@ -27,8 +24,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FlaskWebserver/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="23" column="47" selection-start-line="23" selection-start-column="47" selection-end-line="23" selection-end-column="47" />
+            <state relative-caret-position="2159">
+              <caret line="127" column="12" selection-start-line="127" selection-start-column="12" selection-end-line="127" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -158,18 +155,15 @@
     <entry file="file://$USER_HOME$/AppData/Local/Temp/kite_tutorial.py" />
     <entry file="file://$PROJECT_DIR$/FlaskWebserver/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="791">
-          <caret line="428" column="42" selection-start-line="428" selection-start-column="42" selection-end-line="428" selection-end-column="42" />
-          <folding>
-            <element signature="e#34#111#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="1114">
+          <caret line="474" lean-forward="true" selection-start-line="473" selection-start-column="1" selection-end-line="474" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/FlaskWebserver/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="47" selection-start-line="23" selection-start-column="47" selection-end-line="23" selection-end-column="47" />
+        <state relative-caret-position="2159">
+          <caret line="127" column="12" selection-start-line="127" selection-start-column="12" selection-end-line="127" selection-end-column="12" />
         </state>
       </provider>
     </entry>
