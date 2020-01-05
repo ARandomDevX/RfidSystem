@@ -511,7 +511,9 @@ def Actions():
     if isLogin == True:
 
         Status = request.form['Status']
-        Id = request.form['id']
+        id = request.form['id']
+
+        cur.execute("INSERT INTO ort VALUES('{}','{}') ON DUPLICATE KEY UPDATE(id = '{}', ort='{}')".format(id,Status,id,Status))
 
 @app.route('/sonder')
 def Render():
