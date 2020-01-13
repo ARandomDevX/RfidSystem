@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7210fbc7-2925-412e-b60f-8ed1e92f52c2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/FlaskWebserver/templates/sst.html" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskWebserver/templates/sst.html" afterDir="false" />
-    </list>
+    <list default="true" id="7210fbc7-2925-412e-b60f-8ed1e92f52c2" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,7 +14,7 @@
         <entry file="file://$PROJECT_DIR$/FlaskWebserver/app.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1114">
-              <caret line="474" lean-forward="true" selection-start-line="473" selection-start-column="1" selection-end-line="474" />
+              <caret line="474" lean-forward="true" selection-start-line="474" selection-end-line="474" />
             </state>
           </provider>
         </entry>
@@ -156,7 +154,7 @@
     <entry file="file://$PROJECT_DIR$/FlaskWebserver/app.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1114">
-          <caret line="474" lean-forward="true" selection-start-line="473" selection-start-column="1" selection-end-line="474" />
+          <caret line="474" lean-forward="true" selection-start-line="474" selection-end-line="474" />
         </state>
       </provider>
     </entry>
