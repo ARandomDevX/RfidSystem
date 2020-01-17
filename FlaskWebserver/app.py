@@ -152,6 +152,8 @@ def ListenAndFunction():
 
     Data = request.get_json()
 
+    print(data)
+
     Id = Data["Id"]
 
     Ort = Data["Ort"]
@@ -159,6 +161,8 @@ def ListenAndFunction():
     cur.execute("INSERT INTO ort VALUES({},{})".format(Id,Ort))
 
     mydb.commit()
+
+    return jsonify({'request':'valid,accepted'})
 
 @app.route("/getNames",methods=['GET'])
 def GetNames():
