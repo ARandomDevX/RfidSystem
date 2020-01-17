@@ -152,7 +152,7 @@ def ListenAndFunction():
 
     Data = request.get_json()
 
-    print(data)
+    print(Data)
 
     Id = Data["Id"]
 
