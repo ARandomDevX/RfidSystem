@@ -147,7 +147,7 @@ def sendJson():
 
     return jsonify({'value':'succes'})
 
-@app.route('/rpisst')
+@app.route('/rpisst',methods=["POST"])
 def ListenAndFunction():
 
     Data = request.json()
