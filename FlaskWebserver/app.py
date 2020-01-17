@@ -162,7 +162,7 @@ def ListenAndFunction():
 
     del(Misc)
 
-    cur.execute("INSERT INTO ort VALUES('{}','{}') ON DUPLICATE KEY UPDATE (id = "{}",ort = "{}")".format(Id,Ort,Id,Ort))
+    cur.execute("INSERT INTO ort VALUES('{}','{}') ON DUPLICATE KEY UPDATE (id = '{}',ort = '{}')".format(Id,Ort,Id,Ort))
 
     mydb.commit()
 
