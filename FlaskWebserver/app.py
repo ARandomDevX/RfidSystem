@@ -150,7 +150,7 @@ def sendJson():
 @app.route('/rpisst',methods=["POST"])
 def ListenAndFunction():
 
-    Data = request.get_json()
+    Data = request.get_data().decode()
 
     print(Data)
 
