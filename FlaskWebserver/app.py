@@ -154,9 +154,13 @@ def ListenAndFunction():
 
     print(Data)
 
-    Id = Data["Id"]
+    idCon,ortCon = Data.split("&")
 
-    Ort = Data["Ort"]
+    Misc,Id = idCon.split("=")
+
+    Misc,Ort = ortCon.split("=")
+
+    del(Misc)
 
     cur.execute("INSERT INTO ort VALUES({},{})".format(Id,Ort))
 
