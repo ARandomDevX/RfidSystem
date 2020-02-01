@@ -172,6 +172,10 @@ def ListenAndFunction():
 def GetNames():
 
     return jsonify({'resault':'succes'})
+
+            
+
+
 @app.route("/anmelden", methods=['POST'])
 def Anmelden():
 
