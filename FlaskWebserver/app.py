@@ -439,7 +439,10 @@ def eas():
             Misc, Use = str(number).split("0.")
 
             message = """\
-            Subject: Angemeldet!
+
+            Sehr geerter Herr/Frau {}
+
+            Sie Haben sich Angemeldet!
 
             Bitte Keine Antwort Senden
 
@@ -450,7 +453,7 @@ def eas():
             Danke!
 
 
-            (Falls sie sich nicht angemeldet haben dann ignorieren sie diese nachricht)"""
+            (Falls sie sich nicht angemeldet haben dann ignorieren sie diese nachricht)""".format(lname)
 
             # Create a secure SSL context
             context = ssl.create_default_context()
@@ -528,7 +531,7 @@ def Actions():
         Status = request.form['Status']
         id = request.form['id']
 
-        cur.execute("INSERT INTO ort VALUES('{}','{}') ON DUPLICATE KEY UPDATE(id = '{}', ort='{}')".format(id,Status,id,Status))
+        cur.execute("INSERT INTO ort VALUES('{}','{}') ON DUPLICATE KEY UPDATE id = '{}', ort='{}'".format(id,Status,id,Status))
 
 @app.route('/sonder')
 def Render():
