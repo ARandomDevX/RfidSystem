@@ -1,63 +1,22 @@
-def Encrypt():
-    from cryptography.fernet import Fernet
-    try:
-        with open('key.key','rb') as file1:
-            file1.read()
-        key = file1.encode('utf-8')
-    except:
-        from cryptography.fernet import Fernet
-        key = Fernet.generate_key()
+def encrypt(sentence):
 
-        with open('key.key','wb') as file1:
+    result = []
 
-            file1.write(key)
+    for letter in sentence:
 
-    input_file = 'test.txt'
-    output_file = 'out.en'
+        l = ord(letter) - 20
 
-    with open(input_file, 'rb') as f:
-        data = f.read()
+        result.append(l)
 
-    fernet = Fernet(key)
-    encrypted = fernet.encrypt(data)
+    for numbers in result:
 
-    with open(output_file, 'wb') as f:
-        f.write(encrypted)
-    return encrypted
+        print(numbers, end="")
 
-def Decrypt():
-    from cryptography.fernet import Fernet
-
-    try:
-        with open('key.key','rb') as file1:
-            file1.read()
-        key = file1.encode('utf-8')
-    except:
-        from cryptography.fernet import Fernet
-        key = Fernet.generate_key()
-
-        with open('key.key','wb') as file1:
-
-            file1.write(key)
-
-    input_file = 'test.txt'
-    output_file = 'out.txt'
-
-    with open(input_file, 'rb') as f:
-        data = f.read()
-
-    fernet = Fernet(key)
-    encrypted = fernet.decrypt(data)
-
-    with open(output_file, 'wb') as f:
-        f.write(encrypted)
-    return encrypted
+        print("",end="")
 
 
-with open('test.txt','w') as file:
+def decrypt(sentence):
 
-    file.write('Tak')
+    pass
 
-print(Encrypt())
-
-print(Decrypt())
+print(encrypt("Hello"))
