@@ -173,7 +173,7 @@ def GetNames():
 
     return jsonify({'resault':'succes'})
 
-            
+
 
 
 @app.route("/anmelden", methods=['POST'])
@@ -590,7 +590,7 @@ def Graphics():
 
         String = ""
 
-       
+
         print(HomeTime)
 
         cur.execute("SELECT schuler.name, schuler.lname, heim.Monday , heim.Tuesday, heim.Wednesday, heim.Thursday, heim.Friday FROM heim, schuler WHERE heim.id = schuler.id")
@@ -611,8 +611,12 @@ def Graphics():
 
         gdd = ["Vorname","Nachname","Zeit","Datum Jahr-Monat-Tag"]
 
+        xzz = ["Vorname","Nachname"]
+
+        obj = cur.execute("SELECT schuler.name, schuler.lname, isAngemeldet.status FROM schuler, isAngemeldet WHERE isAngemeldet.id = schuler.id")
+
         if int(len(Outputofcur)) != 0:
-            return render_template("schulerubersicht.html",columns=Headings,items=Outputofcur,ds=hds,obj=objjjj,gdd=gdd,itty=HomeTime)
+            return render_template("schulerubersicht.html",columns=Headings,items=Outputofcur,ds=hds,obj=objjjj,gdd=gdd,itty=HomeTime,dsd=xzz,objd=cur.fetchall())
         else:
             return render_template("schulerubersicht.html",columns=Headings,items=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
     else:
