@@ -6,7 +6,6 @@ import json
 import mysql.connector
 import Hash
 import datetime
-from pandas import *
 
 
 # Creating Globals (So i can acces these variables everywhere)
