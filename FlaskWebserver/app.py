@@ -611,7 +611,7 @@ def Graphics():
 
         gdd = ["Vorname","Nachname","Zeit","Datum Jahr-Monat-Tag"]
 
-        xzz = ["Vorname","Nachname"]
+        xzz = ["Vorname","Nachname","Angemeldet"]
 
         obj = cur.execute("SELECT schuler.name, schuler.lname, isAngemeldet.status FROM schuler, isAngemeldet WHERE isAngemeldet.id = schuler.id")
 
