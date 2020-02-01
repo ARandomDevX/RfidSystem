@@ -113,7 +113,10 @@ def Login():
     else:
         return render_template('Fail.html')
 
+# Download Pandas exel file function comming
 
+
+# Other Functions
 
 @app.route("/index",methods=['GET','POST'])
 
