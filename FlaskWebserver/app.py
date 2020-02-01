@@ -532,6 +532,8 @@ def Actions():
 
         cur.execute("INSERT INTO ort VALUES('{}','{}') ON DUPLICATE KEY UPDATE id = '{}', ort='{}'".format(id,Status,id,Status))
 
+        return render_template("index.html")
+
 @app.route('/sonder')
 def Render():
 
