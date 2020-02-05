@@ -744,7 +744,13 @@ def Core(mail,code):
 
         cur.execute("SELECT code FROM passwordreset")
 
-        if code in cur.fetchall():
+        unpackedcode = []
+
+        for x in cur.fetchall():
+
+            unpackedcode.append(x)
+
+        if code in unpackedcode:
 
             return redirect("/reset3/" + code + "/" + mail)
         
