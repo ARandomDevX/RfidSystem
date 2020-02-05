@@ -742,11 +742,15 @@ def Core(mail,code):
     try:
         code = request.form["code"]
 
-        cur.execute("SELECT email from details WHERE email = '{}'".format(mail))
+        cur.execute("SELECT code FROM passwordreset")
 
-        cur.execute("SELECT code FROM passwordreset WHERE code = '{}'".format(code))
+        if code in cur.fetchall():
 
-        return redirect("/reset3/" + code + "/" + mail)
+            return redirect("/reset3/" + code + "/" + mail)
+        
+        else:
+
+            return "<h1>Bitte geben sie den richtigen code ein</h1>"
 
     except Exception as e:
 
