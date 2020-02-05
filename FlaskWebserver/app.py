@@ -720,7 +720,7 @@ Hallo, haben sie ihr passwort vergessen ?, Bitte geben sie diesen wiederherstell
 
         server.sendmail(sender_email, email, message + Use)
 
-        cur.execute("INSERT INTO passwordreset VALUES({},{})".format(email,Use))
+        cur.execute("INSERT INTO passwordreset VALUES('{}','{}')".format(email,Use))
 
         mydb.commit()
 
