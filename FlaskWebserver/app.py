@@ -703,7 +703,7 @@ Subject: Passwort Wiederherstellen
 
 Bitte Keine Antwort Senden
 
-Hallo, Ihr passwort wiederherstellungscode lautet : """
+Hallo, haben sie ihr passwort vergessen ?, Bitte geben sie diesen wiederherstellungscode ein : """
 
 
 
@@ -742,9 +742,9 @@ def Core(mail,code):
     try:
         code = request.form["code"]
 
-        cur.execute("SELECT email from details WHERE email = {}".format(mail))
+        cur.execute("SELECT email from details WHERE email = '{}'".format(mail))
 
-        cur.execute("SELECT code FROM passwordreset WHERE code = {}".format(code))
+        cur.execute("SELECT code FROM passwordreset WHERE code = '{}'".format(code))
 
         return redirect("/reset3/" + code + "/" + mail)
 
@@ -763,7 +763,7 @@ def BAckend(code):
     password = request.form["password"]
     username = request.form["uname"]
 
-    cur.execute("UPDATE users(uname,password) VALUES({},{}) WHERE uname={}".format(username,Hash.hashPassword(password),username))
+    cur.execute("UPDATE users(uname,password) VALUES('{}','{}') WHERE uname={}".format(username,Hash.hashPassword(password),username))
 
     mydb.commit()
 
