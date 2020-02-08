@@ -841,6 +841,16 @@ def RaspeiGraphic():
 
     return render_template("Done5.html")
 
+@app.route("/SchulerUOptions",methods=["GET"])
+def ShowOptions():
+
+    if isLogin == True:
+
+        return render_template("SstOptions.html")
+
+    else:
+
+        return render_template("noLogin.html")
 
 #End/Startup options
 
