@@ -851,6 +851,40 @@ def ShowOptions():
     else:
 
         return render_template("noLogin.html")
+@app.route("/Han")
+def HeimgehzeitenNormal():
+
+    cur.execute("SELECT schuler.name, schuler.lname, heim.Monday , heim.Tuesday, heim.Wednesday, heim.Thursday, heim.Friday FROM heim, schuler WHERE heim.id = schuler.id")
+    
+    Headings = ["Vorname","Nachname","Montag","Dienstag","Mittwoch","Donnerstag","Freitag"]
+    
+    return render_template("HAN.html",column=Headings,items=cur.fetchall())
+@app.route("/Oe")
+def OrteWoSchulerSind():
+    cur.execute("SELECT schuler.name, schuler.lname, ort.ort FROM ort, schuler WHERE ort.id = schuler.id")
+
+    Headings = ["Vorname", "Nachname", "Ort"]
+
+    return render_template("OE.html", ds=Headings, obj=cur.fetchall())
+
+
+@app.route("/Haa")
+def HeimgehzeitenAusnahme():
+    cur.execute("SELECT schuler.name, schuler.lname, sonderab.zeit FROM sonderab, schuler WHERE sonderab.id = schuler.id and datum = '{}'".format(datetime.date.today()))
+
+    Headings = ["Vorname", "Nachname", "Zeit"]
+
+    return render_template("HA.html", gdd=Headings, items=cur.fetchall())
+
+@app.route("/As")
+def AngemeldeteSchuler():
+    cur.execute("SELECT schuler.name, schuler.lname, isAngemeldet.status FROM schuler, isAngemeldet WHERE isAngemeldet.id = schuler.id")
+
+    Headings = ["Vorname", "Nachname", "Angemeldet"]
+
+    return render_template("HA.html",dsd=Headings,objd=cur.fetchall())
+
+
 
 #End/Startup options
 
