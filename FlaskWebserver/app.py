@@ -846,7 +846,7 @@ def ShowOptions():
 
     if isLogin == True:
 
-        return render_template("SstOptions.html")
+        return render_template("SchulerUOptions.html")
 
     else:
 
