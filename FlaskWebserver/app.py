@@ -884,6 +884,14 @@ def AngemeldeteSchuler():
 
     return render_template("HA.html",dsd=Headings,objd=cur.fetchall())
 
+@app.route("/Notfall")
+def QuickAction():
+
+    cur.execute("SELECT schuler.name, schuler.lname, schuler.n1, schuler.n2")
+
+    Headings = ["Vorname","Nachname","Telefon Nummer","Telefon Nummer"]
+
+    return render_template("Emergency.html",Headings = Headings, options = cur.fetchall())
 
 
 #End/Startup options
