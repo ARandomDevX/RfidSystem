@@ -678,7 +678,7 @@ def Screen():
 
     return render_template("Passwordreset.html")
 
-@app.route("/reset",methods=["POST"])
+@app.route("/reset",methods=["POST","GET"])
 def SendEmail():
 
     import smtplib
@@ -749,6 +749,8 @@ def Core(mail,code):
         for x in cur.fetchall():
 
             unpackedcode.append(x)
+        
+        print(unpackedcode)
 
         if code in unpackedcode:
 
@@ -768,7 +770,7 @@ def Screend(code,email):
 
     return render_template("NewPassword.html")
 @app.route("/reset3/<code>/<email>",methods = ["POST"])
-def BAckend(code):
+def BAckend(code,mail):
 
     password = request.form["password"]
     username = request.form["uname"]

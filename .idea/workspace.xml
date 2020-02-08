@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7210fbc7-2925-412e-b60f-8ed1e92f52c2" name="Default Changelist" comment="" />
+    <list default="true" id="7210fbc7-2925-412e-b60f-8ed1e92f52c2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/FlaskWebserver/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/FlaskWebserver/templates/index.html" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -10,25 +12,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FlaskWebserver/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1114">
-              <caret line="474" lean-forward="true" selection-start-line="474" selection-end-line="474" />
+            <state relative-caret-position="-7">
+              <caret line="491" selection-start-line="491" selection-end-line="491" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FlaskWebserver/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-<<<<<<< Updated upstream
+
             <state relative-caret-position="2159">
               <caret line="127" column="12" selection-start-line="127" selection-start-column="12" selection-end-line="127" selection-end-column="12" />
-=======
+
             <state relative-caret-position="1199">
               <caret line="144" column="10" selection-start-line="144" selection-start-column="10" selection-end-line="144" selection-end-column="10" />
->>>>>>> Stashed changes
+
+            <state relative-caret-position="1369">
+              <caret line="138" column="14" selection-start-line="138" selection-start-column="14" selection-end-line="138" selection-end-column="14" />
+
             </state>
           </provider>
         </entry>
@@ -50,8 +55,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$USER_HOME$/AppData/Local/Temp/kite_tutorial.py" />
-        <option value="$PROJECT_DIR$/FlaskWebserver/templates/index.html" />
         <option value="$PROJECT_DIR$/FlaskWebserver/app.py" />
+        <option value="$PROJECT_DIR$/FlaskWebserver/templates/index.html" />
       </list>
     </option>
   </component>
@@ -104,7 +109,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.project" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -133,7 +138,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="2575" height="1415" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24970461" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -158,20 +162,21 @@
     <entry file="file://$USER_HOME$/AppData/Local/Temp/kite_tutorial.py" />
     <entry file="file://$PROJECT_DIR$/FlaskWebserver/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1114">
-          <caret line="474" lean-forward="true" selection-start-line="474" selection-end-line="474" />
+        <state relative-caret-position="-7">
+          <caret line="491" selection-start-line="491" selection-end-line="491" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/FlaskWebserver/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-<<<<<<< Updated upstream
         <state relative-caret-position="2159">
           <caret line="127" column="12" selection-start-line="127" selection-start-column="12" selection-end-line="127" selection-end-column="12" />
-=======
+
         <state relative-caret-position="1199">
           <caret line="144" column="10" selection-start-line="144" selection-start-column="10" selection-end-line="144" selection-end-column="10" />
->>>>>>> Stashed changes
+
+        <state relative-caret-position="1369">
+          <caret line="138" column="14" selection-start-line="138" selection-start-column="14" selection-end-line="138" selection-end-column="14" />
         </state>
       </provider>
     </entry>
