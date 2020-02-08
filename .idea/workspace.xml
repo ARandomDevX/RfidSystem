@@ -22,8 +22,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FlaskWebserver/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
             <state relative-caret-position="2159">
               <caret line="127" column="12" selection-start-line="127" selection-start-column="12" selection-end-line="127" selection-end-column="12" />
+=======
+            <state relative-caret-position="1199">
+              <caret line="144" column="10" selection-start-line="144" selection-start-column="10" selection-end-line="144" selection-end-column="10" />
+>>>>>>> Stashed changes
             </state>
           </provider>
         </entry>
@@ -160,8 +165,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/FlaskWebserver/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
         <state relative-caret-position="2159">
           <caret line="127" column="12" selection-start-line="127" selection-start-column="12" selection-end-line="127" selection-end-column="12" />
+=======
+        <state relative-caret-position="1199">
+          <caret line="144" column="10" selection-start-line="144" selection-start-column="10" selection-end-line="144" selection-end-column="10" />
+>>>>>>> Stashed changes
         </state>
       </provider>
     </entry>
