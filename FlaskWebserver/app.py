@@ -911,6 +911,8 @@ def BlaBlaBLaVLaBLA2():
 
         ID = []
 
+        PreID1 = cur.fetchall()
+
         for x in PreID1:
 
             for y in x:
@@ -925,7 +927,7 @@ def BlaBlaBLaVLaBLA2():
 
         cur.execute("SELECT schuler.name, schuler.lname, sonderab.zeit FROM sonderab, schuler WHERE sonderab.id = '{}' and datum = '{}'".format(ID,datetime.date.today()))
 
-        PreID1 = cur.fetchall()
+
 
 
 
