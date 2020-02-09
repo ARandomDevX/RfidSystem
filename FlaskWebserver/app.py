@@ -907,7 +907,7 @@ def BlaBlaBLaVLaBLA2():
 
         Lname = request.form["lname"]
 
-        cur.execute("SELECT id FROM schuler WHERE fname, lname = '{}','{}'".format(Fname,Lname))
+        cur.execute("SELECT id FROM schuler WHERE fname = '{}' AND lname = '{}'".format(Fname,Lname))
 
         ID = []
 
