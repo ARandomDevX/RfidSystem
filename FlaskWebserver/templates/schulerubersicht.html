@@ -147,5 +147,22 @@
        {%- endfor %}
       </tr>
        </table>
+       <table>
+        <tr>
+         {%- for hd in dsdz %}
+            <th>{{ hd }}</th>
+         {%- endfor %}
+       </tr>
+
+        <tr>
+        {%- for row in objdg %}
+           <tr>
+           {%- for item in row %}
+              <td>{{item}}</td>
+           {%- endfor %}
+           </tr>
+        {%- endfor %}
+       </tr>
+        </table>
   </body>
 </html>

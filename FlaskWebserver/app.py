@@ -893,6 +893,22 @@ def QuickAction():
 
     return render_template("Emergency.html",Headings = Headings, optionen = cur.fetchall())
 
+@app.route("/FindDataByNames")
+def BlaBlaBLaVLaBLA:
+
+    return render_template('SearchByNamesInput.html')
+
+@app.route("/FindDataByNames")
+def BlaBlaBLaVLaBLA2:
+
+    Fname = request.form["fname"]
+
+    Lname = request.form["lname"]
+
+    cur.execute("SELECT id FROM schuler WHERE fname, lname = '{}','{}'".format(Fname,Lname))
+
+    return render_template("schuleruber.html")
+
 
 #End/Startup options
 
