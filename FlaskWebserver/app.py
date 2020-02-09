@@ -893,7 +893,7 @@ def QuickAction():
 
     return render_template("Emergency.html",Headings = Headings, optionen = cur.fetchall())
 
-@app.route("/FindDataByNames",methods=['POST'])
+@app.route("/FindDataByNames")
 def BlaBlaBLaVLaBLA():
 
     return render_template('SearchByNamesInput.html')
