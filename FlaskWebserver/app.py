@@ -894,12 +894,12 @@ def QuickAction():
     return render_template("Emergency.html",Headings = Headings, optionen = cur.fetchall())
 
 @app.route("/FindDataByNames")
-def BlaBlaBLaVLaBLA:
+def BlaBlaBLaVLaBLA():
 
     return render_template('SearchByNamesInput.html')
 
 @app.route("/FindDataByNames")
-def BlaBlaBLaVLaBLA2:
+def BlaBlaBLaVLaBLA2():
 
     Fname = request.form["fname"]
 
