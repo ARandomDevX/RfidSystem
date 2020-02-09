@@ -749,13 +749,13 @@ def Core(mail,code):
         for x in cur.fetchall():
 
             unpackedcode.append(x)
-        
+
         print(unpackedcode)
 
         if code in unpackedcode:
 
             return redirect("/reset3/" + code + "/" + mail)
-        
+
         else:
 
             return "<h1>Bitte geben sie den richtigen code ein</h1>"
@@ -855,9 +855,9 @@ def ShowOptions():
 def HeimgehzeitenNormal():
 
     cur.execute("SELECT schuler.name, schuler.lname, heim.Monday , heim.Tuesday, heim.Wednesday, heim.Thursday, heim.Friday FROM heim, schuler WHERE heim.id = schuler.id")
-    
+
     Headings = ["Vorname","Nachname","Montag","Dienstag","Mittwoch","Donnerstag","Freitag"]
-    
+
     return render_template("HAN.html",column=Headings,items=cur.fetchall())
 @app.route("/Oe")
 def OrteWoSchulerSind():
@@ -891,7 +891,7 @@ def QuickAction():
 
     Headings = ["Vorname","Nachname","Telefon Nummer","Telefon Nummer"]
 
-    return render_template("Emergency.html",Headings = Headings, options = cur.fetchall())
+    return render_template("Emergency.html",Headings = Headings, optionen = cur.fetchall())
 
 
 #End/Startup options
