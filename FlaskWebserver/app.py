@@ -907,7 +907,7 @@ def BlaBlaBLaVLaBLA2():
 
         Lname = request.form["lname"]
 
-        cur.execute("SELECT id FROM schuler WHERE fname = '{}' AND lname = '{}'".format(Fname,Lname))
+        cur.execute("SELECT id FROM schuler WHERE name = '{}' AND lname = '{}'".format(Fname,Lname))
 
         ID = []
 
@@ -964,8 +964,12 @@ def BlaBlaBLaVLaBLA2():
 
         obj = cur.execute("SELECT schuler.name, schuler.lname, isAngemeldet.status FROM schuler, isAngemeldet WHERE isAngemeldet.id = '{}'".format(ID))
 
+        ooobbbjjj = cur.fetchall()
+
+        data = cur.execute("SELECT * FROM notfall WHERE id = '{}'".format(ID))
+
         if int(len(Outputofcur)) != 0:
-            return render_template("schulerubersicht.html",columns=Headings,items=Outputofcur,ds=hds,obj=objjjj,gdd=gdd,itty=HomeTime,dsd=xzz,objd=cur.fetchall())
+            return render_template("schulerubersicht.html",columns=Headings,items=Outputofcur,ds=hds,obj=objjjj,gdd=gdd,itty=HomeTime,dsd=xzz,objd=ooobbbjjj,dsdz=["Vorname","Nachname","Telefon Nummer","Telefon Nummer"],objdg=cur.fetchall())
         else:
             return render_template("schulerubersicht.html",columns=Headings,items=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
     else:
