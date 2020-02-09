@@ -893,21 +893,83 @@ def QuickAction():
 
     return render_template("Emergency.html",Headings = Headings, optionen = cur.fetchall())
 
-@app.route("/FindDataByNames")
+@app.route("/FindDataByNames",methods=['POST'])
 def BlaBlaBLaVLaBLA():
 
     return render_template('SearchByNamesInput.html')
 
-@app.route("/FindDataByNames")
+@app.route("/FindDataByNames",methods=['POST'])
 def BlaBlaBLaVLaBLA2():
 
-    Fname = request.form["fname"]
+    if isLogin == True:
 
-    Lname = request.form["lname"]
+        Fname = request.form["fname"]
 
-    cur.execute("SELECT id FROM schuler WHERE fname, lname = '{}','{}'".format(Fname,Lname))
+        Lname = request.form["lname"]
 
-    return render_template("schuleruber.html")
+        cur.execute("SELECT id FROM schuler WHERE fname, lname = '{}','{}'".format(Fname,Lname))
+
+        ID = []
+
+        for x in PreID1:
+
+            for y in x:
+
+                ID.append(y)
+
+        now2 = datetime.datetime.now()
+
+        item_list = None
+
+        Outputofcur = [()]
+
+        cur.execute("SELECT schuler.name, schuler.lname, sonderab.zeit FROM sonderab, schuler WHERE sonderab.id = '{}' and datum = '{}'".format(ID,datetime.date.today()))
+
+        PreID1 = cur.fetchall()
+
+
+
+        Headings = ["Vorname","Nachname","Montag","Dienstag","Mitwoch","Donnerstag","Freitag"]
+
+        HomeTime = cur.fetchall()
+
+        now3 = datetime.datetime.now()
+
+        Sonderab = []
+
+        String = ""
+
+
+        print(HomeTime)
+
+        cur.execute("SELECT schuler.name, schuler.lname, heim.Monday , heim.Tuesday, heim.Wednesday, heim.Thursday, heim.Friday FROM heim, schuler WHERE heim.id = '{}'".format(ID))
+
+        Current_Weekday = now2.strftime("%A")
+
+        Outputofcur = cur.fetchall()
+
+        print(Outputofcur)
+        for item in Outputofcur:
+            print(item)
+
+        cur.execute("SELECT schuler.name, schuler.lname, ort.ort FROM ort, schuler WHERE ort.id = '{}'".format(ID))
+
+        objjjj = cur.fetchall()
+
+        hds = ["Vorname","Nachname","ort"]
+
+        gdd = ["Vorname","Nachname","Zeit","Datum Jahr-Monat-Tag"]
+
+        xzz = ["Vorname","Nachname","Angemeldet"]
+
+        obj = cur.execute("SELECT schuler.name, schuler.lname, isAngemeldet.status FROM schuler, isAngemeldet WHERE isAngemeldet.id = '{}'".format(ID))
+
+        if int(len(Outputofcur)) != 0:
+            return render_template("schulerubersicht.html",columns=Headings,items=Outputofcur,ds=hds,obj=objjjj,gdd=gdd,itty=HomeTime,dsd=xzz,objd=cur.fetchall())
+        else:
+            return render_template("schulerubersicht.html",columns=Headings,items=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
+    else:
+        return render_template("noLogin.html")
 
 
 #End/Startup options
