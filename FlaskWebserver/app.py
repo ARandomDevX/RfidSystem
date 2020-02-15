@@ -896,7 +896,7 @@ def QuickAction():
 @app.route("/FindDataByNames")
 def BlaBlaBLaVLaBLA():
 
-    return render_template('SearchByNamesInput.html')
+    return render_template('WebsiteUnderConstruction.html')
 
 @app.route("/FindDataByNames",methods=['POST'])
 def BlaBlaBLaVLaBLA2():
@@ -925,7 +925,7 @@ def BlaBlaBLaVLaBLA2():
 
         Outputofcur = [()]
 
-        cur.execute("SELECT schuler.name, schuler.lname, sonderab.zeit FROM sonderab, schuler WHERE sonderab.id = '{}' and datum = '{}'".format(ID,datetime.date.today()))
+        cur.execute("SELECT schuler.name, schuler.lname, sonderab.zeit FROM sonderab, schuler WHERE sonderab.id = schuler. and datum = {}".format(ID,datetime.date.today()))
 
 
 
