@@ -36,7 +36,7 @@ users = {}
 
 now = datetime.datetime.now()
 
-mydb = mysql.connector.connect(
+mydb = mysql.connector.connect()s
     host='localhost',
     database ="dev",
     user='demouser',
@@ -873,6 +873,8 @@ def HeimgehzeitenAusnahme():
     cur.execute("SELECT schuler.name, schuler.lname, sonderab.zeit FROM sonderab, schuler WHERE sonderab.id = schuler.id and datum = '{}'".format(datetime.date.today()))
 
     Headings = ["Vorname", "Nachname", "Zeit"]
+
+    print(datetime.date.today())
 
     return render_template("HA.html", gdd=Headings, items=cur.fetchall())
 
