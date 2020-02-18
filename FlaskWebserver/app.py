@@ -870,7 +870,7 @@ def OrteWoSchulerSind():
 
 @app.route("/Haa")
 def HeimgehzeitenAusnahme():
-    cur.execute("SELECT schuler.name, schuler.lname, sonderab.zeit FROM sonderab, schuler WHERE sonderab.id = schuler.id".format(datetime.date.today()))
+    cur.execute("SELECT schuler.name, schuler.lname, sonderab.zeit FROM sonderab, schuler WHERE sonderab.id = schuler.id"))
 
     Headings = ["Vorname", "Nachname", "Zeit"]
 
