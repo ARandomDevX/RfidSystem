@@ -36,7 +36,7 @@ users = {}
 
 now = datetime.datetime.now()
 
-mydb = mysql.connector.connect()
+mydb = mysql.connector.connect(
     host='localhost',
     database ="dev",
     user='demouser',
