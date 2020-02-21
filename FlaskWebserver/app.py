@@ -887,7 +887,7 @@ def AngemeldeteSchuler():
 @app.route("/Notfall")
 def QuickAction():
 
-    cur.execute("SELECT name, lname, n1, n2 FROM schuler")
+    cur.execute("SELECT schuler.name, schuler.lname, kids.vater, kids.mutter FROM schuler, kids WHERE kids.id = schuler.id")
 
     Headings = ["Vorname","Nachname","Telefon Nummer","Telefon Nummer"]
 
