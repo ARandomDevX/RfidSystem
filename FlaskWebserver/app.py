@@ -749,13 +749,13 @@ def Core(mail,code):
         for x in cur.fetchall():
 
             unpackedcode.append(x)
-        
+
         print(unpackedcode)
 
         if code in unpackedcode:
 
             return redirect("/reset3/" + code + "/" + mail)
-        
+
         else:
 
             return "<h1>Bitte geben sie den richtigen code ein</h1>"
@@ -855,9 +855,9 @@ def ShowOptions():
 def HeimgehzeitenNormal():
 
     cur.execute("SELECT schuler.name, schuler.lname, heim.Monday , heim.Tuesday, heim.Wednesday, heim.Thursday, heim.Friday FROM heim, schuler WHERE heim.id = schuler.id")
-    
+
     Headings = ["Vorname","Nachname","Montag","Dienstag","Mittwoch","Donnerstag","Freitag"]
-    
+
     return render_template("HAN.html",column=Headings,items=cur.fetchall())
 @app.route("/Oe")
 def OrteWoSchulerSind():
@@ -870,9 +870,11 @@ def OrteWoSchulerSind():
 
 @app.route("/Haa")
 def HeimgehzeitenAusnahme():
-    cur.execute("SELECT schuler.name, schuler.lname, sonderab.zeit FROM sonderab, schuler WHERE sonderab.id = schuler.id and datum = '{}'".format(datetime.date.today()))
+    cur.execute("SELECT schuler.name, schuler.lname, sonderab.zeit FROM sonderab, schuler WHERE sonderab.id = schuler.id")
 
     Headings = ["Vorname", "Nachname", "Zeit"]
+
+    print(datetime.date.today())
 
     return render_template("HA.html", gdd=Headings, items=cur.fetchall())
 
@@ -891,7 +893,91 @@ def QuickAction():
 
     Headings = ["Vorname","Nachname","Telefon Nummer","Telefon Nummer"]
 
-    return render_template("Emergency.html",Headings = Headings, options = cur.fetchall())
+    return render_template("Emergency.html",Headings = Headings, optionen = cur.fetchall())
+
+@app.route("/FindDataByNames")
+def BlaBlaBLaVLaBLA():
+
+    return render_template('WebsiteUnderConstruction.html')
+
+@app.route("/FindDataByNames",methods=['POST'])
+def BlaBlaBLaVLaBLA2():
+
+    if isLogin == True:
+
+        Fname = request.form["fname"]
+
+        Lname = request.form["lname"]
+
+        cur.execute("SELECT id FROM schuler WHERE name = '{}' AND lname = '{}'".format(Fname,Lname))
+
+        ID = []
+
+        PreID1 = cur.fetchall()
+
+        for x in PreID1:
+
+            for y in x:
+
+                ID.append(y)
+
+        now2 = datetime.datetime.now()
+
+        item_list = None
+
+        Outputofcur = [()]
+
+        cur.execute("SELECT schuler.name, schuler.lname, sonderab.zeit FROM sonderab, schuler WHERE sonderab.id = schuler. and datum = {}".format(ID,datetime.date.today()))
+
+
+
+
+
+        Headings = ["Vorname","Nachname","Montag","Dienstag","Mitwoch","Donnerstag","Freitag"]
+
+        HomeTime = cur.fetchall()
+
+        now3 = datetime.datetime.now()
+
+        Sonderab = []
+
+        String = ""
+
+
+        print(HomeTime)
+
+        cur.execute("SELECT schuler.name, schuler.lname, heim.Monday , heim.Tuesday, heim.Wednesday, heim.Thursday, heim.Friday FROM heim, schuler WHERE heim.id = '{}'".format(ID))
+
+        Current_Weekday = now2.strftime("%A")
+
+        Outputofcur = cur.fetchall()
+
+        print(Outputofcur)
+        for item in Outputofcur:
+            print(item)
+
+        cur.execute("SELECT schuler.name, schuler.lname, ort.ort FROM ort, schuler WHERE ort.id = '{}'".format(ID))
+
+        objjjj = cur.fetchall()
+
+        hds = ["Vorname","Nachname","ort"]
+
+        gdd = ["Vorname","Nachname","Zeit","Datum Jahr-Monat-Tag"]
+
+        xzz = ["Vorname","Nachname","Angemeldet"]
+
+        obj = cur.execute("SELECT schuler.name, schuler.lname, isAngemeldet.status FROM schuler, isAngemeldet WHERE isAngemeldet.id = '{}'".format(ID))
+
+        ooobbbjjj = cur.fetchall()
+
+        data = cur.execute("SELECT * FROM notfall WHERE id = '{}'".format(ID))
+
+        if int(len(Outputofcur)) != 0:
+            return render_template("schulerubersicht.html",columns=Headings,items=Outputofcur,ds=hds,obj=objjjj,gdd=gdd,itty=HomeTime,dsd=xzz,objd=ooobbbjjj,dsdz=["Vorname","Nachname","Telefon Nummer","Telefon Nummer"],objdg=cur.fetchall())
+        else:
+            return render_template("schulerubersicht.html",columns=Headings,items=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
+    else:
+        return render_template("noLogin.html")
 
 
 #End/Startup options

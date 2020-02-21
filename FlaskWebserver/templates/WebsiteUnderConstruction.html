@@ -91,59 +91,31 @@
         float: none;
     }
     }
-    table,
-    td {
-
-        padding: 15px;
-
-        border: 1px solid black;
-
-        border-collapse: collapse;
-
-    }
-
-    th {
-        color: black;
-
-        font: normal;
-
-        border: 1px solid black;
-
-        text-align: center;
-    }
 }
+
 </style>
+
 <html>
     <head>
-        <title>Notfall Optionen</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Online-Portall</title>
+        <link href="https://fonts.googleapis.com/css?family=Quattrocento+Sans&display=swap" rel="stylesheet">
     </head>
+
+    <div class="topnav">
+        <a class="active" href="index">Menü</a>
+        <a href="isloginfalse">Abmelden</a>
+        <a href="update">Aktualizieren</a>
+
+    </div>
+
     <body>
-        <div class="topnav">
-            <a class="active" href="index">Menü</a>
-            <a href="isloginfalse">Abmelden</a>
-            <a href="update">Aktualizieren</a>
 
-        </div>
+      <h1>Diese website wird gerade repariert</h1>
 
-        <h1>Notfall informationen</h1>
-        <p></p>
-        <p></p>
-        <table>
-            <tr>
-              {%- for column in Headings %}
-                 <th>{{ column }}</th>
-              {%- endfor %}
-            </tr>
+      <p></p>
 
-             <tr>
-             {%- for row in optionen %}
-                <tr>
-                {%- for item in row %}
-                   <td>{{item}}</td>
-                {%- endfor %}
-                </tr>
-             {%- endfor %}
-             </tr>
-        </table>
+      <p>Diese website wird gerade fertig programiert und wird wieder bald zur verfügung gestellt.</p>
+      <p>Wieso abgestelt? Das ist eine neue funktion die balld kommen wird aber noch in entwiklung ist.</p>
+
     </body>
-</html>
