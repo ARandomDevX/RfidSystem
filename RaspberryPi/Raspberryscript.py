@@ -19,6 +19,19 @@ print(Location)
 
 while True:
 
+    Location = requests.get("http://" + Ip + "/assignLocation/" + Raspicode)
+
     CrdNumber = input()
 
-    requests.post('http://' + Ip + '/rpisst', data = {'Id' : CrdNumber, 'Ort' : Location})
+    Out = requests.get("http://" + Ip + "/IsReg", data = {"Id" : CrdNumber})
+
+    if "True" in Out:
+
+        requests.post('http://' + Ip + '/rpisst', data = {'Id' : CrdNumber, 'Ort' : Location})
+
+
+    elif "False" in Out:
+
+        requests.post("http://" + Ip + "/RpiRegKid", data = {"Id" : CrdNumber})
+
+        requests.post('http://' + Ip + '/rpisst', data={'Id': CrdNumber, 'Ort': Location})
