@@ -144,7 +144,7 @@ def sendJson():
     return jsonify({'Ok':'succes'})
 
 @app.route("/IsReg",methods=['POST'])
-def sendJson():
+def sendJsorn():
 
     # Letting the Code to recive the JSON code
 
