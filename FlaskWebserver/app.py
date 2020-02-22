@@ -131,19 +131,28 @@ def maain():
 
         return render_template('noLogin.html')
 
-# Listening For connections on the /procces directory (Only for test)
 
-@app.route("/procces",methods=['POST'])
+@app.route("/RpiRegKid",methods=['POST'])
 def sendJson():
 
     # Letting the Code to recive the JSON code
 
     data = request.get_json()
 
+    cur.execute("INSERT INTO isAngemeldet VALUES('{}','Angemeldet')".format(data["Id"]))
 
-    # Returning the daba value
+    return jsonify({'Ok':'succes'})
 
-    return jsonify({'value':'succes'})
+@app.route("/IsReg",methods=['POST'])
+def sendJson():
+
+    # Letting the Code to recive the JSON code
+
+    data = request.get_json()
+
+    cur.execute("SELECT * FROM isAngemeldet WHERE íd = {}".format(data["Id"]))
+
+    return jsonify({'Ok':'succes'})
 
 @app.route('/rpisst',methods=["POST"])
 def ListenAndFunction():
