@@ -14,6 +14,8 @@ def encrypt(sentence):
 
         print("",end="")
 
+    return str()
+
 
 def decrypt(sentence):
 

@@ -143,7 +143,7 @@ def sendJson():
 
     return jsonify({'Ok':'succes'})
 
-@app.route("/IsReg",methods=['POST'])
+@app.route("/IsReg",methods=['POST',"GET"])
 def sendJsorn():
 
     # Letting the Code to recive the JSON code
@@ -152,7 +152,23 @@ def sendJsorn():
 
     cur.execute("SELECT * FROM isAngemeldet WHERE íd = {}".format(data["Id"]))
 
-    return jsonify({'Ok':'succes'})
+    MainObj = 1
+
+    for item in cur.fetchall():
+
+        for obj in item:
+
+            MainObj = obj
+
+    if MainObj == 'Angemeldet':
+
+        MainObj = 'True'
+    else:
+
+        MainObj = 'False'
+
+
+    return jsonify({"Is":MainObj})
 
 @app.route('/rpisst',methods=["POST"])
 def ListenAndFunction():
