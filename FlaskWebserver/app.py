@@ -113,6 +113,43 @@ def Login():
 
 # Other Functions
 
+@app.route("/SchulerUOptions")
+def renderSchuleruOptions():
+    
+    return render_template('SchulerUOptions.html')
+
+@app.route("/han")
+def han():
+    Headings = ["Vorname", "Nachname", "Montag", "Dienstag", "Mitwoch", "Donnerstag", "Freitag"]
+    cur.execute(
+        "SELECT schuler.name, schuler.lname, sonderab.zeit FROM sonderab, schuler WHERE sonderab.id = schuler.id and datum = '{}'".format(
+            datetime.date.today()))
+
+    out = cur.fetchall()
+
+    return render_template('HAN.html', colums = Headings, items=cur.fetchall())
+
+@app.route("/haa")
+def haa():
+
+    Headings = ["Vorname", "Nachname", "Zeit"]
+
+    obj = cur.execute(
+        "SELECT schuler.name, schuler.lname, sonderab.zeit, sonderab.datum WHERE schuler.id = sonderab.id")
+
+    out = cur.fetchall()
+
+    for item in out:
+
+        for i in item:
+
+            if i[3] != datetime.datetime.now():
+
+                del(item)
+
+
+    return render_template('HA.html', gdd=Headings, itty=out)
+
 @app.route("/index",methods=['GET','POST'])
 
 def maain():
@@ -605,7 +642,7 @@ def Graphics():
 
         Outputofcur = [()]
 
-        cur.execute("SELECT schuler.name, schuler.lname, sonderab.zeit FROM sonderab, schuler WHERE sonderab.id = schuler.id and datum = '{}'".format(datetime.date.today()))
+
 
 
         Headings = ["Vorname","Nachname","Montag","Dienstag","Mitwoch","Donnerstag","Freitag"]
@@ -641,7 +678,7 @@ def Graphics():
 
         xzz = ["Vorname","Nachname","Angemeldet"]
 
-        obj = cur.execute("SELECT schuler.name, schuler.lname, isAngemeldet.status FROM schuler, isAngemeldet WHERE isAngemeldet.id = schuler.id")
+
 
         if int(len(Outputofcur)) != 0:
             return render_template("schulerubersicht.html",columns=Headings,items=Outputofcur,ds=hds,obj=objjjj,gdd=gdd,itty=HomeTime,dsd=xzz,objd=cur.fetchall())
