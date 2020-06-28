@@ -1,6 +1,9 @@
 
 # Importing the required modules
 
+
+# Importing the required modules
+
 from flask import Flask, render_template, request, jsonify, redirect, session
 import json
 import mysql.connector
@@ -51,7 +54,8 @@ now2 = datetime.datetime.now()
 
 print(now2.strftime("%H:%M:%S"))
 
-
+cur.execute("SELECT * FROM kids")
+print(cur.fetchall())
 
 cur.execute("SELECT id FROM sonderab WHERE datum = '{}' AND zeit = '{}'".format(now2.strftime("%Y-%m-%d"),now2.strftime("%H:%M:%S")))
 
@@ -587,6 +591,8 @@ def Actions():
 
         Status = request.form['Status']
         id = request.form['id']
+
+        cur.execute("SELECT id FROM isAngemeldet WHERE id = '" + str(id) + "'")
 
         cur.execute("INSERT INTO ort VALUES('{}','{}') ON DUPLICATE KEY UPDATE id = '{}', ort='{}'".format(id,Status,id,Status))
 
