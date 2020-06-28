@@ -1,9 +1,6 @@
 
 # Importing the required modules
 
-
-# Importing the required modules
-
 from flask import Flask, render_template, request, jsonify, redirect, session
 import json
 import mysql.connector
@@ -117,6 +114,16 @@ def Login():
 
 # Other Functions
 
+@app.route("/Oe")
+def oeOptions():
+
+    headings = ["Name", "Nachname", "Ort"]
+
+    cur.execute("SELECT schuler.fname, schuler.lname, ort.status FROM schuler, ort WHERE schuler.id = ort.id")
+    out = cur.fetchall()
+
+    return render_template("OE.html", obj=out, ds=headings)
+
 @app.route("/SchulerUOptions")
 def renderSchuleruOptions():
     
@@ -139,7 +146,7 @@ def haa():
     Headings = ["Vorname", "Nachname", "Zeit"]
 
     obj = cur.execute(
-        "SELECT schuler.name, schuler.lname, sonderab.zeit, sonderab.datum WHERE schuler.id = sonderab.id")
+        "SELECT schuler.name, schuler.lname, sonderab.zeit, sonderab.datum FROM schuler, sonderab WHERE schuler.id = sonderab.id")
 
     out = cur.fetchall()
 
@@ -593,6 +600,10 @@ def Actions():
         id = request.form['id']
 
         cur.execute("SELECT id FROM isAngemeldet WHERE id = '" + str(id) + "'")
+
+        if cur.fetchall() == []:
+
+            cur.execute("INSERT INTO isAngemeldet VALUES('{}', 'Angemeldet')".format(str(id)))
 
         cur.execute("INSERT INTO ort VALUES('{}','{}') ON DUPLICATE KEY UPDATE id = '{}', ort='{}'".format(id,Status,id,Status))
 
