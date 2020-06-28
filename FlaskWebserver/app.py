@@ -119,7 +119,7 @@ def oeOptions():
 
     headings = ["Name", "Nachname", "Ort"]
 
-    cur.execute("SELECT schuler.fname, schuler.lname, ort.status FROM schuler, ort WHERE schuler.id = ort.id")
+    cur.execute("SELECT schuler.name, schuler.lname, ort.status FROM schuler, ort WHERE schuler.id = ort.id")
     out = cur.fetchall()
 
     return render_template("OE.html", obj=out, ds=headings)
@@ -943,3 +943,4 @@ if __name__ == '__main__':
         os.system('sudo service nginx stop')
 
         app.run(debug=True, host='0.0.0.0',port=80)
+
