@@ -122,7 +122,7 @@ def resserver782347893298():
 def finddbn():
     id = request.form["id"]
 
-    cur.execute("SELECT schuler.name, schuler.lname, schuler.n1, schuler.n2, isAngemeldet.status, ort.ort, heim.Monday, heim.Tuesday, heim.Wednesday, heim.Thursday, heim.Friday FROM schuler, isAngemeldet, ort, heim WHERE schuler.id = '{}' AND schuler.id = '{}' AND schuler.id = '{}'".format(id, id, id))
+    cur.execute("SELECT schuler.name, schuler.lname, schuler.n1, schuler.n2, isAngemeldet.status, ort.ort, heim.Monday, heim.Tuesday, heim.Wednesday, heim.Thursday, heim.Friday FROM schuler, isAngemeldet, ort, heim WHERE schuler.id = '{}' AND isAngemeldet.id = '{}' AND ort.id = '{}', heim.id = '{}'".format(id, id, id, id))
     data = cur.fetchall()
 
     headings = ["Vorname", "Nachname", "Nummer", "Nummer", "Ist Angemeldet?", "Ort", "Montag", "Dienstag", "Mitwoch", "Donnerstag", "Freitag"]
