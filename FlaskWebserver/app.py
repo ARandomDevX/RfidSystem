@@ -592,7 +592,7 @@ def ania():
 
         print(id)
 
-        cur.execute("INSERT INTO isAngemeldet VALUES ('{}', 'Nein') ON DUPLICATE KEY UPDATE id = '{}' status = 'Nein'".format(id, id))
+        cur.execute("INSERT INTO isAngemeldet VALUES ('{}', 'Nein') ON DUPLICATE KEY UPDATE id = '{}', status = 'Nein'".format(id, id))
 
         mydb.commit()
 
