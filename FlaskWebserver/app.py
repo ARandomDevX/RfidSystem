@@ -1,6 +1,8 @@
 
 # Importing the required modules
 
+from signal import signal, SIGPIPE, SIG_DFL
+import atexit
 from flask import Flask, render_template, request, jsonify, redirect, session
 import json
 import mysql.connector
@@ -8,27 +10,12 @@ import Hash
 import datetime
 
 
-# Creating Globals (So i can acces these variables everywhere)
-
-global isLogin
-
-global loginFile
-
 global run
-
 global cur
-
 global mydb
-
 global now
-
 global now2
-
 global Locations
-
-isLogin = {}
-
-loginFile = open('lif.lginfo','w')
 
 run = 0
 
@@ -38,7 +25,7 @@ now = datetime.datetime.now()
 
 mydb = mysql.connector.connect(
     host='localhost',
-    database ="dev",
+    database="dev",
     user='demouser',
     passwd='demo$#123',
     auth_plugin='mysql_native_password'
@@ -54,7 +41,8 @@ print(now2.strftime("%H:%M:%S"))
 cur.execute("SELECT * FROM kids")
 print(cur.fetchall())
 
-cur.execute("SELECT id FROM sonderab WHERE datum = '{}' AND zeit = '{}'".format(now2.strftime("%Y-%m-%d"),now2.strftime("%H:%M:%S")))
+cur.execute("SELECT id FROM sonderab WHERE datum = '{}' AND zeit = '{}'".format(
+    now2.strftime("%Y-%m-%d"), now2.strftime("%H:%M:%S")))
 
 PreKidsVar = cur.fetchall()
 
@@ -64,23 +52,26 @@ current_time = now.strftime("%H:%M:%S")
 
 now2 = datetime.datetime.now()
 
-Locations = {"0001":"Hof","0002":"Garten"}
+Locations = {"0001": "Hof", "0002": "Garten"}
 
 # Creating the Flask object
 
 app = Flask(__name__)
 
+app.secret_key = "secret"
+
 
 # Listening For connections on the Main directory
 
-@app.route("/",methods=['GET'])
-
+@app.route("/", methods=['GET'])
 def main():
 
     # Rendering the Login
 
     return render_template('Login.html')
-@app.route("/",methods=['POST'])
+
+
+@app.route("/", methods=['POST'])
 def Login():
 
     now2 = datetime.datetime.now()
@@ -100,24 +91,20 @@ def Login():
 
     details = list(details)
 
-    if (uname,(passw)) in details:
-        global isLogin
+    if (uname, (passw)) in details:
+        session["il"] = True
 
-        isLogin = True
-
-        return render_template('index.html',names=PreKidsVar,Names=["Hallo, " + uname])
+        return render_template('index.html', names=PreKidsVar, Names=["Hallo, " + uname])
     else:
         return render_template('Fail.html')
 
-# Download Pandas exel file function comming
-
-
-# Other Functions
 
 @app.route("/FindDataByNames")
 def resserver782347893298():
 
     return render_template("askfor.html")
+
+
 @app.route("/FindDataByNames", methods=["POST"])
 def finddbn():
     id = request.form["id"]
@@ -125,35 +112,42 @@ def finddbn():
     cur.execute("SELECT schuler.name, schuler.lname, schuler.n1, schuler.n2, isAngemeldet.status, ort.ort, heim.Monday, heim.Tuesday, heim.Wednesday, heim.Thursday, heim.Friday FROM schuler, isAngemeldet, ort, heim WHERE schuler.id = '{}' AND isAngemeldet.id = '{}' AND ort.id = '{}' AND heim.id = '{}'".format(id, id, id, id))
     data = cur.fetchall()
 
-    headings = ["Vorname", "Nachname", "Nummer", "Nummer", "Ist Angemeldet?", "Ort", "Montag", "Dienstag", "Mitwoch", "Donnerstag", "Freitag"]
+    headings = ["Vorname", "Nachname", "Nummer", "Nummer", "Ist Angemeldet?",
+                "Ort", "Montag", "Dienstag", "Mitwoch", "Donnerstag", "Freitag"]
 
-    return render_template("Find.html", dsdt = headings, ssdt=data)
+    return render_template("Find.html", dsdt=headings, ssdt=data)
+
 
 @app.route("/Oe")
 def oeOptions():
 
     headings = ["Name", "Nachname", "Ort"]
 
-    cur.execute("SELECT schuler.name, schuler.lname, ort.ort FROM schuler, ort WHERE schuler.id = ort.id")
+    cur.execute(
+        "SELECT schuler.name, schuler.lname, ort.ort FROM schuler, ort WHERE schuler.id = ort.id")
     out = cur.fetchall()
 
     return render_template("OE.html", obj=out, ds=headings)
 
+
 @app.route("/SchulerUOptions")
 def renderSchuleruOptions():
-    
+
     return render_template('SchulerUOptions.html')
+
 
 @app.route("/han")
 def han():
-    Headings = ["Vorname", "Nachname", "Montag", "Dienstag", "Mitwoch", "Donnerstag", "Freitag"]
+    Headings = ["Vorname", "Nachname", "Montag",
+                "Dienstag", "Mitwoch", "Donnerstag", "Freitag"]
     cur.execute(
         "SELECT schuler.name, schuler.lname, sonderab.zeit FROM sonderab, schuler WHERE sonderab.id = schuler.id and datum = '{}'".format(
             datetime.date.today()))
 
     out = cur.fetchall()
 
-    return render_template('HAN.html', colums = Headings, items=cur.fetchall())
+    return render_template('HAN.html', colums=Headings, items=cur.fetchall())
+
 
 @app.route("/haa")
 def haa():
@@ -165,44 +159,47 @@ def haa():
 
     out = cur.fetchall()
 
+    lst = []
+
     for item in out:
 
-        for i in item:
+        if item[3] == datetime.datetime.now():
+            lst.append(item)
+    return render_template('HA.html', gdd=Headings, itty=lst)
 
-            print(i)
-#    return render_template('HA.html', gdd=Headings, itty=out)
-    return "OK"
-@app.route("/index",methods=['GET','POST'])
 
+@app.route("/index", methods=['GET', 'POST'])
 def maain():
 
-    if isLogin == True:
-    # Rendering the index file
+    if session["il"] == True:
 
         now2 = datetime.datetime.now()
 
-        cur.execute("SELECT id FROM sonderab WHERE datum = '{}' AND zeit= '{}'".format(now2.strftime("%Y-%m-%d"),current_time))
+        cur.execute("SELECT id FROM sonderab WHERE datum = '{}' AND zeit= '{}'".format(
+            now2.strftime("%Y-%m-%d"), current_time))
 
         PreKidsVar = cur.fetchall()
 
-        return render_template('index.html',names=PreKidsVar)
+        return render_template('index.html', names=PreKidsVar)
     else:
 
         return render_template('noLogin.html')
 
 
-@app.route("/RpiRegKid",methods=['POST'])
+@app.route("/RpiRegKid", methods=['POST'])
 def sendJson():
 
     # Letting the Code to recive the JSON code
 
     data = request.get_json()
 
-    cur.execute("INSERT INTO isAngemeldet VALUES('{}','Angemeldet')".format(data["Id"]))
+    cur.execute(
+        "INSERT INTO isAngemeldet VALUES('{}','Angemeldet')".format(data["Id"]))
 
-    return jsonify({'Ok':'succes'})
+    return jsonify({'Ok': 'succes'})
 
-@app.route("/IsReg",methods=['POST',"GET"])
+
+@app.route("/IsReg", methods=['POST', "GET"])
 def sendJsorn():
 
     # Letting the Code to recive the JSON code
@@ -226,36 +223,36 @@ def sendJsorn():
 
         MainObj = 'False'
 
+    return jsonify({"Is": MainObj})
 
-    return jsonify({"Is":MainObj})
 
-@app.route('/rpisst',methods=["POST"])
+@app.route('/rpisst', methods=["POST"])
 def ListenAndFunction():
 
     Data = request.get_data().decode()
 
     print(Data)
 
-    idCon,ortCon = Data.split("&")
+    idCon, ortCon = Data.split("&")
 
-    Misc,Id = idCon.split("=")
+    Misc, Id = idCon.split("=")
 
-    Misc,Ort = ortCon.split("=")
+    Misc, Ort = ortCon.split("=")
 
     del(Misc)
 
-    cur.execute("INSERT INTO ort VALUES('{}','{}') ON DUPLICATE KEY UPDATE id = '{}',ort = '{}'".format(Id,Ort,Id,Ort))
+    cur.execute("INSERT INTO ort VALUES('{}','{}') ON DUPLICATE KEY UPDATE id = '{}',ort = '{}'".format(
+        Id, Ort, Id, Ort))
 
     mydb.commit()
 
-    return jsonify({'request':'valid,accepted'})
+    return jsonify({'request': 'valid,accepted'})
 
-@app.route("/getNames",methods=['GET'])
+
+@app.route("/getNames", methods=['GET'])
 def GetNames():
 
-    return jsonify({'resault':'succes'})
-
-
+    return jsonify({'resault': 'succes'})
 
 
 @app.route("/anmelden", methods=['POST'])
@@ -275,15 +272,16 @@ def Anmelden():
 
     return data
 
-@app.route('/abmelden',methods=['POST'])
+
+@app.route('/abmelden', methods=['POST'])
 def Abmelden():
 
     data = request.get_json()
 
-    return jsonify({'No':'ErrorsAccoured'})
+    return jsonify({'No': 'ErrorsAccoured'})
 
 
-@app.route("/bin/server.get",methods=['POST'])
+@app.route("/bin/server.get", methods=['POST'])
 def get_cuurent_send_Json():
 
     data = request.get_json()
@@ -291,27 +289,23 @@ def get_cuurent_send_Json():
     return jsonify(data)
 
 
-@app.route('/bin',methods=['GET'])
+@app.route('/bin', methods=['GET'])
 def return_bins():
     return jsonify({''})
 
 
-
-
-@app.route("/raspberrypi/test/gui",methods=['GET'])
+@app.route("/raspberrypi/test/gui", methods=['GET'])
 def test_Gui_Raspberrypi():
 
     return render_template('Raspberrypitest.html')
 
 
-@app.route("/raspberrypi",methods=['POST'])
+@app.route("/raspberrypi", methods=['POST'])
 def raspberrypi_json_test():
 
     data = request.get_json()
 
-
-
-    return jsonify({'JSON':'TEST.rpi'})
+    return jsonify({'JSON': 'TEST.rpi'})
 
 
 @app.route("/test")
@@ -320,7 +314,7 @@ def test():
     return "<h1>TEST test </h1>"
 
 
-@app.route("/sst",methods=['POST'])
+@app.route("/sst", methods=['POST'])
 def sst():
     data = request.get_data().decode()
 
@@ -330,7 +324,7 @@ def sst():
 
     Misc, Status = status.split("=")
 
-    Status,misc = Status.split("%")
+    Status, misc = Status.split("%")
 
     print(f"Debug.Log(Number : {Number}, Status : {Status})")
 
@@ -342,9 +336,10 @@ def delete(name):
 
     print(f'Deleted: {name} and is a Rfid number')
 
-    return jsonify({'...':'...'})
+    return jsonify({'...': '...'})
 
-@app.route("/closeServer",methods=['GET'])
+
+@app.route("/closeServer", methods=['GET'])
 def clsServer():
 
     import os
@@ -361,10 +356,11 @@ def clsServer():
 
     os.system('sudo shutdown -h now')
 
-@app.route("/notfall",methods=['GET'])
+
+@app.route("/notfall", methods=['GET'])
 def notfall():
 
-    data=request.get_data().decode()
+    data = request.get_data().decode()
 
     id = data
 
@@ -374,11 +370,12 @@ def notfall():
 
     print('Identifier = ' + Use)
 
-    return jsonify({'test':'123'})
+    return jsonify({'test': '123'})
 
 # Getting data from raspberrypis
 
-@app.route('/Data',methods=['POST'])
+
+@app.route('/Data', methods=['POST'])
 def Data():
 
     data = request.get_data()
@@ -396,19 +393,21 @@ def Data():
     print(Rfid)
     print(Status)
 
-    return jsonify({'ok':'ok'})
+    return jsonify({'ok': 'ok'})
+
 
 @app.route('/Form')
 def maion():
-    if isLogin == True:
+    if session["il"] == True:
         return render_template("Online_Reg.html")
     else:
 
         return render_template('noLogin.html')
 
-@app.route('/Form',methods=['POST'])
+
+@app.route('/Form', methods=['POST'])
 def GetValue():
-    if isLogin == True:
+    if session["il"] == True:
         name = request.form['firstname']
         lname = request.form['lastname']
         id = request.form['id']
@@ -425,8 +424,6 @@ def GetValue():
         Eltern1 = request.form['Erw1']
         Eltern2 = request.form['Erw2']
 
-
-
         mon = montagH + ":" + montagM
         die = dienstagH + ":" + dienstagM
         mit = mittwochH + ":" + mittwochM
@@ -436,8 +433,10 @@ def GetValue():
         print(name, lname, id, mon, die)
         # Logic
 
-        cur.execute("INSERT INTO schuler VALUES('{}','{}','{}','{}','{}')".format(name, lname, id, Eltern1, Eltern2))
-        cur.execute("INSERT INTO heim VALUES('{}','{}','{}','{}','{}','{}')".format(mon,die,mit,don,fri,id))
+        cur.execute("INSERT INTO schuler VALUES('{}','{}','{}','{}','{}')".format(
+            name, lname, id, Eltern1, Eltern2))
+        cur.execute("INSERT INTO heim VALUES('{}','{}','{}','{}','{}','{}')".format(
+            mon, die, mit, don, fri, id))
         mydb.commit()
         return render_template('procces_done.html')
     else:
@@ -445,18 +444,18 @@ def GetValue():
         return render_template('noLogin.html')
 
 
-
 @app.route('/Del')
 def Delete():
-    if isLogin == True:
+    if session["il"] == True:
         return render_template("Del.html")
     else:
 
         return render_template('noLogin.html')
 
-@app.route("/Del",methods=['POST'])
+
+@app.route("/Del", methods=['POST'])
 def Deleite():
-    if isLogin == True:
+    if session["il"] == True:
         id = request.form['id']
 
         cur.execute("DELETE FROM schuler WHERE id = '{}'".format(id))
@@ -470,54 +469,56 @@ def Deleite():
 
         return render_template('noLogin.html')
 
-@app.route("/ea",methods = ["GET"])
+
+@app.route("/ea", methods=["GET"])
 def ea():
 
     return render_template("Te.html")
-@app.route("/ea",methods=['POST',"GET","HEAD","PUT","DELETE"])
+
+
+@app.route("/ea", methods=['POST', "GET", "HEAD", "PUT", "DELETE"])
 def eas():
-        if isLogin == True:
-            name = request.form['name']
-            lname = request.form['lname']
-            email = request.form['email']
-            uname = request.form['uname']
-            password = request.form['pass']
-            password = Hash.hashPassword(password)
+    if session["il"] == True:
+        name = request.form['name']
+        lname = request.form['lname']
+        email = request.form['email']
+        uname = request.form['uname']
+        password = request.form['pass']
+        password = Hash.hashPassword(password)
 
-            password = password.decode("utf-8")
+        password = password.decode("utf-8")
 
-            cur.execute('SELECT id FROM users')
+        cur.execute('SELECT id FROM users')
 
-            curid = cur.fetchall()
+        curid = cur.fetchall()
 
+        lenid = len(curid)
 
+        index = lenid + 1
 
-            lenid = len(curid)
+        print(index)
 
-            index = lenid + 1
+        cur.execute("INSERT INTO details(id,email,password,name,lname) VALUES('{}','{}','{}','{}','{}')".format(
+            index, email, password, name, lname))
 
-            print(index)
+        cur.execute("INSERT INTO users(id,uname,password) VALUES('{}','{}','{}')".format(
+            index, uname, password))
 
+        mydb.commit()
 
-            cur.execute("INSERT INTO details(id,email,password,name,lname) VALUES('{}','{}','{}','{}','{}')".format(index,email,password,name,lname))
+        import smtplib
+        import ssl
+        from random import random
 
-            cur.execute("INSERT INTO users(id,uname,password) VALUES('{}','{}','{}')".format(index,uname,password))
+        smtp_server = "smtp.gmail.com"
+        port = 587  # For starttls
+        sender_email = "resetbot46@gmail.com"
+        password = "Resetbot2019"
 
-            mydb.commit()
+        number = random()
+        Misc, Use = str(number).split("0.")
 
-            import smtplib
-            import ssl
-            from random import random
-
-            smtp_server = "smtp.gmail.com"
-            port = 587  # For starttls
-            sender_email = "resetbot46@gmail.com"
-            password = "Resetbot2019"
-
-            number = random()
-            Misc, Use = str(number).split("0.")
-
-            message = """\
+        message = """\
 
             Sehr geerter Herr/Frau {}
 
@@ -534,61 +535,69 @@ def eas():
 
             (Falls sie sich nicht angemeldet haben dann ignorieren sie diese nachricht)""".format(lname)
 
-            # Create a secure SSL context
-            context = ssl.create_default_context()
+        # Create a secure SSL context
+        context = ssl.create_default_context()
 
-            # Try to log in to server and send email
-            server = smtplib.SMTP(smtp_server, port)
-            server.ehlo()  # Can be omitted
-            server.starttls(context=context)  # Secure the connection
-            server.ehlo()  # Can be omitted
-            server.login(sender_email, password)
+        # Try to log in to server and send email
+        server = smtplib.SMTP(smtp_server, port)
+        server.ehlo()  # Can be omitted
+        server.starttls(context=context)  # Secure the connection
+        server.ehlo()  # Can be omitted
+        server.login(sender_email, password)
 
-            server.sendmail(sender_email, email, message)
+        server.sendmail(sender_email, email, message)
 
-            server.quit()
+        server.quit()
 
-            return render_template('Done2.html')
+        return render_template('Done2.html')
 
-        else:
+    else:
 
-            return render_template('noLogin.html')
+        return render_template('noLogin.html')
+
+
 @app.route("/an")
 def an():
 
-
-
     return render_template('Anmelden.html')
+
+
 @app.route("/an", methods=['POST'])
 def ani():
 
-    if isLogin == True:
+    if session["il"] == True:
 
         id = request.form['id']
 
         print(id)
 
-        cur.execute("insert into isAngemeldet values('{}','{}')".format(id,"Angemeldet"))
+        cur.execute(
+            "insert into isAngemeldet values('{}','{}')".format(id, "Angemeldet"))
 
         mydb.commit()
 
         return render_template('Done3.html')
     else:
         return render_template('noLogin.html')
+
+
 @app.route('/ab')
 def ad_def():
 
     return render_template('Abmelden.html')
+
+
 @app.route("/ab", methods=['POST'])
 def ania():
 
-    if isLogin == True:
+    if session["il"] == True:
 
         id = request.form['id']
 
         print(id)
 
-        cur.execute("INSERT INTO isAngemeldet VALUES ('{}', 'Nein') ON DUPLICATE KEY UPDATE id = '{}', status = 'Nein'".format(id, id))
+        cur.execute(
+            "INSERT INTO isAngemeldet VALUES ('{}', 'Nein') ON DUPLICATE KEY UPDATE id = '{}', status = 'Nein'".format(id, id))
 
         mydb.commit()
 
@@ -596,16 +605,19 @@ def ania():
     else:
         return render_template('noLogin.html')
 
+
 @app.route('/Sst')
 def RunAction():
 
-    if isLogin == True:
+    if session["il"] == True:
 
         return render_template('sst.html')
-@app.route('/Sst',methods=["POST"])
+
+
+@app.route('/Sst', methods=["POST"])
 def Actions():
 
-    if isLogin == True:
+    if session["il"] == True:
 
         Status = request.form['Status']
         id = request.form['id']
@@ -614,21 +626,26 @@ def Actions():
 
         if cur.fetchall() == []:
 
-            cur.execute("INSERT INTO isAngemeldet VALUES('{}', 'Angemeldet')".format(str(id)))
+            cur.execute(
+                "INSERT INTO isAngemeldet VALUES('{}', 'Angemeldet')".format(str(id)))
 
-        cur.execute("INSERT INTO ort VALUES('{}','{}') ON DUPLICATE KEY UPDATE id = '{}', ort='{}'".format(id,Status,id,Status))
+        cur.execute("INSERT INTO ort VALUES('{}','{}') ON DUPLICATE KEY UPDATE id = '{}', ort='{}'".format(
+            id, Status, id, Status))
 
         return render_template("index.html")
+
 
 @app.route('/sonder')
 def Render():
 
-    if isLogin == True:
+    if session["il"] == True:
 
         return render_template('Sonderabholzeiten.html')
     else:
         return render_template('noLogin.html')
-@app.route('/sonder',methods=['POST'])
+
+
+@app.route('/sonder', methods=['POST'])
 def Working():
     min = request.form['min']
     stunden = request.form['ho']
@@ -639,16 +656,19 @@ def Working():
 
     time = stunden + ':' + min
 
-
     from datetime import date
 
-    daxte = date(int(Jahr),int(Monat),int(Tag))
+    daxte = date(int(Jahr), int(Monat), int(Tag))
 
-
-    cur.execute("INSERT INTO sonderab VALUES('{}','{}','{}')".format(id,time,daxte))
+    cur.execute(
+        "INSERT INTO sonderab VALUES('{}','{}','{}')".format(id, time, daxte))
     mydb.commit()
 
     return render_template("ReturnSonder.html")
+
+
+session["il"] == True
+
 
 @app.route("/isloginfalse")
 def SD():
@@ -657,12 +677,11 @@ def SD():
 
     return redirect("/")
 
+
 @app.route("/schuleruber")
 def Graphics():
 
-
-
-    if isLogin == True:
+    if session["il"] == True:
 
         now2 = datetime.datetime.now()
 
@@ -670,10 +689,8 @@ def Graphics():
 
         Outputofcur = [()]
 
-
-
-
-        Headings = ["Vorname","Nachname","Montag","Dienstag","Mitwoch","Donnerstag","Freitag"]
+        Headings = ["Vorname", "Nachname", "Montag",
+                    "Dienstag", "Mitwoch", "Donnerstag", "Freitag"]
 
         HomeTime = cur.fetchall()
 
@@ -682,7 +699,6 @@ def Graphics():
         Sonderab = []
 
         String = ""
-
 
         print(HomeTime)
 
@@ -696,42 +712,48 @@ def Graphics():
         for item in Outputofcur:
             print(item)
 
-        cur.execute("SELECT schuler.name, schuler.lname, ort.ort FROM ort, schuler WHERE ort.id = schuler.id")
+        cur.execute(
+            "SELECT schuler.name, schuler.lname, ort.ort FROM ort, schuler WHERE ort.id = schuler.id")
 
         objjjj = cur.fetchall()
 
-        hds = ["Vorname","Nachname","ort"]
+        hds = ["Vorname", "Nachname", "ort"]
 
-        gdd = ["Vorname","Nachname","Zeit","Datum Jahr-Monat-Tag"]
+        gdd = ["Vorname", "Nachname", "Zeit", "Datum Jahr-Monat-Tag"]
 
-        xzz = ["Vorname","Nachname","Angemeldet"]
-
-
+        xzz = ["Vorname", "Nachname", "Angemeldet"]
 
         if int(len(Outputofcur)) != 0:
-            return render_template("schulerubersicht.html",columns=Headings,items=Outputofcur,ds=hds,obj=objjjj,gdd=gdd,itty=HomeTime,dsd=xzz,objd=cur.fetchall())
+            return render_template("schulerubersicht.html", columns=Headings, items=Outputofcur, ds=hds, obj=objjjj, gdd=gdd, itty=HomeTime, dsd=xzz, objd=cur.fetchall())
         else:
-            return render_template("schulerubersicht.html",columns=Headings,items=[('Nichts','Leer'),('Wiedernichts','SehrLeer')])
+            return render_template("schulerubersicht.html", columns=Headings, items=[('Nichts', 'Leer'), ('Wiedernichts', 'SehrLeer')])
     else:
         return render_template("noLogin.html")
+
+
 @app.route("/getSgData")
 def Rnder():
 
     return render_template("sgData.html")
-@app.route("/getSgData",methods=["POST"])
+
+
+@app.route("/getSgData", methods=["POST"])
 def Escript():
 
     Id = request.form["Idc"]
 
     return redirect("/gsgd/" + Id)
-@app.route("/gsgd/<card>",methods=["POST","GET"])
+
+
+@app.route("/gsgd/<card>", methods=["POST", "GET"])
 def Escripft(card):
 
     cur.execute("SELECT * FROM heim WHERE id = {}".format(card))
 
     Out = cur.fetchall()
 
-    Headings = ["Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag","Sonntag",'Karten Nummer']
+    Headings = ["Montag", "Dienstag", "Mittwoch", "Donnerstag",
+                "Freitag", "Samstag", "Sonntag", 'Karten Nummer']
 
     Xyz = []
 
@@ -755,8 +777,7 @@ def Escripft(card):
 
     Xyz[8] = nine[0]
 
-    return render_template("Display.html",ds=Headings,obj=Xyz)
-
+    return render_template("Display.html", ds=Headings, obj=Xyz)
 
 
 @app.route("/reset")
@@ -764,7 +785,8 @@ def Screen():
 
     return render_template("Passwordreset.html")
 
-@app.route("/reset",methods=["POST","GET"])
+
+@app.route("/reset", methods=["POST", "GET"])
 def SendEmail():
 
     import smtplib
@@ -774,7 +796,6 @@ def SendEmail():
     import smtplib
     import ssl
     from random import random
-
 
     smtp_server = "smtp.gmail.com"
     port = 587  # For starttls
@@ -791,8 +812,6 @@ Bitte Keine Antwort Senden
 
 Hallo, haben sie ihr passwort vergessen ?, Bitte geben sie diesen wiederherstellungscode ein : """
 
-
-
     # Create a secure SSL context
     context = ssl.create_default_context()
 
@@ -806,7 +825,8 @@ Hallo, haben sie ihr passwort vergessen ?, Bitte geben sie diesen wiederherstell
 
         server.sendmail(sender_email, email, message + Use)
 
-        cur.execute("INSERT INTO passwordreset VALUES('{}','{}')".format(email,Use))
+        cur.execute(
+            "INSERT INTO passwordreset VALUES('{}','{}')".format(email, Use))
 
         mydb.commit()
 
@@ -819,11 +839,13 @@ Hallo, haben sie ihr passwort vergessen ?, Bitte geben sie diesen wiederherstell
 
 
 @app.route("/reset2/<mail>/<code>")
-def Graph(mail,code):
+def Graph(mail, code):
 
     return render_template("Passowerdreste2.html")
-@app.route("/reset2/<mail>/<code>",methods=["POST"])
-def Core(mail,code):
+
+
+@app.route("/reset2/<mail>/<code>", methods=["POST"])
+def Core(mail, code):
 
     try:
         code = request.form["code"]
@@ -835,13 +857,13 @@ def Core(mail,code):
         for x in cur.fetchall():
 
             unpackedcode.append(x)
-        
+
         print(unpackedcode)
 
         if code in unpackedcode:
 
             return redirect("/reset3/" + code + "/" + mail)
-        
+
         else:
 
             return "<h1>Bitte geben sie den richtigen code ein</h1>"
@@ -852,18 +874,22 @@ def Core(mail,code):
 
 
 @app.route("/reset3/<code>/<email>")
-def Screend(code,email):
+def Screend(code, email):
 
     return render_template("NewPassword.html")
-@app.route("/reset3/<code>/<email>",methods = ["POST"])
-def BAckend(code,mail):
+
+
+@app.route("/reset3/<code>/<email>", methods=["POST"])
+def BAckend(code, mail):
 
     password = request.form["password"]
     username = request.form["uname"]
 
-    cur.execute("UPDATE users(uname,password) VALUES('{}','{}') WHERE uname={}".format(username,Hash.hashPassword(password),username))
+    cur.execute("UPDATE users(uname,password) VALUES('{}','{}') WHERE uname={}".format(
+        username, Hash.hashPassword(password), username))
 
     mydb.commit()
+
 
 @app.route("/update")
 def Update():
@@ -874,39 +900,44 @@ def Update():
 
     return redirect("/index")
 
+
 @app.route("/names")
 def Gnms():
 
     return render_template('nameso.html')
-@app.route("/names",methods =['POST'])
+
+
+@app.route("/names", methods=['POST'])
 def Gnmts():
 
     id = request.form['id']
 
-
-
     return redirect('/nms/' + id)
+
 
 @app.route("/assignLocation/<id>")
 def Dosoemthing(id):
 
     return Locations[id]
+
+
 @app.route('/nms/<id>')
 def edf(id):
 
-    if isLogin == True:
+    if session["il"] == True:
 
         cur.execute('SELECT name FROM schuler WHERE id = {}'.format(id))
 
         out = cur.fetchall()
 
-        hd = ['Karten Nummer','Name']
+        hd = ['Karten Nummer', 'Name']
 
-        return render_template('namest.html',ds = hd, obj = out, id = id)
+        return render_template('namest.html', ds=hd, obj=out, id=id)
 
-    else :
+    else:
 
         return render_template('noLogin.html')
+
 
 @app.route("/Raspireffer")
 def RaspiGraphic():
@@ -914,7 +945,7 @@ def RaspiGraphic():
     return render_template("ChooseRaspilocation.html")
 
 
-@app.route("/Raspireffer",methods=["POST"])
+@app.route("/Raspireffer", methods=["POST"])
 def RaspeiGraphic():
 
     ooo1 = request.form["0001"]
@@ -928,9 +959,8 @@ def RaspeiGraphic():
     return render_template("Done5.html")
 
 
-#End/Startup options
+# End/Startup options
 
-import atexit
 
 def clqs():
 
@@ -940,17 +970,17 @@ def clqs():
 
     exit()
 
-from signal import signal, SIGPIPE, SIG_DFL
-signal(SIGPIPE,SIG_DFL)
+
+signal(SIGPIPE, SIG_DFL)
 
 
 if __name__ == '__main__':
 
     try:
-        app.run(debug=True,host='0.0.0.0',port=80)
+        app.run(debug=True, host='0.0.0.0', port=80)
     except OSError:
         import os
 
         os.system('sudo service nginx stop')
 
-        app.run(debug=True, host='0.0.0.0',port=80)
+        app.run(debug=True, host='0.0.0.0', port=80)
