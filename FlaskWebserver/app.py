@@ -171,7 +171,7 @@ def haa():
 
             print(i)
 #    return render_template('HA.html', gdd=Headings, itty=out)
-    return True
+    return "OK"
 @app.route("/index",methods=['GET','POST'])
 
 def maain():
