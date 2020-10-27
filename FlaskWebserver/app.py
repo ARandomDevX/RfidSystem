@@ -169,13 +169,9 @@ def haa():
 
         for i in item:
 
-            if i[3] != datetime.datetime.now():
-
-                del(item)
-
-
-    return render_template('HA.html', gdd=Headings, itty=out)
-
+            print(i)
+#    return render_template('HA.html', gdd=Headings, itty=out)
+    return True
 @app.route("/index",methods=['GET','POST'])
 
 def maain():
