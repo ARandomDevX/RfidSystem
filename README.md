@@ -7,3 +7,5 @@
 
 The Script, was intended for a school's afternoon care stuff, so that you can check-in students and check where they are and all that administratory stuff
 
+### Roadmap:
+ v.1w - Not going to be released in the forseable future, since the guy isn't responding
